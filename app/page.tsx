@@ -1,55 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { PaletteGenerator } from "@/components/palette-generator";
 import { SiteHeader } from "@/components/site-header";
-import { ImageExtractor } from "@/components/image-extractor";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { ArrowLeft, Sparkles, Image as ImageIcon, Search, Droplet, Eye, Palette, Zap } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { HeroSection01 } from "@/components/hero-section";
-
-type ViewState = "home" | "generator" | "extractor";
+import Link from "next/link";
 
 export default function Home() {
-  const [view, setView] = useState<ViewState>("home");
-
-  // Keep simplified views for tools
-  if (view === "generator") {
-    return (
-      <div className="flex min-h-screen flex-col overflow-hidden bg-background">
-        <SiteHeader />
-        <main className="flex-1 relative">
-          <PaletteGenerator />
-          <Button
-            variant="outline"
-            className="absolute bottom-6 left-6 z-10 shadow-lg"
-            onClick={() => setView("home")}
-          >
-            <ArrowLeft className="mr-2 h-4 w-4" /> Back to Home
-          </Button>
-        </main>
-      </div>
-    );
-  }
-
-  if (view === "extractor") {
-    return (
-      <div className="flex min-h-screen flex-col overflow-hidden bg-background">
-        <SiteHeader />
-        <main className="flex-1 relative">
-          <ImageExtractor onComplete={() => setView("generator")} />
-          <Button
-            variant="outline"
-            className="absolute bottom-6 left-6 z-10 shadow-lg"
-            onClick={() => setView("home")}
-          >
-            <ArrowLeft className="mr-2 h-4 w-4" /> Back to Home
-          </Button>
-        </main>
-      </div>
-    );
-  }
 
   // Feature Card Component
   const FeatureCard = ({
@@ -57,26 +12,27 @@ export default function Home() {
     desc,
     action,
     color,
-    onClick
+    href
   }: {
     title: string;
     desc: string;
     action: string;
     color: string;
-    onClick?: () => void;
+    href: string;
   }) => (
-    <div
-      className={`group relative flex flex-col justify-between p-8 rounded-3xl transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer h-80 ${color}`}
-      onClick={onClick}
-    >
-      <div className="space-y-4">
-        <h3 className="text-3xl font-bold tracking-tight text-slate-900">{title}</h3>
-        <p className="text-slate-700 font-medium leading-relaxed">{desc}</p>
+    <Link href={href} className="block h-full">
+      <div
+        className={`group relative flex flex-col justify-between p-8 rounded-3xl transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer h-80 ${color}`}
+      >
+        <div className="space-y-4">
+          <h3 className="text-3xl font-bold tracking-tight text-slate-900">{title}</h3>
+          <p className="text-slate-700 font-medium leading-relaxed">{desc}</p>
+        </div>
+        <div className="flex items-center text-sm font-bold uppercase tracking-wider text-slate-900/60 group-hover:text-slate-900">
+          {action} <ArrowRightIcon className="ml-2 h-4 w-4" />
+        </div>
       </div>
-      <div className="flex items-center text-sm font-bold uppercase tracking-wider text-slate-900/60 group-hover:text-slate-900">
-        {action} <ArrowRightIcon className="ml-2 h-4 w-4" />
-      </div>
-    </div>
+    </Link>
   );
 
   function ArrowRightIcon(props: any) {
@@ -101,12 +57,6 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen flex-col bg-white">
-      {/* Hide header on landing page as per Clean Coolors look? 
-          Or keep just logo. Plan said: Conditionally hide Export. 
-          The Hero implies a full screen layout. 
-          Let's keep Header for Nav consistency but maybe transparent?
-          For now, standard header is fine.
-      */}
       <SiteHeader />
 
       <main className="flex-1">
@@ -123,15 +73,7 @@ export default function Home() {
                 desc="Create beautiful color schemes in seconds with the worldwide loved palette tool. Just hit the spacebar!"
                 action="Start the Generator"
                 color="bg-cyan-100/80 hover:bg-cyan-200/80"
-                onClick={() => setView("generator")}
-              />
-
-              {/* 2. Explore Palettes (Mock) */}
-              <FeatureCard
-                title="Explore Palettes"
-                desc="Get inspired by thousands of beautiful color schemes. Search by colors, styles, topics or hex values."
-                action="Explore 10M+ Palettes"
-                color="bg-blue-100/80 hover:bg-blue-200/80"
+                href="/generator"
               />
 
               {/* 3. Image Picker */}
@@ -140,48 +82,60 @@ export default function Home() {
                 desc="Extract beautiful colors from your photos and turn them into palettes for your projects."
                 action="Launch the Image Picker"
                 color="bg-purple-100/80 hover:bg-purple-200/80"
-                onClick={() => setView("extractor")}
+                href="/picker"
               />
 
-              {/* 4. Contrast Checker (Mock) */}
-              <FeatureCard
-                title="Contrast Checker"
-                desc="Calculate the contrast ratio of text and background colors to make your content more accessible."
-                action="Try the Contrast Checker"
-                color="bg-pink-100/80 hover:bg-pink-200/80"
-              />
+              {/* 
+                    // Other features commented out as requested
 
-              {/* 5. Palette Visualizer (Mock - Since Sandbox removed) */}
-              <FeatureCard
-                title="Palette Visualizer"
-                desc="Preview your colors on real designs to see how they look in context before using them."
-                action="Open the Visualizer"
-                color="bg-red-100/80 hover:bg-red-200/80"
-              />
+                    <FeatureCard 
+                        title="Explore Palettes"
+                        desc="Get inspired by thousands of beautiful color schemes. Search by colors, styles, topics or hex values."
+                        action="Explore 10M+ Palettes"
+                        color="bg-blue-100/80 hover:bg-blue-200/80"
+                        href="#"
+                    />
 
-              {/* 6. Color Picker (Mock) */}
-              <FeatureCard
-                title="Color Picker"
-                desc="Get useful color information like meaning, usage, variations, and accessibility."
-                action="Launch the Color Picker"
-                color="bg-orange-100/80 hover:bg-orange-200/80"
-              />
+                    <FeatureCard 
+                        title="Contrast Checker"
+                        desc="Calculate the contrast ratio of text and background colors to make your content more accessible."
+                        action="Try the Contrast Checker"
+                        color="bg-pink-100/80 hover:bg-pink-200/80"
+                        href="#"
+                    />
 
-              {/* 7. Tailwind Colors (Mock) */}
-              <FeatureCard
-                title="Tailwind Colors"
-                desc="Preview Tailwind CSS colors on real designs to see how they look in context."
-                action="Get Your Tailwind Colors"
-                color="bg-yellow-100/80 hover:bg-yellow-200/80"
-              />
+                    <FeatureCard 
+                        title="Palette Visualizer"
+                        desc="Preview your colors on real designs to see how they look in context before using them."
+                        action="Open the Visualizer"
+                        color="bg-red-100/80 hover:bg-red-200/80"
+                        href="#"
+                    />
 
-              {/* 8. Color Bot (Mock) */}
-              <FeatureCard
-                title="Color Bot"
-                desc="Chat with our AI-powered Color Bot, ask questions and get color suggestions."
-                action="Chat with Color Bot"
-                color="bg-green-100/80 hover:bg-green-200/80"
-              />
+                    <FeatureCard 
+                        title="Color Picker"
+                        desc="Get useful color information like meaning, usage, variations, and accessibility."
+                        action="Launch the Color Picker"
+                        color="bg-orange-100/80 hover:bg-orange-200/80"
+                        href="#"
+                    />
+                    
+                    <FeatureCard 
+                        title="Tailwind Colors"
+                        desc="Preview Tailwind CSS colors on real designs to see how they look in context."
+                        action="Get Your Tailwind Colors"
+                        color="bg-yellow-100/80 hover:bg-yellow-200/80"
+                        href="#"
+                    />
+                    
+                    <FeatureCard 
+                        title="Color Bot"
+                        desc="Chat with our AI-powered Color Bot, ask questions and get color suggestions."
+                        action="Chat with Color Bot"
+                        color="bg-green-100/80 hover:bg-green-200/80"
+                        href="#"
+                    />
+                    */}
 
             </div>
           </div>
