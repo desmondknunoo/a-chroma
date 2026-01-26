@@ -45,7 +45,7 @@ export function PaletteGenerator() {
         return (
             <div className="flex h-screen items-center justify-center bg-neutral-900 text-white">
                 <Loader2 className="h-10 w-10 animate-spin text-primary" />
-                <span className="ml-4 text-xl">Initializing ChromaFlow...</span>
+                <span className="ml-4 text-xl">Initializing A-Chroma...</span>
             </div>
         );
     }

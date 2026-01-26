@@ -13,7 +13,7 @@ export function SiteHeader() {
             <div className="flex h-16 items-center px-6">
                 <Link href="/" className="mr-6 flex items-center space-x-2">
                     <Palette className="h-6 w-6 text-primary" />
-                    <span className="text-xl font-bold tracking-tight">ChromaFlow</span>
+                    <span className="text-xl font-bold tracking-tight">A-Chroma</span>
                 </Link>
                 <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
                     <nav className="flex items-center space-x-4">

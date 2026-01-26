@@ -1,4 +1,4 @@
-# ChromaFlow (A-Chroma) Implementation Plan
+# A-Chroma Implementation Plan
 
 **Role**: Lead Software Architect & Senior Full-Stack Engineer  
 **Date**: 2026-01-26  

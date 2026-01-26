@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ChromaFlow | AI-Powered Color Palette Generator",
-  description: "Generate beautiful, accessible color palettes in seconds with the Modern Harmony Stack (Next.js 16, Tailwind 4, OKLCH).",
+  title: "A-Chroma | Next-Gen Color Suite",
+  description: "The ultimate color palette generator. Generate, extract, and visualize colors with AI.",
 };
 
 export default function RootLayout({
