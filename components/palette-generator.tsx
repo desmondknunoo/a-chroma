@@ -77,6 +77,9 @@ export function PaletteGenerator() {
                         </Button>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-xl p-0 overflow-hidden border-0 bg-transparent shadow-none">
+                        <DialogHeader className="sr-only">
+                            <DialogTitle>Image Extractor</DialogTitle>
+                        </DialogHeader>
                         <div className="bg-white rounded-3xl overflow-hidden shadow-2xl relative">
                             <div className="absolute top-4 right-4 z-10">
                                 <Button size="icon" variant="ghost" className="rounded-full bg-white/50 backdrop-blur hover:bg-white" onClick={() => setShowExtractor(false)}>
