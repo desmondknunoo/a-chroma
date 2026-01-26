@@ -7,7 +7,12 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTr
 import { Sandbox } from "@/components/sandbox";
 import { ExportDialog } from "@/components/export-dialog";
 
+import { usePathname } from "next/navigation";
+
 export function SiteHeader() {
+    const pathname = usePathname();
+    const isHome = pathname === "/";
+
     return (
         <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="flex h-16 items-center px-6">
@@ -20,7 +25,7 @@ export function SiteHeader() {
                         <div className="hidden text-sm text-muted-foreground md:block">
                             Press Spacebar to Generate
                         </div>
-                        <ExportDialog />
+                        {!isHome && <ExportDialog />}
                         <Button variant="ghost" size="icon" aria-label="Adjust Palette" title="Adjust (Coming Soon)">
                             <Sliders className="h-5 w-5" />
                         </Button>

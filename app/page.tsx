@@ -5,16 +5,16 @@ import { PaletteGenerator } from "@/components/palette-generator";
 import { SiteHeader } from "@/components/site-header";
 import { ImageExtractor } from "@/components/image-extractor";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Sandbox } from "@/components/sandbox";
-import { ArrowLeft, Sparkles, Image as ImageIcon, LayoutTemplate } from "lucide-react";
+import { ArrowLeft, Sparkles, Image as ImageIcon, Search, Droplet, Eye, Palette, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { HeroSection01 } from "@/components/hero-section";
 
 type ViewState = "home" | "generator" | "extractor";
 
 export default function Home() {
   const [view, setView] = useState<ViewState>("home");
 
-  // If in a sub-view, show a back navigation or specific header
+  // Keep simplified views for tools
   if (view === "generator") {
     return (
       <div className="flex min-h-screen flex-col overflow-hidden bg-background">
@@ -51,72 +51,155 @@ export default function Home() {
     );
   }
 
+  // Feature Card Component
+  const FeatureCard = ({
+    title,
+    desc,
+    action,
+    color,
+    onClick
+  }: {
+    title: string;
+    desc: string;
+    action: string;
+    color: string;
+    onClick?: () => void;
+  }) => (
+    <div
+      className={`group relative flex flex-col justify-between p-8 rounded-3xl transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer h-80 ${color}`}
+      onClick={onClick}
+    >
+      <div className="space-y-4">
+        <h3 className="text-3xl font-bold tracking-tight text-slate-900">{title}</h3>
+        <p className="text-slate-700 font-medium leading-relaxed">{desc}</p>
+      </div>
+      <div className="flex items-center text-sm font-bold uppercase tracking-wider text-slate-900/60 group-hover:text-slate-900">
+        {action} <ArrowRightIcon className="ml-2 h-4 w-4" />
+      </div>
+    </div>
+  );
+
+  function ArrowRightIcon(props: any) {
+    return (
+      <svg
+        {...props}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M5 12h14" />
+        <path d="m12 5 7 7-7 7" />
+      </svg>
+    )
+  }
+
   return (
-    <div className="flex min-h-screen flex-col bg-background">
+    <div className="flex min-h-screen flex-col bg-white">
+      {/* Hide header on landing page as per Clean Coolors look? 
+          Or keep just logo. Plan said: Conditionally hide Export. 
+          The Hero implies a full screen layout. 
+          Let's keep Header for Nav consistency but maybe transparent?
+          For now, standard header is fine.
+      */}
       <SiteHeader />
-      <main className="flex flex-1 flex-col items-center justify-center p-6 md:p-24">
-        <div className="max-w-3xl text-center space-y-6 mb-16">
-          <h1 className="text-5xl font-extrabold tracking-tight lg:text-7xl bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
-            A-Chroma
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            The next-generation color suite. Generate perfect harmonies, extract souls from images, and preview in real-time.
-          </p>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-5xl">
-          {/* Card 1: Generator */}
-          <div
-            className="group relative overflow-hidden rounded-3xl border bg-card p-8 shadow-sm transition-all hover:shadow-2xl hover:-translate-y-1 cursor-pointer"
-            onClick={() => setView("generator")}
-          >
-            <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-              <Sparkles className="h-6 w-6" />
+      <main className="flex-1">
+        <HeroSection01 />
+
+        {/* Feature Grid */}
+        <div className="bg-white py-24 px-6 md:px-12">
+          <div className="mx-auto max-w-7xl">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+              {/* 1. Palette Generator */}
+              <FeatureCard
+                title="Palette Generator"
+                desc="Create beautiful color schemes in seconds with the worldwide loved palette tool. Just hit the spacebar!"
+                action="Start the Generator"
+                color="bg-cyan-100/80 hover:bg-cyan-200/80"
+                onClick={() => setView("generator")}
+              />
+
+              {/* 2. Explore Palettes (Mock) */}
+              <FeatureCard
+                title="Explore Palettes"
+                desc="Get inspired by thousands of beautiful color schemes. Search by colors, styles, topics or hex values."
+                action="Explore 10M+ Palettes"
+                color="bg-blue-100/80 hover:bg-blue-200/80"
+              />
+
+              {/* 3. Image Picker */}
+              <FeatureCard
+                title="Image Picker"
+                desc="Extract beautiful colors from your photos and turn them into palettes for your projects."
+                action="Launch the Image Picker"
+                color="bg-purple-100/80 hover:bg-purple-200/80"
+                onClick={() => setView("extractor")}
+              />
+
+              {/* 4. Contrast Checker (Mock) */}
+              <FeatureCard
+                title="Contrast Checker"
+                desc="Calculate the contrast ratio of text and background colors to make your content more accessible."
+                action="Try the Contrast Checker"
+                color="bg-pink-100/80 hover:bg-pink-200/80"
+              />
+
+              {/* 5. Palette Visualizer (Mock - Since Sandbox removed) */}
+              <FeatureCard
+                title="Palette Visualizer"
+                desc="Preview your colors on real designs to see how they look in context before using them."
+                action="Open the Visualizer"
+                color="bg-red-100/80 hover:bg-red-200/80"
+              />
+
+              {/* 6. Color Picker (Mock) */}
+              <FeatureCard
+                title="Color Picker"
+                desc="Get useful color information like meaning, usage, variations, and accessibility."
+                action="Launch the Color Picker"
+                color="bg-orange-100/80 hover:bg-orange-200/80"
+              />
+
+              {/* 7. Tailwind Colors (Mock) */}
+              <FeatureCard
+                title="Tailwind Colors"
+                desc="Preview Tailwind CSS colors on real designs to see how they look in context."
+                action="Get Your Tailwind Colors"
+                color="bg-yellow-100/80 hover:bg-yellow-200/80"
+              />
+
+              {/* 8. Color Bot (Mock) */}
+              <FeatureCard
+                title="Color Bot"
+                desc="Chat with our AI-powered Color Bot, ask questions and get color suggestions."
+                action="Chat with Color Bot"
+                color="bg-green-100/80 hover:bg-green-200/80"
+              />
+
             </div>
-            <h3 className="text-2xl font-bold mb-2">Spacebar Magic</h3>
-            <p className="text-muted-foreground">
-              Generate infinite palettes with our smart OKLCH engine. Lock colors and find perfect harmonies.
-            </p>
           </div>
-
-          {/* Card 2: Image Extractor */}
-          <div
-            className="group relative overflow-hidden rounded-3xl border bg-card p-8 shadow-sm transition-all hover:shadow-2xl hover:-translate-y-1 cursor-pointer"
-            onClick={() => setView("extractor")}
-          >
-            <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-purple-500/10 text-purple-500 group-hover:bg-purple-500 group-hover:text-white transition-colors">
-              <ImageIcon className="h-6 w-6" />
-            </div>
-            <h3 className="text-2xl font-bold mb-2">Image Extraction</h3>
-            <p className="text-muted-foreground">
-              Upload any photo to extract its soul. We'll find the dominant vibes and build a palette.
-            </p>
-          </div>
-
-          {/* Card 3: Preview (Opens Sheet directly) */}
-          <Sheet>
-            <SheetTrigger asChild>
-              <div
-                className="group relative overflow-hidden rounded-3xl border bg-card p-8 shadow-sm transition-all hover:shadow-2xl hover:-translate-y-1 cursor-pointer"
-              >
-                <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-pink-500/10 text-pink-500 group-hover:bg-pink-500 group-hover:text-white transition-colors">
-                  <LayoutTemplate className="h-6 w-6" />
-                </div>
-                <h3 className="text-2xl font-bold mb-2">Live Sandbox</h3>
-                <p className="text-muted-foreground">
-                  Don't guess—preview. See your colors on a real landing page, dashboard, and gradient mesh.
-                </p>
-              </div>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-[90vw] sm:w-[540px] md:w-[700px] overflow-hidden p-0">
-              <div className="h-full overflow-y-auto pb-20">
-                <Sandbox />
-              </div>
-            </SheetContent>
-          </Sheet>
-
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="py-12 text-center text-sm text-slate-400">
+        <p className="mb-4">TRUSTED BY 5+ MILLION CREATIVE MINDS</p>
+        <div className="flex justify-center gap-8 opacity-50 grayscale">
+          {/* Mock logos */}
+          <span>DISNEY</span>
+          <span>NETFLIX</span>
+          <span>AIRBNB</span>
+          <span>DROPBOX</span>
+          <span>MICROSOFT</span>
+        </div>
+      </footer>
     </div>
   );
 }

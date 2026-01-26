@@ -1,15 +1,15 @@
-import namer from 'namer';
+import namer from 'color-namer';
 
 export function getColorName(hex: string): string {
     try {
         const names = namer(hex);
-        // Prefer 'ntc' (Name That Color) or 'pantone' for best results
-        // We capitalize the first letter of each word
-        const rawName = names.ntc[0]?.name || names.pantone[0]?.name || names.basic[0]?.name;
+        // Prefer 'ntc' (Name That Color) as primary source
+        const bestName = names.ntc[0]?.name || names.pantone[0]?.name || names.basic[0]?.name;
 
-        return rawName
+        // Capitalize Words
+        return bestName
             .split(" ")
-            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
             .join(" ");
     } catch (e) {
         return "Unknown Color";
