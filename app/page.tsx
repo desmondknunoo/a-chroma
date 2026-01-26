@@ -3,6 +3,7 @@
 import { SiteHeader } from "@/components/site-header";
 import { HeroSection01 } from "@/components/hero-section";
 import Link from "next/link";
+import { StickyFooter } from "@/components/ui/sticky-footer";
 
 export default function Home() {
 
@@ -63,7 +64,7 @@ export default function Home() {
         <HeroSection01 />
 
         {/* Feature Grid */}
-        <div className="bg-white py-24 px-6 md:px-12">
+        <div className="bg-white py-24 px-6 md:px-12 relative z-20">
           <div className="mx-auto max-w-7xl">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
@@ -76,6 +77,15 @@ export default function Home() {
                 href="/generator"
               />
 
+              {/* 2. Gradient Generator (NEW) */}
+              <FeatureCard
+                title="Gradient Generator"
+                desc="Create 5-step custom gradients for your Tailwind projects. Perfect for generating brand scales."
+                action="Start Gradient Maker"
+                color="bg-orange-100/80 hover:bg-orange-200/80"
+                href="/gradient"
+              />
+
               {/* 3. Image Picker */}
               <FeatureCard
                 title="Image Picker"
@@ -85,75 +95,13 @@ export default function Home() {
                 href="/picker"
               />
 
-              {/* 
-                    // Other features commented out as requested
-
-                    <FeatureCard 
-                        title="Explore Palettes"
-                        desc="Get inspired by thousands of beautiful color schemes. Search by colors, styles, topics or hex values."
-                        action="Explore 10M+ Palettes"
-                        color="bg-blue-100/80 hover:bg-blue-200/80"
-                        href="#"
-                    />
-
-                    <FeatureCard 
-                        title="Contrast Checker"
-                        desc="Calculate the contrast ratio of text and background colors to make your content more accessible."
-                        action="Try the Contrast Checker"
-                        color="bg-pink-100/80 hover:bg-pink-200/80"
-                        href="#"
-                    />
-
-                    <FeatureCard 
-                        title="Palette Visualizer"
-                        desc="Preview your colors on real designs to see how they look in context before using them."
-                        action="Open the Visualizer"
-                        color="bg-red-100/80 hover:bg-red-200/80"
-                        href="#"
-                    />
-
-                    <FeatureCard 
-                        title="Color Picker"
-                        desc="Get useful color information like meaning, usage, variations, and accessibility."
-                        action="Launch the Color Picker"
-                        color="bg-orange-100/80 hover:bg-orange-200/80"
-                        href="#"
-                    />
-                    
-                    <FeatureCard 
-                        title="Tailwind Colors"
-                        desc="Preview Tailwind CSS colors on real designs to see how they look in context."
-                        action="Get Your Tailwind Colors"
-                        color="bg-yellow-100/80 hover:bg-yellow-200/80"
-                        href="#"
-                    />
-                    
-                    <FeatureCard 
-                        title="Color Bot"
-                        desc="Chat with our AI-powered Color Bot, ask questions and get color suggestions."
-                        action="Chat with Color Bot"
-                        color="bg-green-100/80 hover:bg-green-200/80"
-                        href="#"
-                    />
-                    */}
-
             </div>
           </div>
         </div>
       </main>
 
       {/* Footer */}
-      <footer className="py-12 text-center text-sm text-slate-400">
-        <p className="mb-4">TRUSTED BY 5+ MILLION CREATIVE MINDS</p>
-        <div className="flex justify-center gap-8 opacity-50 grayscale">
-          {/* Mock logos */}
-          <span>DISNEY</span>
-          <span>NETFLIX</span>
-          <span>AIRBNB</span>
-          <span>DROPBOX</span>
-          <span>MICROSOFT</span>
-        </div>
-      </footer>
+      <StickyFooter />
     </div>
   );
 }
