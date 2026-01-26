@@ -200,6 +200,22 @@ ${scaleGradient.map(s => `          ${s.stop}: '${s.hex}',`).join('\n')}
         setColorStops(newColorStops.sort((a, b) => a.position - b.position));
     };
 
+    const randomizeGradient = () => {
+        // Randomly decide 2 or 3 stops
+        const numStops = Math.random() > 0.5 ? 2 : 3;
+        const newStops: ColorStop[] = [];
+
+        for (let i = 0; i < numStops; i++) {
+            const pos = i === 0 ? 0 : i === numStops - 1 ? 100 : 50;
+            newStops.push({
+                color: chroma.random().hex(),
+                position: pos,
+            });
+        }
+        setColorStops(newStops);
+        setAngle(Math.floor(Math.random() * 360));
+    };
+
     const resetSettings = () => {
         setColorStops(defaultColorStops);
         setAngle(90);
@@ -403,6 +419,14 @@ ${scaleGradient.map(s => `          ${s.stop}: '${s.hex}',`).join('\n')}
                                         </Button>
                                         <Button onClick={downloadJPG} className="h-12">
                                             Download JPG
+                                        </Button>
+                                        <Button
+                                            onClick={randomizeGradient}
+                                            variant="secondary"
+                                            className="h-12"
+                                            title="Randomize Gradient"
+                                        >
+                                            <RefreshCw className="mr-2 h-4 w-4" /> Random
                                         </Button>
                                         <Button
                                             size="icon"

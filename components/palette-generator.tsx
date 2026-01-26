@@ -1,12 +1,22 @@
-"use client";
-
-import { useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useColorStore } from "@/lib/store";
 import { ColorColumn } from "./color-column";
-import { Loader2 } from "lucide-react";
+import { Loader2, Image as ImageIcon, X } from "lucide-react";
+import { ImageExtractor } from "./image-extractor";
+import { Button } from "./ui/button";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+
 
 export function PaletteGenerator() {
     const { colors, generatePalette } = useColorStore();
+    const [showExtractor, setShowExtractor] = useState(false);
 
     // Initial generation on mount
     useEffect(() => {
@@ -18,7 +28,9 @@ export function PaletteGenerator() {
     // Spacebar listener
     const handleKeyDown = useCallback(
         (e: KeyboardEvent) => {
-            // Don't trigger if user is typing in an input
+            // Don't trigger if user is typing or if extractor is open
+            if (showExtractor) return;
+
             const target = e.target as HTMLElement;
             if (
                 target.tagName === "INPUT" ||
@@ -33,7 +45,7 @@ export function PaletteGenerator() {
                 generatePalette();
             }
         },
-        [generatePalette]
+        [generatePalette, showExtractor]
     );
 
     useEffect(() => {
@@ -51,10 +63,37 @@ export function PaletteGenerator() {
     }
 
     return (
-        <div className="flex h-[calc(100vh-64px)] w-full flex-col md:flex-row">
-            {colors.map((color, index) => (
-                <ColorColumn key={color.id} color={color} index={index} />
-            ))}
+        <div className="relative h-[calc(100vh-64px)] w-full">
+            {/* Toolbar / Action Button */}
+            <div className="absolute bottom-6 right-6 z-50 flex gap-2">
+                <Dialog open={showExtractor} onOpenChange={setShowExtractor}>
+                    <DialogTrigger asChild>
+                        <Button
+                            size="lg"
+                            className="h-14 rounded-full px-6 shadow-2xl font-bold bg-white text-black hover:bg-slate-100 border-2 border-slate-900/10"
+                        >
+                            <ImageIcon className="mr-2 h-5 w-5" />
+                            Extract from Image
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-xl p-0 overflow-hidden border-0 bg-transparent shadow-none">
+                        <div className="bg-white rounded-3xl overflow-hidden shadow-2xl relative">
+                            <div className="absolute top-4 right-4 z-10">
+                                <Button size="icon" variant="ghost" className="rounded-full bg-white/50 backdrop-blur hover:bg-white" onClick={() => setShowExtractor(false)}>
+                                    <X className="h-4 w-4" />
+                                </Button>
+                            </div>
+                            <ImageExtractor onComplete={() => setShowExtractor(false)} />
+                        </div>
+                    </DialogContent>
+                </Dialog>
+            </div>
+
+            <div className="flex h-full w-full flex-col md:flex-row">
+                {colors.map((color, index) => (
+                    <ColorColumn key={color.id} color={color} index={index} />
+                ))}
+            </div>
         </div>
     );
 }
