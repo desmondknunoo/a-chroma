@@ -106,14 +106,73 @@ export function Sandbox() {
                         </div>
                     </div>
                     <div
-                        className="aspect-video rounded-xl shadow-xl flex items-center justify-center text-4xl font-black opacity-90"
-                        style={{
-                            backgroundImage: `linear-gradient(135deg, ${primary.hex} 0%, ${highlight.hex} 100%)`,
-                            color: '#fff'
-                        }}
+                        className="aspect-video w-full rounded-xl shadow-xl flex items-center justify-center text-4xl font-black opacity-90 overflow-hidden relative"
+                        style={{ backgroundColor: primary.hex }}
                     >
-                        Gradient
+                        <div className="absolute top-0 left-0 w-full h-full opacity-60 mix-blend-multiply filter blur-3xl"
+                            style={{ background: `radial-gradient(circle at top left, ${colors[0].hex}, transparent 50%)` }} />
+                        <div className="absolute top-0 right-0 w-full h-full opacity-60 mix-blend-multiply filter blur-3xl"
+                            style={{ background: `radial-gradient(circle at top right, ${colors[1].hex}, transparent 50%)` }} />
+                        <div className="absolute bottom-0 left-0 w-full h-full opacity-60 mix-blend-multiply filter blur-3xl"
+                            style={{ background: `radial-gradient(circle at bottom left, ${colors[2].hex}, transparent 50%)` }} />
+                        <div className="absolute bottom-0 right-0 w-full h-full opacity-60 mix-blend-multiply filter blur-3xl"
+                            style={{ background: `radial-gradient(circle at bottom right, ${colors[3].hex}, transparent 50%)` }} />
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full opacity-60 mix-blend-overlay filter blur-3xl"
+                            style={{ background: `radial-gradient(circle, ${colors[4].hex}, transparent 50%)` }} />
+
+                        <span className="relative z-10 text-white drop-shadow-md">Mesh Gradient</span>
                     </div>
+                </section>
+
+                {/* Contrast Matrix */}
+                <section className="space-y-6">
+                    <h2 className="text-3xl font-bold tracking-tight text-foreground">
+                        Accessibility Check (WCAG)
+                    </h2>
+                    <div className="overflow-x-auto rounded-xl border bg-background shadow-sm">
+                        <table className="w-full text-center text-sm">
+                            <thead>
+                                <tr>
+                                    <th className="p-4 font-medium text-muted-foreground"></th>
+                                    {colors.map((c, i) => (
+                                        <th key={c.id} className="p-4 font-medium" style={{ color: c.hex }}>
+                                            {c.name || `Color ${i + 1}`}
+                                        </th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {colors.map((rowColor, rIndex) => (
+                                    <tr key={rowColor.id} className="border-t">
+                                        <td className="p-4 font-medium text-left" style={{ color: rowColor.hex }}>
+                                            {rowColor.name || `Color ${rIndex + 1}`}
+                                        </td>
+                                        {colors.map((colColor, cIndex) => {
+                                            if (rIndex === cIndex) return <td key={cIndex} className="bg-muted/50 p-4 font-mono text-xs opacity-50">-</td>;
+
+                                            const ratio = chroma.contrast(rowColor.hex, colColor.hex);
+                                            const rating = ratio >= 7 ? 'AAA' : ratio >= 4.5 ? 'AA' : ratio >= 3 ? 'AA+' : 'Fail';
+                                            const badgeColor = ratio >= 4.5 ? 'bg-green-100 text-green-800' : ratio >= 3 ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800';
+
+                                            return (
+                                                <td key={cIndex} className="p-4">
+                                                    <div className="flex flex-col items-center gap-1">
+                                                        <span className="font-mono font-bold text-foreground">{ratio.toFixed(2)}</span>
+                                                        <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${badgeColor}`}>
+                                                            {rating}
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                            );
+                                        })}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                        Scores based on WCAG Standards. AA requires 4.5:1, AAA requires 7:1. "AA+" indicates large text compliance (3:1).
+                    </p>
                 </section>
 
             </div>

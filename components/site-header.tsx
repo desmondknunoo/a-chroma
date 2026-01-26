@@ -5,6 +5,7 @@ import { Menu, Palette, Sliders, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Sandbox } from "@/components/sandbox";
+import { ExportDialog } from "@/components/export-dialog";
 
 export function SiteHeader() {
     return (
@@ -19,6 +20,7 @@ export function SiteHeader() {
                         <div className="hidden text-sm text-muted-foreground md:block">
                             Press Spacebar to Generate
                         </div>
+                        <ExportDialog />
                         <Button variant="ghost" size="icon" aria-label="Adjust Palette" title="Adjust (Coming Soon)">
                             <Sliders className="h-5 w-5" />
                         </Button>

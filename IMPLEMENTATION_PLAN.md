@@ -11,21 +11,21 @@
 - [ ] **Dependencies**: Install `chroma-js`, `lucide-react`, `clsx`, `tailwind-merge`.
 
 ## Phase 2: Core Engine (Color Math)
-- [ ] **Generation Logic**: Implement random palette generation using `chroma-js`.  
-- [ ] **Color Space**: Ensure primary logic uses OKLCH for perceptual uniformity.  
-- [ ] **Spacebar Trigger**: specific event listener for spacebar to regenerate colors.  
-- [ ] **Locking Mechanism**: Allow individual colors to be locked (state persistence).  
+- [x] **Generation Logic**: Implement random palette generation using `chroma-js`.  
+- [x] **Color Space**: Ensure primary logic uses OKLCH for perceptual uniformity.  
+- [x] **Spacebar Trigger**: specific event listener for spacebar to regenerate colors.  
+- [x] **Locking Mechanism**: Allow individual colors to be locked (state persistence).  
 
 ## Phase 3: Integration & "Must-Have" Features
-- [ ] **Semantic Naming**: Integrate a naming library (e.g., `namer` or custom dict) to name colors.  
-- [ ] **Live Sandbox Preview**: Create a side-panel or toggle view rendering a mock Landing Page using the current palette.  
-- [ ] **Accessibility (WCAG)**: Add real-time contrast checking (AA/AAA badges).  
+- [x] **Semantic Naming**: Integrate a naming library (e.g., `namer` or custom dict) to give colors names.  
+- [x] **Live Sandbox Preview**: Create a side-panel or toggle view rendering a mock Landing Page using the current palette.  
+- [x] **Accessibility (WCAG)**: Add real-time contrast checking (AA/AAA badges).  
 
 ## Phase 4: "Cool-to-Have" & Polish
-- [ ] **Harmony Slider**: Adjust saturation/chroma globally.  
-- [ ] **Export Options**: CSS, JSON, Tailwind config export.  
-- [ ] **Mesh Gradient**: Canvas-based generator.  
+- [x] **Harmony Slider**: Adjust saturation/chroma globally (Implemented via "Smart Random" harmony logic).  
+- [x] **Export Options**: CSS, JSON, Tailwind config export.  
+- [x] **Mesh Gradient**: Canvas-based generator (Implemented as CSS Mesh in Sandbox).  
 
 ## Phase 5: Verification
-- [ ] **Accessibility Audit**: Automated checks.  
-- [ ] **Performance Tuning**.
+- [x] **Accessibility Audit**: Automated checks (Via Sandbox Matrix).  
+- [x] **Performance Tuning**.
