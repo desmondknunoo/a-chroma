@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import chroma from 'chroma-js';
 import { getColorName } from '@/lib/naming';
 
@@ -6,8 +7,8 @@ export type ColorSpace = 'hex' | 'oklch';
 
 export interface ColorItem {
   id: string;
-  value: string; // The primary value (oklch string)
-  hex: string;   // Derived hex for compatibility
+  value: string;
+  hex: string;
   locked: boolean;
   name?: string;
 }
@@ -20,72 +21,101 @@ interface ColorState {
   setColors: (colors: ColorItem[]) => void;
 }
 
-export const useColorStore = create<ColorState>((set, get) => ({
-  colors: [],
+export const useColorStore = create<ColorState>()(
+  persist(
+    (set, get) => ({
+      colors: [],
 
-  generatePalette: () => {
-    set((state) => {
-      // If we have no colors, initialize 5 random ones
-      // If we have colors, respect locks
+      generatePalette: () => {
+        set((state) => {
+          // Initialize slots if empty
+          const currentColors = state.colors.length === 5 ? state.colors : Array(5).fill(null);
+          const lockedColors = currentColors.filter(c => c && c.locked);
 
-      const currentColors = state.colors.length === 5 ? state.colors : Array(5).fill(null);
+          let anchor: chroma.Color;
 
-      // Basic random generation for open slots
-      // TODO: Implement harmony algorithms (complementary, split-complimentary) if locks exist
+          if (lockedColors.length > 0) {
+            // Use the first locked color as the anchor for harmony
+            anchor = chroma(lockedColors[0].hex);
+          } else {
+            // Establish a random anchor
+            anchor = chroma.random();
+          }
 
-      const newColors = currentColors.map((c, i) => {
-        if (c && c.locked) return c;
+          // Simple Strategy: Generate a random 'harmony' offset for each unlocked slot
+          // This keeps it random but cohesive if we tune the ranges
 
-        // Generate random color in OKLCH space
-        // L: 0.4-0.9 (visible light)
-        // C: 0.0-0.3 (chroma)
-        // H: 0-360 (hue)
-        const l = 0.4 + Math.random() * 0.5;
-        const cVal = 0.05 + Math.random() * 0.25;
-        const h = Math.floor(Math.random() * 360);
+          const newColors = currentColors.map((c, i) => {
+            if (c && c.locked) return c;
 
-        const color = chroma.oklch(l, cVal, h);
-        const hex = color.hex();
+            let color: chroma.Color;
 
-        return {
-          id: c?.id || crypto.randomUUID(),
-          value: `oklch(${l.toFixed(3)} ${cVal.toFixed(3)} ${h})`,
-          hex: hex,
-          locked: false,
-          name: getColorName(hex), // Semantic naming
-        };
-      });
+            if (lockedColors.length > 0) {
+              // Smart Harmony Logic
+              // 1. Pick a random hue offset from the anchor (Analagous, Compl, etc included effectively by random 360, 
+              // but we can bias checks if we wanted strict harmony).
+              // For "Spacebar Magic", chaos is okay, but let's constrain saturation/lightness to look "Premium".
 
-      return { colors: newColors };
-    });
-  },
+              // Premium colors usually have saturation > 0.1 and Lightness between 0.2 and 0.9
+              const h = (anchor.get('oklch.h') + (Math.random() * 360)) % 360;
+              const l = 0.3 + (Math.random() * 0.6); // 0.3 - 0.9
+              const ch = 0.05 + (Math.random() * 0.25); // Vibrant
 
-  toggleLock: (id) =>
-    set((state) => ({
-      colors: state.colors.map((c) =>
-        c.id === id ? { ...c, locked: !c.locked } : c
-      ),
-    })),
+              color = chroma.oklch(l, ch, h);
+            } else {
+              // Completely new random color
+              color = chroma.oklch(
+                0.4 + Math.random() * 0.5,
+                0.1 + Math.random() * 0.25,
+                Math.floor(Math.random() * 360)
+              );
+            }
 
-  updateColor: (id, newColor) =>
-    set((state) => ({
-      colors: state.colors.map((c) => {
-        if (c.id !== id) return c;
-        // Validate and update
-        try {
-          // Assume newColor is valid hex or oklch
-          const color = chroma(newColor);
-          const [l, cVal, h] = color.oklch();
-          return {
-            ...c,
-            value: `oklch(${l.toFixed(3)} ${cVal.toFixed(3)} ${h || 0})`,
-            hex: color.hex()
-          };
-        } catch (e) {
-          return c;
-        }
-      }),
-    })),
+            const hex = color.hex();
 
-  setColors: (colors) => set({ colors }),
-}));
+            return {
+              id: c?.id || crypto.randomUUID(),
+              value: color.css('oklch'),
+              hex: hex,
+              locked: false,
+              name: getColorName(hex),
+            };
+          });
+
+          return { colors: newColors };
+        });
+      },
+
+      toggleLock: (id) =>
+        set((state) => ({
+          colors: state.colors.map((c) =>
+            c.id === id ? { ...c, locked: !c.locked } : c
+          ),
+        })),
+
+      updateColor: (id, newColor) =>
+        set((state) => ({
+          colors: state.colors.map((c) => {
+            if (c.id !== id) return c;
+            try {
+              const color = chroma(newColor);
+              const hex = color.hex();
+              return {
+                ...c,
+                value: color.css('oklch'),
+                hex: hex,
+                name: getColorName(hex)
+              };
+            } catch (e) {
+              return c;
+            }
+          }),
+        })),
+
+      setColors: (colors) => set({ colors }),
+    }),
+    {
+      name: 'chromaflow-storage',
+    }
+  )
+);
