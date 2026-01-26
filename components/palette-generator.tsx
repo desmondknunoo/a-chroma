@@ -87,6 +87,15 @@ export function PaletteGenerator() {
                         </div>
                     </DialogContent>
                 </Dialog>
+
+                <Button
+                    size="lg"
+                    className="h-14 rounded-full px-6 shadow-2xl font-bold bg-slate-900 text-white hover:bg-slate-800"
+                    onClick={generatePalette}
+                >
+                    <Loader2 className="mr-2 h-5 w-5" />
+                    Generate
+                </Button>
             </div>
 
             <div className="flex h-full w-full flex-col md:flex-row">

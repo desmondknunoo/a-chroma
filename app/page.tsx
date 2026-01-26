@@ -4,8 +4,18 @@ import { SiteHeader } from "@/components/site-header";
 import { HeroSection01 } from "@/components/hero-section";
 import Link from "next/link";
 import { StickyFooter } from "@/components/ui/sticky-footer";
+import { getDailyColor } from "@/lib/daily-color";
+import chroma from "chroma-js";
+import { useMemo } from "react";
 
 export default function Home() {
+  const dailyColor = getDailyColor();
+
+  // Calculate text color mainly for the card background
+  // If the background is dark, text should be white, else black
+  const textColor = useMemo(() => {
+    return chroma(dailyColor.hex).luminance() > 0.5 ? "text-slate-900" : "text-white";
+  }, [dailyColor.hex]);
 
   // Feature Card Component
   const FeatureCard = ({
@@ -68,7 +78,26 @@ export default function Home() {
           <div className="mx-auto max-w-7xl">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-              {/* 1. Palette Generator & Image Picker */}
+              {/* 1. Daily Color Card */}
+              <Link href={`/color/${dailyColor.hex}`} className="block h-full">
+                <div
+                  style={{ backgroundColor: `#${dailyColor.hex}` }}
+                  className={`group relative flex flex-col justify-between p-8 rounded-3xl transition-all hover:-translate-y-1 hover:shadow-xl cursor-pointer h-80 ${textColor}`}
+                >
+                  <div className="space-y-4">
+                    <div className="text-xs font-bold uppercase tracking-wider opacity-80">Colour of the Day</div>
+                    <h3 className="text-3xl font-bold tracking-tight">{dailyColor.name}</h3>
+                    <p className="font-medium leading-relaxed opacity-90 line-clamp-3">
+                      {dailyColor.shortDescription}
+                    </p>
+                  </div>
+                  <div className="flex items-center text-sm font-bold uppercase tracking-wider opacity-80 group-hover:opacity-100">
+                    See Details <ArrowRightIcon className="ml-2 h-4 w-4" />
+                  </div>
+                </div>
+              </Link>
+
+              {/* 2. Palette Generator & Image Picker */}
               <FeatureCard
                 title="Palette Generator & Image Picker"
                 desc="Create beautiful color schemes in seconds with the worldwide loved palette tool. Just hit the spacebar! Also, extract beautiful colors from your photos and turn them into palettes."
@@ -77,7 +106,7 @@ export default function Home() {
                 href="/generator"
               />
 
-              {/* 2. Gradient Generator */}
+              {/* 3. Gradient Generator */}
               <FeatureCard
                 title="Gradient Generator"
                 desc="Create 5-step custom gradients for your Tailwind projects. Perfect for generating brand scales."
