@@ -1,0 +1,34 @@
+"use client";
+
+import Link from "next/link";
+import { Menu, Palette, Sliders, Eye } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+export function SiteHeader() {
+    return (
+        <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <div className="flex h-16 items-center px-6">
+                <Link href="/" className="mr-6 flex items-center space-x-2">
+                    <Palette className="h-6 w-6 text-primary" />
+                    <span className="text-xl font-bold tracking-tight">ChromaFlow</span>
+                </Link>
+                <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
+                    <nav className="flex items-center space-x-4">
+                        <div className="hidden text-sm text-muted-foreground md:block">
+                            Press Spacebar to Generate
+                        </div>
+                        <Button variant="ghost" size="icon" aria-label="Adjust Palette" title="Adjust (Coming Soon)">
+                            <Sliders className="h-5 w-5" />
+                        </Button>
+                        <Button variant="ghost" size="icon" aria-label="Preview" title="Preview (Coming Soon)">
+                            <Eye className="h-5 w-5" />
+                        </Button>
+                        <Button variant="ghost" size="icon" className="md:hidden">
+                            <Menu className="h-5 w-5" />
+                        </Button>
+                    </nav>
+                </div>
+            </div>
+        </header>
+    );
+}
