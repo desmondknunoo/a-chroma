@@ -106,27 +106,27 @@ const footerLinkGroups: FooterLinkGroup[] = [
         label: 'Products',
         links: [
             { title: 'Palette Generator', href: '/generator' },
-            { title: 'Image Picker', href: '/picker' },
+            { title: 'Image Picker', href: '/generator' }, // Merged into Generator
             { title: 'Gradient Maker', href: '/gradient' },
-            { title: 'Contrast Checker', href: '#' },
+            { title: 'Contrast Checker', href: '/contrast-checker' },
         ],
     },
     {
         label: 'Resources',
         links: [
-            { title: 'Color Theory', href: '#' },
-            { title: 'Accessibility', href: '#' },
-            { title: 'Blog', href: '#' },
-            { title: 'Community', href: '#' },
+            { title: 'Color Theory', href: '/color-theory' },
+            { title: 'Accessibility', href: '/accessibility' },
+            { title: 'Blog', href: '/blog' },
+            { title: 'Community', href: '/community' },
         ],
     },
     {
         label: 'Company',
         links: [
-            { title: 'About Us', href: '#' },
-            { title: 'Privacy', href: '#' },
-            { title: 'Terms', href: '#' },
-            { title: 'Contact', href: '#' },
+            { title: 'About Us', href: '/about' },
+            { title: 'Privacy', href: '/privacy' },
+            { title: 'Terms', href: '/terms' },
+            { title: 'Contact', href: '/contact' },
         ],
     },
 ];

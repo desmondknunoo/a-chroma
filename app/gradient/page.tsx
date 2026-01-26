@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { GradientGenerator } from "@/components/gradient-maker";
+import { GradientGenerator } from "@/components/gradient-generator";
 import { SiteHeader } from "@/components/site-header";
 import { StickyFooter } from "@/components/ui/sticky-footer";
 
@@ -17,67 +17,72 @@ import {
 
 export default function GradientPage() {
     return (
-        <div className="min-h-screen bg-black relative flex flex-col">
+        <div className="flex min-h-screen flex-col overflow-hidden bg-background relative">
             <SiteHeader />
 
-            <main className="flex-1 relative z-10 w-full mb-20">
-                <div className="relative pt-32 pb-12 w-full overflow-hidden">
-                    {/* Background Image / Gradient */}
-                    <div className="absolute inset-0 -z-10 h-[600px] w-full">
-                        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black" />
-                        <img
-                            src="https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=2029&auto=format&fit=crop"
-                            alt="Gradient Background"
-                            className="w-full h-full object-cover opacity-60"
-                        />
-                    </div>
+            {/* Background Image Container */}
+            <div className="absolute top-0 left-0 w-full h-[600px] -z-10 bg-slate-900">
+                <div className="relative w-full h-full">
+                    <Image
+                        src="https://res.cloudinary.com/deelfmnhg/image/upload/v1737474221/grad_mscerb.png"
+                        alt="Gradient Background"
+                        fill
+                        className="object-cover opacity-80"
+                        priority
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background"></div>
+                </div>
+            </div>
 
-                    <div className="container mx-auto px-6 text-center">
-                        <p className="text-lg font-light uppercase tracking-widest text-white/80 lg:text-xl mb-4">
+            <main className="flex-1 relative pt-20 pb-32 px-6">
+                <div className="mx-auto max-w-7xl">
+                    {/* Header Section from Demo */}
+                    <div className="text-center mb-12 text-white">
+                        <p className="text-lg font-light uppercase tracking-widest text-slate-300 lg:text-xl mb-4">
                             Introducing
                         </p>
-
-                        <h1 className="text-center text-6xl tracking-tighter text-white sm:text-8xl lg:text-9xl mb-6 font-bold">
+                        <h1 className="text-6xl tracking-tighter sm:text-8xl font-bold mb-6">
                             Graaadients
                         </h1>
-                        <p className="mx-auto max-w-lg text-center text-sm font-light text-slate-300 lg:text-lg">
-                            Create abstract gradient elements and backgrounds for your amazing design projects.
+                        <p className="mx-auto max-w-lg text-lg text-slate-200">
+                            Generate 5-step brand scales or craft stunning abstract gradient backgrounds for your projects.
                         </p>
                     </div>
 
-                    <div className="mt-10 flex justify-center">
+                    {/* Breadcrumbs */}
+                    <div className="flex justify-center mb-10">
                         <Breadcrumb>
                             <BreadcrumbList>
                                 <BreadcrumbItem>
                                     <BreadcrumbLink
                                         href="/"
-                                        className="text-slate-400 hover:text-white transition-colors"
+                                        className="text-slate-300 hover:text-white"
                                     >
                                         Home
                                     </BreadcrumbLink>
                                 </BreadcrumbItem>
-                                <BreadcrumbSeparator className="text-slate-500" />
+                                <BreadcrumbSeparator className="text-slate-300" />
                                 <BreadcrumbItem>
                                     <BreadcrumbPage className="text-white font-medium">
-                                        Gradient Generator
+                                        Gradient Studio
                                     </BreadcrumbPage>
                                 </BreadcrumbItem>
                             </BreadcrumbList>
                         </Breadcrumb>
                     </div>
+
+                    {/* The Generator Component */}
+                    <div className="bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/20 overflow-hidden">
+                        <GradientGenerator />
+                    </div>
+
+                    <p className="mt-8 text-center text-slate-500 font-medium">
+                        All gradients are 100% free to use.
+                    </p>
                 </div>
-
-                <div className="container mx-auto px-4 -mt-20 relative z-20">
-                    <GradientGenerator />
-                </div>
-
-                <p className="mt-12 text-center text-slate-500 text-sm font-medium">
-                    All gradients are 100% free to use.
-                </p>
-
             </main>
 
-            <StickyFooter className="mt-auto" />
+            <StickyFooter />
         </div>
     );
 }
