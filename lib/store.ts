@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import chroma from 'chroma-js';
+import { getColorName } from '@/lib/naming';
 
 export type ColorSpace = 'hex' | 'oklch';
 
@@ -21,20 +22,20 @@ interface ColorState {
 
 export const useColorStore = create<ColorState>((set, get) => ({
   colors: [],
-  
+
   generatePalette: () => {
     set((state) => {
       // If we have no colors, initialize 5 random ones
       // If we have colors, respect locks
-      
+
       const currentColors = state.colors.length === 5 ? state.colors : Array(5).fill(null);
-      
+
       // Basic random generation for open slots
       // TODO: Implement harmony algorithms (complementary, split-complimentary) if locks exist
-      
+
       const newColors = currentColors.map((c, i) => {
         if (c && c.locked) return c;
-        
+
         // Generate random color in OKLCH space
         // L: 0.4-0.9 (visible light)
         // C: 0.0-0.3 (chroma)
@@ -42,14 +43,16 @@ export const useColorStore = create<ColorState>((set, get) => ({
         const l = 0.4 + Math.random() * 0.5;
         const cVal = 0.05 + Math.random() * 0.25;
         const h = Math.floor(Math.random() * 360);
-        
+
         const color = chroma.oklch(l, cVal, h);
-        
+        const hex = color.hex();
+
         return {
           id: c?.id || crypto.randomUUID(),
           value: `oklch(${l.toFixed(3)} ${cVal.toFixed(3)} ${h})`,
-          hex: color.hex(),
+          hex: hex,
           locked: false,
+          name: getColorName(hex), // Semantic naming
         };
       });
 
@@ -74,15 +77,15 @@ export const useColorStore = create<ColorState>((set, get) => ({
           const color = chroma(newColor);
           const [l, cVal, h] = color.oklch();
           return {
-             ...c,
-             value: `oklch(${l.toFixed(3)} ${cVal.toFixed(3)} ${h || 0})`,
-             hex: color.hex() 
+            ...c,
+            value: `oklch(${l.toFixed(3)} ${cVal.toFixed(3)} ${h || 0})`,
+            hex: color.hex()
           };
         } catch (e) {
           return c;
         }
       }),
     })),
-    
+
   setColors: (colors) => set({ colors }),
 }));
