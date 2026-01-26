@@ -28,9 +28,7 @@ export function SiteHeader() {
                             <Sliders className="h-5 w-5" />
                         </Button>
 
-                        <Button variant="ghost" size="icon" className="md:hidden">
-                            <Menu className="h-5 w-5" />
-                        </Button>
+
                     </nav>
                 </div>
             </div>

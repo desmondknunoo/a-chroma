@@ -68,31 +68,22 @@ export default function Home() {
           <div className="mx-auto max-w-7xl">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-              {/* 1. Palette Generator */}
+              {/* 1. Palette Generator & Image Picker */}
               <FeatureCard
-                title="Palette Generator"
-                desc="Create beautiful color schemes in seconds with the worldwide loved palette tool. Just hit the spacebar!"
+                title="Palette Generator & Image Picker"
+                desc="Create beautiful color schemes in seconds with the worldwide loved palette tool. Just hit the spacebar! Also, extract beautiful colors from your photos and turn them into palettes."
                 action="Start the Generator"
                 color="bg-cyan-100/80 hover:bg-cyan-200/80"
                 href="/generator"
               />
 
-              {/* 2. Gradient Generator (NEW) */}
+              {/* 2. Gradient Generator */}
               <FeatureCard
                 title="Gradient Generator"
                 desc="Create 5-step custom gradients for your Tailwind projects. Perfect for generating brand scales."
                 action="Start Gradient Maker"
                 color="bg-orange-100/80 hover:bg-orange-200/80"
                 href="/gradient"
-              />
-
-              {/* 3. Image Picker */}
-              <FeatureCard
-                title="Image Picker"
-                desc="Extract beautiful colors from your photos and turn them into palettes for your projects."
-                action="Launch the Image Picker"
-                color="bg-purple-100/80 hover:bg-purple-200/80"
-                href="/picker"
               />
 
             </div>
