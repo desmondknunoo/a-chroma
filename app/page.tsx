@@ -6,9 +6,10 @@ import Link from "next/link";
 import { StickyFooter } from "@/components/ui/sticky-footer";
 import { getDailyColor } from "@/lib/daily-color";
 import chroma from "chroma-js";
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 
 export default function Home() {
+  const [mounted, setMounted] = useState(false);
   const dailyColor = getDailyColor();
 
   // Calculate text color mainly for the card background
@@ -16,6 +17,12 @@ export default function Home() {
   const textColor = useMemo(() => {
     return chroma(dailyColor.hex).luminance() > 0.5 ? "text-slate-900" : "text-white";
   }, [dailyColor.hex]);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   // Feature Card Component
   const FeatureCard = ({
@@ -118,6 +125,51 @@ export default function Home() {
             </div>
           </div>
         </div>
+
+        {/* Philosophy Section */}
+        <section className="bg-slate-50 py-32 px-6 md:px-12 border-y border-slate-100">
+          <div className="mx-auto max-w-4xl text-center space-y-12">
+            <div className="space-y-4">
+              <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight italic">
+                A-Chroma: Precision Meets Intuition
+              </h2>
+              <p className="text-xl text-slate-600 leading-relaxed font-semibold">
+                ELIMINATING THE FRICTION BETWEEN A CREATIVE SPARK AND A FINALIZED VISUAL IDENTITY.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-12 text-left">
+              <div className="space-y-4">
+                <h3 className="text-xl font-bold text-slate-900 flex items-center">
+                  <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center mr-3">
+                    <span className="text-blue-600 font-bold">1</span>
+                  </div>
+                  Spacebar Magic
+                </h3>
+                <p className="text-slate-600 leading-relaxed">
+                  Generate balanced, high-fidelity palettes based on perceptually uniform OKLCH models. Secure the shades you love while our algorithm hunts for the perfect partners.
+                </p>
+              </div>
+              <div className="space-y-4">
+                <h3 className="text-xl font-bold text-slate-900 flex items-center">
+                  <div className="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center mr-3">
+                    <span className="text-purple-600 font-bold">2</span>
+                  </div>
+                  Visual Extraction
+                </h3>
+                <p className="text-slate-600 leading-relaxed">
+                  Bridge the gap between worlds. Analyze pixel data from any photograph to isolate dominant hues, distilling the atmosphere of the real world into brand kits.
+                </p>
+              </div>
+            </div>
+
+            <div className="pt-8">
+              <p className="text-slate-500 text-sm font-medium uppercase tracking-[0.2em]">
+                The foundational pillar of the Achendo Suite
+              </p>
+            </div>
+          </div>
+        </section>
       </main>
 
       {/* Footer */}
