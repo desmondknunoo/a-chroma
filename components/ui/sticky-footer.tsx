@@ -84,7 +84,7 @@ export function StickyFooter({ className, ...props }: StickyFooterProps) {
                             ))}
                         </div>
                         <div className="text-slate-400 flex flex-col items-center justify-between gap-2 border-t border-slate-100 pt-6 text-sm md:flex-row z-10">
-                            <p>© 2026 A-Chroma, Inc. All rights reserved.</p>
+                            <p>© {new Date().getFullYear()} A-Chroma, by <a href="https://achendo.com" className="hover:text-blue-600 transition-colors underline decoration-slate-300 underline-offset-4" target="_blank" rel="noopener noreferrer">Achendo.com</a>. All rights reserved.</p>
                             <p>Designed for Creators.</p>
                         </div>
                     </div>

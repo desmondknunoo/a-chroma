@@ -6,8 +6,15 @@ import { useColorStore } from "@/lib/store";
 import { useState } from "react";
 import jsPDF from "jspdf";
 
-export function ExportDialog() {
-    const { colors } = useColorStore();
+interface ExportDialogProps {
+    colors?: { hex: string; name?: string; value?: string; id?: string; locked?: boolean }[];
+    trigger?: React.ReactNode;
+    paletteName?: string;
+}
+
+export function ExportDialog({ colors: overrideColors, trigger, paletteName }: ExportDialogProps = {}) {
+    const { colors: storeColors } = useColorStore();
+    const colors = overrideColors || storeColors;
     const [copied, setCopied] = useState(false);
 
     // --- Formats ---
@@ -65,7 +72,7 @@ ${colors.map((c, i) => `          ${i + 1}00: '${c.hex}',`).join('\n')}
         const barHeight = 40;
 
         doc.setFontSize(24);
-        doc.text("A-Chroma Palette", 10, 20);
+        doc.text(paletteName ? `A-Chroma: ${paletteName}` : "A-Chroma Palette", 10, 20);
 
         colors.forEach((c, i) => {
             const y = 40 + (i * 45);
@@ -80,7 +87,14 @@ ${colors.map((c, i) => `          ${i + 1}00: '${c.hex}',`).join('\n')}
             doc.text(c.value, 70, y + 32);
         });
 
-        doc.save('palette.pdf');
+        // Watermark
+        const watermarkText = "Generated with A-Chroma on achendo.com/a-chroma";
+        doc.setFontSize(12);
+        doc.setTextColor(150);
+        doc.textWithLink(watermarkText, 10, height - 10, { url: "https://achendo.com/a-chroma" });
+
+        const filename = paletteName ? `A-Chroma - ${paletteName}.pdf` : `A-Chroma - Palette.pdf`;
+        doc.save(filename);
     };
 
     const downloadSVG = () => {
@@ -96,9 +110,13 @@ ${colors.map((c, i) => `          ${i + 1}00: '${c.hex}',`).join('\n')}
     const downloadImage = (type: 'png' | 'jpeg') => {
         const canvas = document.createElement('canvas');
         canvas.width = 1000;
-        canvas.height = 300; // Extra space for names
+        canvas.height = 350; // Extra space for names and footer
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
+
+        // Background
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         const barWidth = 1000 / colors.length;
 
@@ -106,10 +124,6 @@ ${colors.map((c, i) => `          ${i + 1}00: '${c.hex}',`).join('\n')}
             // Color Bar
             ctx.fillStyle = c.hex;
             ctx.fillRect(i * barWidth, 0, barWidth, 200);
-
-            // Info Area
-            ctx.fillStyle = '#ffffff';
-            ctx.fillRect(i * barWidth, 200, barWidth, 100);
 
             // Text
             ctx.fillStyle = '#000000';
@@ -122,8 +136,15 @@ ${colors.map((c, i) => `          ${i + 1}00: '${c.hex}',`).join('\n')}
             ctx.fillText(c.hex.toUpperCase(), i * barWidth + barWidth / 2, 265);
         });
 
+        // Watermark
+        ctx.font = '12px sans-serif';
+        ctx.fillStyle = '#999999';
+        ctx.textAlign = 'center';
+        ctx.fillText("Generated with A-Chroma on achendo.com/a-chroma", canvas.width / 2, 330);
+
         const link = document.createElement('a');
-        link.download = `palette.${type}`;
+        const filename = paletteName ? `A-Chroma - ${paletteName}.${type}` : `A-Chroma - Palette.${type}`;
+        link.download = filename;
         link.href = canvas.toDataURL(`image/${type}`);
         link.click();
     };
@@ -131,9 +152,11 @@ ${colors.map((c, i) => `          ${i + 1}00: '${c.hex}',`).join('\n')}
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="outline" className="gap-2">
-                    <Download className="h-4 w-4" /> Export
-                </Button>
+                {trigger || (
+                    <Button variant="outline" className="gap-2">
+                        <Download className="h-4 w-4" /> Export
+                    </Button>
+                )}
             </DialogTrigger>
             <DialogContent className="sm:max-w-[700px]">
                 <DialogHeader>

@@ -168,11 +168,36 @@ ${scaleGradient.map(s => `          ${s.stop}: '${s.hex}',`).join('\n')}
     const downloadJPG = () => {
         const canvas = canvasRef.current;
         if (canvas) {
-            const dataURL = canvas.toDataURL("image/jpeg");
-            const link = document.createElement("a");
-            link.download = "gradient_with_noise.jpg";
-            link.href = dataURL;
-            link.click();
+            // Create a larger canvas for the watermark
+            const exportCanvas = document.createElement('canvas');
+            exportCanvas.width = canvas.width;
+            exportCanvas.height = canvas.height + 50; // Add space for footer
+            const ctx = exportCanvas.getContext('2d');
+
+            if (ctx) {
+                // Draw white background
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
+
+                // Draw gradient image
+                ctx.drawImage(canvas, 0, 0);
+
+                // Draw Watermark
+                ctx.font = '12px sans-serif';
+                ctx.fillStyle = '#999999'; // Grey
+                ctx.textAlign = 'center';
+                ctx.fillText("Generated with A-Chroma on achendo.com/a-chroma", exportCanvas.width / 2, exportCanvas.height - 20);
+
+                // Generate Filename
+                const colorsName = colorStops.map(s => s.color.replace('#', '')).join('-');
+                const filename = `A-Chroma Gradient - ${colorsName}.jpg`;
+
+                const dataURL = exportCanvas.toDataURL("image/jpeg");
+                const link = document.createElement("a");
+                link.download = filename;
+                link.href = dataURL;
+                link.click();
+            }
         }
     };
 

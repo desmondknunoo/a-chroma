@@ -36,7 +36,7 @@ export function ImageExtractor({ onComplete }: { onComplete: () => void }) {
                         const [l, ch, h] = c.oklch();
 
                         return {
-                            id: crypto.randomUUID(),
+                            id: Math.random().toString(36).substring(2, 9) + Date.now().toString(36),
                             hex: hex,
                             value: `oklch(${l.toFixed(3)} ${ch.toFixed(3)} ${h || 0})`,
                             locked: true,
@@ -52,7 +52,7 @@ export function ImageExtractor({ onComplete }: { onComplete: () => void }) {
                         const hex = newC.hex();
                         const [l, ch, h] = newC.oklch();
                         colorItems.push({
-                            id: crypto.randomUUID(),
+                            id: Math.random().toString(36).substring(2, 9) + Date.now().toString(36),
                             hex: hex,
                             value: `oklch(${l.toFixed(3)} ${ch.toFixed(3)} ${h || 0})`,
                             locked: true,

@@ -130,7 +130,7 @@ export default function Home() {
         <section className="bg-slate-50 py-32 px-6 md:px-12 border-y border-slate-100">
           <div className="mx-auto max-w-4xl text-center space-y-12">
             <div className="space-y-4">
-              <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight italic">
+              <h2 className="text-4xl md:text-5xl font-medium text-slate-900 tracking-tight">
                 A-Chroma: Precision Meets Intuition
               </h2>
               <p className="text-xl text-slate-600 leading-relaxed font-semibold">

@@ -24,7 +24,7 @@ export default function AboutPage() {
                 {/* Paragraph 1 & 2: Introduction & Spacebar */}
                 <section className="grid md:grid-cols-2 gap-16 items-center">
                     <div className="space-y-6">
-                        <h2 className="text-3xl font-bold text-slate-900 tracking-tight">Precision Meets Intuition</h2>
+                        <h2 className="text-3xl font-medium text-slate-900 tracking-tight">Precision Meets Intuition</h2>
                         <p className="text-lg text-slate-600 leading-relaxed">
                             It is far more than a simple utility; it is an ultra-intuitive intelligence engine designed to eliminate the friction between a creative spark and a finalized visual identity. Whether you are an elite designer or a creator seeking perfect harmony, A-Chroma provides the sophisticated interface necessary to master the complex mathematics of color theory.
                         </p>

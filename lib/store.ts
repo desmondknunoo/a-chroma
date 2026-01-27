@@ -74,7 +74,7 @@ export const useColorStore = create<ColorState>()(
             const hex = color.hex();
 
             return {
-              id: c?.id || crypto.randomUUID(),
+              id: c?.id || Math.random().toString(36).substring(2, 9) + Date.now().toString(36),
               value: color.css('oklch'),
               hex: hex,
               locked: false,

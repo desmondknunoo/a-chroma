@@ -2,13 +2,31 @@
 
 import { useParams } from "next/navigation";
 import { colorsData } from "@/lib/colors-data";
+import { getColorName } from "@/lib/naming";
 import { SiteHeader } from "@/components/site-header";
 import { StickyFooter } from "@/components/ui/sticky-footer";
 import chroma from "chroma-js";
 import { useMemo } from "react";
 import Link from "next/link";
-import { ArrowLeft, Copy, Check, Info, Palette, Eye, ShieldCheck, Zap, Globe } from "lucide-react";
+import { ArrowLeft, Copy, Check, Info, Palette, Eye, ShieldCheck, Zap, Globe, Download } from "lucide-react";
 import { useState } from "react";
+import { ExportDialog } from "@/components/export-dialog";
+import { Button } from "@/components/ui/button";
+
+const FormatText = ({ text }: { text: string }) => {
+    if (!text) return null;
+    const parts = text.split(/(\*\*.*?\*\*)/g);
+    return (
+        <span>
+            {parts.map((part, i) => {
+                if (part.startsWith("**") && part.endsWith("**")) {
+                    return <strong key={i} className="font-bold text-slate-900">{part.slice(2, -2)}</strong>;
+                }
+                return part;
+            })}
+        </span>
+    );
+};
 
 export default function ColorDetailsPage() {
     const params = useParams();
@@ -49,17 +67,17 @@ export default function ColorDetailsPage() {
         { label: "LAB", value: c.lab().map(v => Math.round(v)).join(", ") },
     ];
 
-    const shades = chroma.scale([`#${hex}`, "black"]).colors(10);
-    const tints = chroma.scale([`#${hex}`, "white"]).colors(10);
-    const tones = chroma.scale([`#${hex}`, "gray"]).colors(10);
+    const shades = chroma.scale([`#${hex}`, "black"]).colors(10).map(hex => ({ hex, name: getColorName(hex) }));
+    const tints = chroma.scale([`#${hex}`, "white"]).colors(10).map(hex => ({ hex, name: getColorName(hex) }));
+    const tones = chroma.scale([`#${hex}`, "gray"]).colors(10).map(hex => ({ hex, name: getColorName(hex) }));
 
     const harmonies = [
         { label: "Complementary", color: c.set('hsl.h', (c.get('hsl.h') + 180) % 360).hex() },
         { label: "Analogous 1", color: c.set('hsl.h', (c.get('hsl.h') + 30) % 360).hex() },
         { label: "Analogous 2", color: c.set('hsl.h', (c.get('hsl.h') - 30 + 360) % 360).hex() },
         { label: "Triadic 1", color: c.set('hsl.h', (c.get('hsl.h') + 120) % 360).hex() },
-        { label: "Triadic 2", color: c.set('hsl.h', (c.get('hsl.h') + 240) % 360).hex() },
-    ];
+        { label: "Triadic 2", color: c.set('hsl.h', (c.get('hsl.h') + 240) % 360).hex() }
+    ].map(h => ({ ...h, name: getColorName(h.color) }));
 
     return (
         <div className="min-h-screen bg-white">
@@ -84,9 +102,21 @@ export default function ColorDetailsPage() {
                         <div>
                             <span className="text-blue-600 font-bold uppercase tracking-widest text-sm">Colour of the Day</span>
                             <h2 className="text-4xl font-bold text-slate-900 mt-2">{colorInfo.name}</h2>
-                            <p className="text-xl text-slate-600 leading-relaxed mt-4 italic">
-                                {colorInfo.shortDescription}
-                            </p>
+                            <div className="text-xl text-slate-600 leading-relaxed mt-4 italic">
+                                <FormatText text={colorInfo.shortDescription} />
+                            </div>
+                        </div>
+
+                        <div className="flex gap-4">
+                            <ExportDialog
+                                colors={[{ hex: `#${hex}`, name: colorInfo.name, value: c.css('oklch'), id: '1', locked: false }]}
+                                paletteName={colorInfo.name}
+                                trigger={
+                                    <Button size="lg" className="w-full font-bold shadow-xl" style={{ backgroundColor: `#${hex}`, color: textColor.includes('slate-900') ? 'black' : 'white' }}>
+                                        <Download className="mr-2 h-5 w-5" /> Download Palette
+                                    </Button>
+                                }
+                            />
                         </div>
 
                         <div className="grid grid-cols-2 gap-4">
@@ -115,7 +145,7 @@ export default function ColorDetailsPage() {
                                 <Info className="w-6 h-6 mr-3 text-blue-500" /> Description
                             </h3>
                             <div className="text-lg text-slate-600 leading-relaxed whitespace-pre-line prose prose-slate max-w-none">
-                                {colorInfo.description}
+                                <FormatText text={colorInfo.description} />
                             </div>
                         </section>
 
@@ -126,11 +156,11 @@ export default function ColorDetailsPage() {
                             <div className="grid sm:grid-cols-2 gap-10">
                                 <div>
                                     <h4 className="font-bold text-slate-900 mb-2 uppercase text-xs tracking-widest">Psychology</h4>
-                                    <div className="text-slate-600 whitespace-pre-line leading-relaxed">{colorInfo.psychology}</div>
+                                    <div className="text-slate-600 whitespace-pre-line leading-relaxed"><FormatText text={colorInfo.psychology} /></div>
                                 </div>
                                 <div>
                                     <h4 className="font-bold text-slate-900 mb-2 uppercase text-xs tracking-widest">Meaning</h4>
-                                    <div className="text-slate-600 whitespace-pre-line leading-relaxed">{colorInfo.meaning}</div>
+                                    <div className="text-slate-600 whitespace-pre-line leading-relaxed"><FormatText text={colorInfo.meaning} /></div>
                                 </div>
                             </div>
                         </section>
@@ -140,7 +170,7 @@ export default function ColorDetailsPage() {
                                 <Zap className="w-6 h-6 mr-3 text-orange-500" /> Why use this color
                             </h3>
                             <div className="text-lg text-slate-600 leading-relaxed whitespace-pre-line prose prose-slate max-w-none font-medium">
-                                {colorInfo.usage}
+                                <FormatText text={colorInfo.usage} />
                             </div>
                         </section>
                     </div>
@@ -151,7 +181,7 @@ export default function ColorDetailsPage() {
                                 <Eye className="w-5 h-5 mr-3 text-emerald-500" /> Applications
                             </h3>
                             <div className="text-slate-600 leading-relaxed whitespace-pre-line text-sm">
-                                {colorInfo.applications}
+                                <FormatText text={colorInfo.applications} />
                             </div>
                         </section>
 
@@ -160,7 +190,7 @@ export default function ColorDetailsPage() {
                                 <Globe className="w-5 h-5 mr-3 text-cyan-500" /> History
                             </h3>
                             <div className="text-slate-600 leading-relaxed whitespace-pre-line text-sm">
-                                {colorInfo.history}
+                                <FormatText text={colorInfo.history} />
                             </div>
                         </section>
 
@@ -168,9 +198,9 @@ export default function ColorDetailsPage() {
                             <h3 className="font-bold mb-6 flex items-center">
                                 <ShieldCheck className="w-5 h-5 mr-3 text-blue-400" /> Accessibility
                             </h3>
-                            <p className="text-slate-300 text-sm leading-relaxed mb-6">
-                                {colorInfo.accessibility}
-                            </p>
+                            <div className="text-slate-300 text-sm leading-relaxed mb-6">
+                                <FormatText text={colorInfo.accessibility} />
+                            </div>
                             <div className="space-y-3">
                                 <div className="flex justify-between items-baseline">
                                     <span className="text-xs uppercase font-bold tracking-widest opacity-60">Contrast White</span>
@@ -192,25 +222,37 @@ export default function ColorDetailsPage() {
                     <div className="space-y-8">
                         <div>
                             <h4 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">Shades</h4>
-                            <div className="flex w-full h-16 rounded-xl overflow-hidden">
+                            <div className="flex w-full h-16 rounded-xl overflow-hidden group/list">
                                 {shades.map((s, i) => (
-                                    <div key={i} style={{ backgroundColor: s }} className="flex-1 hover:flex-[1.5] transition-all cursor-pointer" title={s} onClick={() => copyToClipboard(s, `shade-${i}`)} />
+                                    <div key={i} style={{ backgroundColor: s.hex }} className="flex-1 hover:flex-[1.5] transition-all cursor-pointer relative group/item" onClick={() => copyToClipboard(s.hex, `shade-${i}`)}>
+                                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/item:opacity-100 transition-opacity">
+                                            <span className="bg-black/50 text-white text-[10px] px-1 py-0.5 rounded backdrop-blur-sm whitespace-nowrap overflow-hidden text-ellipsis max-w-[90%]">{s.name}</span>
+                                        </div>
+                                    </div>
                                 ))}
                             </div>
                         </div>
                         <div>
                             <h4 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">Tints</h4>
-                            <div className="flex w-full h-16 rounded-xl overflow-hidden">
+                            <div className="flex w-full h-16 rounded-xl overflow-hidden group/list">
                                 {tints.map((t, i) => (
-                                    <div key={i} style={{ backgroundColor: t }} className="flex-1 hover:flex-[1.5] transition-all cursor-pointer" title={t} onClick={() => copyToClipboard(t, `tint-${i}`)} />
+                                    <div key={i} style={{ backgroundColor: t.hex }} className="flex-1 hover:flex-[1.5] transition-all cursor-pointer relative group/item" onClick={() => copyToClipboard(t.hex, `tint-${i}`)}>
+                                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/item:opacity-100 transition-opacity">
+                                            <span className="bg-black/50 text-white text-[10px] px-1 py-0.5 rounded backdrop-blur-sm whitespace-nowrap overflow-hidden text-ellipsis max-w-[90%]">{t.name}</span>
+                                        </div>
+                                    </div>
                                 ))}
                             </div>
                         </div>
                         <div>
                             <h4 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">Tones</h4>
-                            <div className="flex w-full h-16 rounded-xl overflow-hidden">
+                            <div className="flex w-full h-16 rounded-xl overflow-hidden group/list">
                                 {tones.map((t, i) => (
-                                    <div key={i} style={{ backgroundColor: t }} className="flex-1 hover:flex-[1.5] transition-all cursor-pointer" title={t} onClick={() => copyToClipboard(t, `tone-${i}`)} />
+                                    <div key={i} style={{ backgroundColor: t.hex }} className="flex-1 hover:flex-[1.5] transition-all cursor-pointer relative group/item" onClick={() => copyToClipboard(t.hex, `tone-${i}`)}>
+                                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/item:opacity-100 transition-opacity">
+                                            <span className="bg-black/50 text-white text-[10px] px-1 py-0.5 rounded backdrop-blur-sm whitespace-nowrap overflow-hidden text-ellipsis max-w-[90%]">{t.name}</span>
+                                        </div>
+                                    </div>
                                 ))}
                             </div>
                         </div>
@@ -225,12 +267,17 @@ export default function ColorDetailsPage() {
                             <div key={i} className="space-y-4">
                                 <div
                                     style={{ backgroundColor: h.color }}
-                                    className="aspect-square rounded-2xl shadow-lg border border-slate-100 hover:scale-105 transition-transform cursor-pointer"
+                                    className="aspect-square rounded-2xl shadow-lg border border-slate-100 hover:scale-105 transition-transform cursor-pointer relative group"
                                     onClick={() => copyToClipboard(h.color, `harmony-${i}`)}
-                                />
+                                >
+                                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <Copy className="text-white w-8 h-8 drop-shadow-md" />
+                                    </div>
+                                </div>
                                 <div className="text-center">
                                     <p className="text-xs font-bold text-slate-400 uppercase tracking-tighter">{h.label}</p>
-                                    <p className="font-mono text-sm font-bold text-slate-900 uppercase">{h.color}</p>
+                                    <p className="text-sm font-bold text-slate-900 line-clamp-1" title={h.name}>{h.name}</p>
+                                    <p className="font-mono text-xs opacity-50 uppercase">{h.color}</p>
                                 </div>
                             </div>
                         ))}
