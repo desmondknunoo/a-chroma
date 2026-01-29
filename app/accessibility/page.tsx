@@ -1,10 +1,15 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { CheckCircle, ShieldCheck, Eye } from "lucide-react";
+import { CheckCircle, ShieldCheck, Eye, ArrowLeft } from "lucide-react";
 
 export default function AccessibilityPage() {
     return (
         <div className="bg-white min-h-screen py-24 px-6">
+            <div className="max-w-3xl mx-auto mb-8">
+                <Link href="/" className="inline-flex items-center text-slate-500 hover:text-slate-900 transition-colors">
+                    <ArrowLeft className="w-4 h-4 mr-2" /> Back to Home
+                </Link>
+            </div>
             <div className="mx-auto max-w-3xl text-center mb-16">
                 <div className="inline-flex items-center justify-center p-3 bg-green-100 rounded-full mb-6">
                     <ShieldCheck className="w-8 h-8 text-green-600" />
@@ -33,7 +38,7 @@ export default function AccessibilityPage() {
                         Universal Readability
                     </h3>
                     <p className="text-slate-600 leading-relaxed">
-                        Ensure your designs are inclusive and readable for all users, including those with color vision deficiencies. We help you build the future of branding with absolute confidence in its usability.
+                        Ensure your designs are inclusive and readable for all users, including those with colour vision deficiencies. We help you build the future of branding with absolute confidence in its usability.
                     </p>
                 </div>
             </div>

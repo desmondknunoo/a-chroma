@@ -1,6 +1,5 @@
-"use client";
 
-import Image from "next/image";
+import { Metadata } from "next";
 import Link from "next/link";
 import { GradientGenerator } from "@/components/gradient-generator";
 import { SiteHeader } from "@/components/site-header";
@@ -14,6 +13,11 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+
+export const metadata: Metadata = {
+    title: "Visual Gradient Editor",
+    description: "Create stunning gradients visually or generate them from your photos.",
+};
 
 export default function GradientPage() {
     return (
@@ -42,6 +46,15 @@ export default function GradientPage() {
                                 </BreadcrumbItem>
                             </BreadcrumbList>
                         </Breadcrumb>
+                    </div>
+
+                    <div className="text-center space-y-4 mb-10">
+                        <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">
+                            Visual Gradient Editor
+                        </h1>
+                        <p className="text-slate-600 max-w-2xl mx-auto text-lg">
+                            Create stunning gradients visually or generate them from your photos.
+                        </p>
                     </div>
 
                     {/* The Generator Component */}

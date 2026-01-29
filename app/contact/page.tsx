@@ -1,10 +1,15 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Mail, MessageSquare, MapPin } from "lucide-react";
+import { Mail, MessageSquare, MapPin, ArrowLeft } from "lucide-react";
 
 export default function ContactPage() {
     return (
         <div className="container mx-auto px-4 py-24 max-w-4xl">
+            <div className="mb-8">
+                <Link href="/" className="inline-flex items-center text-slate-500 hover:text-slate-900 transition-colors">
+                    <ArrowLeft className="w-4 h-4 mr-2" /> Back to Home
+                </Link>
+            </div>
             <div className="text-center mb-16">
                 <h1 className="text-4xl font-bold tracking-tight mb-6">Contact Achendo Suite</h1>
                 <p className="text-xl text-muted-foreground max-w-2xl mx-auto">

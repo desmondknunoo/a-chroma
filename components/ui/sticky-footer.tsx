@@ -3,6 +3,7 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { motion, useReducedMotion } from 'motion/react';
+import Image from 'next/image';
 import {
     FacebookIcon,
     FrameIcon,
@@ -45,9 +46,9 @@ export function StickyFooter({ className, ...props }: StickyFooterProps) {
                         </div>
                         <div className="mt-10 flex flex-col gap-8 md:flex-row xl:mt-0 z-10">
                             <AnimatedContainer className="w-full max-w-sm min-w-2xs space-y-4">
-                                <FrameIcon className="size-8 text-blue-600" />
+                                <Image src="/logo.png" alt="A-Chroma" width={40} height={40} className="w-10 h-10" />
                                 <p className="text-slate-600 mt-8 text-sm md:mt-0 leading-relaxed">
-                                    Innovative color tools empowering designers with seamless
+                                    Innovative colour tools empowering designers with seamless
                                     palettes, gradients, and extraction worldwide.
                                 </p>
                                 <div className="flex gap-2">
@@ -106,15 +107,15 @@ const footerLinkGroups: FooterLinkGroup[] = [
         label: 'Products',
         links: [
             { title: 'Palette Generator', href: '/generator' },
-            { title: 'Image Picker', href: '/generator' }, // Merged into Generator
-            { title: 'Gradient Maker', href: '/gradient' },
+            { title: 'Brand Scale', href: '/brand-scale' },
+            { title: 'Gradient Studio', href: '/gradient' },
             { title: 'Contrast Checker', href: '/contrast-checker' },
         ],
     },
     {
         label: 'Resources',
         links: [
-            { title: 'Color Theory', href: '/color-theory' },
+            { title: 'Colour Theory', href: '/color-theory' },
             { title: 'Accessibility', href: '/accessibility' },
             { title: 'Blog', href: '/blog' },
             { title: 'Community', href: '/community' },
@@ -124,9 +125,9 @@ const footerLinkGroups: FooterLinkGroup[] = [
         label: 'Company',
         links: [
             { title: 'About Us', href: '/about' },
-            { title: 'Privacy', href: '/privacy' },
-            { title: 'Terms', href: '/terms' },
-            { title: 'Contact', href: '/contact' },
+            { title: 'Privacy Policy', href: '/privacy' },
+            { title: 'Terms of Service', href: '/terms' },
+            { title: 'Contact Us', href: '/contact' },
         ],
     },
 ];

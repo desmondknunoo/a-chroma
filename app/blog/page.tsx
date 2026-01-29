@@ -1,9 +1,15 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 export default function BlogPage() {
     return (
         <div className="container mx-auto px-4 py-24">
+            <div className="max-w-4xl mx-auto mb-8">
+                <Link href="/" className="inline-flex items-center text-slate-500 hover:text-slate-900 transition-colors">
+                    <ArrowLeft className="w-4 h-4 mr-2" /> Back to Home
+                </Link>
+            </div>
             <div className="text-center mb-16">
                 <h1 className="text-4xl font-bold tracking-tight mb-4">A-Chroma Blog</h1>
                 <p className="text-muted-foreground text-lg max-w-2xl mx-auto">Insights, updates, and design philosophy from the Achendo team.</p>
@@ -15,7 +21,7 @@ export default function BlogPage() {
                 <article className="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-md transition-all">
                     <div className="p-8 md:p-12">
                         <span className="text-blue-600 font-bold text-sm uppercase tracking-wider mb-2 block">Featured</span>
-                        <h2 className="text-3xl font-bold text-slate-900 mb-4">Defining the New Standard in Color Intelligence</h2>
+                        <h2 className="text-3xl font-bold text-slate-900 mb-4">Defining the New Standard in Colour Intelligence</h2>
                         <p className="text-slate-600 mb-6 leading-relaxed">
                             A-Chroma is more than just a generator; it is a commitment to visual harmony. Learn how we engineered the foundational pillar of the Achendo Suite to bridge the gap between abstract swatches and real-world application.
                         </p>
@@ -30,7 +36,7 @@ export default function BlogPage() {
                     <div>
                         <h2 className="text-2xl font-bold text-slate-900 mb-3">The Power of OKLCH</h2>
                         <p className="text-slate-600 mb-4">
-                            Why we reimagined "Spacebar Magic" for 2026 using perceptually uniform color models that align with how the human eye actually sees.
+                            Why we reimagined "Spacebar Magic" for 2026 using perceptually uniform colour models that align with how the human eye actually sees.
                         </p>
                         <Link href="/color-theory" className="text-blue-600 font-bold hover:underline">Read more →</Link>
                     </div>

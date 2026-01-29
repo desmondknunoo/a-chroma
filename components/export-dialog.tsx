@@ -19,9 +19,10 @@ interface ExportDialogProps {
     groups?: { name: string; colors: ColorItem[] }[];
     trigger?: React.ReactNode;
     paletteName?: string;
+    allowedFileTypes?: ('png' | 'jpeg' | 'pdf' | 'svg')[];
 }
 
-export function ExportDialog({ colors: overrideColors, groups: overrideGroups, trigger, paletteName }: ExportDialogProps = {}) {
+export function ExportDialog({ colors: overrideColors, groups: overrideGroups, trigger, paletteName, allowedFileTypes }: ExportDialogProps = {}) {
     const { colors: storeColors } = useColorStore();
 
     // Normalize data into groups
@@ -116,10 +117,10 @@ export function ExportDialog({ colors: overrideColors, groups: overrideGroups, t
 
         // Watermark function
         const addWatermark = () => {
-            const watermarkText = "Generated with A-Chroma on achendo.com/a-chroma";
+            const watermarkText = "Generated with A-Chroma on achendo.com";
             doc.setFontSize(10);
             doc.setTextColor(150);
-            doc.textWithLink(watermarkText, 10, 287, { url: "https://achendo.com/a-chroma" });
+            doc.textWithLink(watermarkText, 10, 287, { url: "https://achendo.com/" });
             doc.setTextColor(0); // Reset
         };
 
@@ -168,7 +169,7 @@ export function ExportDialog({ colors: overrideColors, groups: overrideGroups, t
 
                 // Text details
                 doc.setFontSize(11);
-                doc.text(c.name || 'Color', x + 20, y + 6);
+                doc.text(c.name || 'Colour', x + 20, y + 6);
 
                 doc.setFontSize(9);
                 doc.setTextColor(100);
@@ -203,11 +204,11 @@ export function ExportDialog({ colors: overrideColors, groups: overrideGroups, t
 
         const width = 1200;
         const cols = 5;
-        const boxHeight = 140;
+        const boxHeight = 220; // Increased form 140
         const boxWidth = width / cols;
-        const headerHeight = 120;
-        const groupTitleHeight = 80;
-        const footerHeight = 80;
+        const headerHeight = 160; // Increased from 120
+        const groupTitleHeight = 100; // Increased
+        const footerHeight = 100; // Increased
 
         let totalHeight = headerHeight + footerHeight;
         groups.forEach(g => {
@@ -227,7 +228,7 @@ export function ExportDialog({ colors: overrideColors, groups: overrideGroups, t
         ctx.fillStyle = '#000000';
         ctx.font = 'bold 48px sans-serif';
         ctx.textAlign = 'left';
-        ctx.fillText(paletteName || "A-Chroma Palette", 50, 70);
+        ctx.fillText(paletteName || "A-Chroma Palette", 60, 90);
 
         let y = headerHeight;
 
@@ -235,10 +236,10 @@ export function ExportDialog({ colors: overrideColors, groups: overrideGroups, t
             if (groups.length > 1) {
                 // Group Title
                 ctx.fillStyle = '#333333';
-                ctx.font = 'bold 32px sans-serif';
+                ctx.font = 'bold 36px sans-serif';
                 ctx.textAlign = 'left';
-                ctx.fillText(group.name, 50, y - 30);
-                y += 0; // consumed by title height mostly added before
+                ctx.fillText(group.name, 60, y - 40);
+                y += 0;
             }
 
             group.colors.forEach((c, i) => {
@@ -249,18 +250,18 @@ export function ExportDialog({ colors: overrideColors, groups: overrideGroups, t
 
                 // Draw Swatch
                 ctx.fillStyle = c.hex;
-                // Rect with padding
-                ctx.fillRect(x + 10, currentY, boxWidth - 20, 80);
+                // Rect with padding - increased padding
+                ctx.fillRect(x + 20, currentY, boxWidth - 40, 120);
 
                 // Text
                 ctx.fillStyle = '#000000';
-                ctx.font = 'bold 16px sans-serif';
+                ctx.font = 'bold 18px sans-serif';
                 ctx.textAlign = 'left';
-                ctx.fillText(c.name || '', x + 10, currentY + 110);
+                ctx.fillText(c.name || '', x + 20, currentY + 160);
 
-                ctx.font = '14px monospace';
+                ctx.font = '16px monospace';
                 ctx.fillStyle = '#666666';
-                ctx.fillText(c.hex.toUpperCase(), x + 10, currentY + 130);
+                ctx.fillText(c.hex.toUpperCase(), x + 20, currentY + 190);
             });
 
             const rows = Math.ceil(group.colors.length / cols);
@@ -271,11 +272,13 @@ export function ExportDialog({ colors: overrideColors, groups: overrideGroups, t
         ctx.font = '20px sans-serif';
         ctx.fillStyle = '#999999';
         ctx.textAlign = 'center';
-        ctx.fillText("Generated with A-Chroma on achendo.com/a-chroma", width / 2, canvas.height - 30);
+        ctx.fillText("Generated with A-Chroma on achendo.com", width / 2, canvas.height - 30);
 
         const link = document.createElement('a');
         const filename = paletteName ? `A-Chroma - ${paletteName}.${type}` : `A-Chroma - Palette.${type}`;
         link.download = filename;
+        const dataURL = canvas.toDataURL(`image/${type}`);
+        link.href = dataURL;
         link.click();
     };
 
@@ -336,26 +339,34 @@ export function ExportDialog({ colors: overrideColors, groups: overrideGroups, t
                         </div>
                     </TabsContent>
 
-                    <TabsContent value="file" className="grid grid-cols-2 gap-4 pt-4">
-                        <Button variant="outline" className="h-32 flex-col gap-2 hover:bg-slate-50 border-2" onClick={() => downloadImage('png')}>
-                            <FileImage className="h-8 w-8 text-blue-500" />
-                            <span className="font-bold">PNG Image</span>
-                        </Button>
+                    <TabsContent value="file" className="grid grid-cols-2 gap-2 pt-4">
+                        {(!allowedFileTypes || allowedFileTypes.includes('png')) && (
+                            <Button variant="outline" className="h-32 flex-col gap-2 hover:bg-slate-50 border-2" onClick={() => downloadImage('png')}>
+                                <FileImage className="h-8 w-8 text-blue-500" />
+                                <span className="font-bold">PNG Image</span>
+                            </Button>
+                        )}
 
-                        <Button variant="outline" className="h-32 flex-col gap-2 hover:bg-slate-50 border-2" onClick={() => downloadImage('jpeg')}>
-                            <FileImage className="h-8 w-8 text-indigo-500" />
-                            <span className="font-bold">JPEG Image</span>
-                        </Button>
+                        {(!allowedFileTypes || allowedFileTypes.includes('jpeg')) && (
+                            <Button variant="outline" className="h-32 flex-col gap-2 hover:bg-slate-50 border-2" onClick={() => downloadImage('jpeg')}>
+                                <FileImage className="h-8 w-8 text-indigo-500" />
+                                <span className="font-bold">JPEG Image</span>
+                            </Button>
+                        )}
 
-                        <Button variant="outline" className="h-32 flex-col gap-2 hover:bg-slate-50 border-2" onClick={downloadPDF}>
-                            <FileType className="h-8 w-8 text-red-500" />
-                            <span className="font-bold">PDF Report</span>
-                        </Button>
+                        {(!allowedFileTypes || allowedFileTypes.includes('pdf')) && (
+                            <Button variant="outline" className="h-32 flex-col gap-2 hover:bg-slate-50 border-2" onClick={downloadPDF}>
+                                <FileType className="h-8 w-8 text-red-500" />
+                                <span className="font-bold">PDF Report</span>
+                            </Button>
+                        )}
 
-                        <Button variant="outline" className="h-32 flex-col gap-2 hover:bg-slate-50 border-2" onClick={downloadSVG}>
-                            <FileCode className="h-8 w-8 text-orange-500" />
-                            <span className="font-bold">SVG Vector</span>
-                        </Button>
+                        {(!allowedFileTypes || allowedFileTypes.includes('svg')) && (
+                            <Button variant="outline" className="h-32 flex-col gap-2 hover:bg-slate-50 border-2" onClick={downloadSVG}>
+                                <FileCode className="h-8 w-8 text-orange-500" />
+                                <span className="font-bold">SVG Vector</span>
+                            </Button>
+                        )}
                     </TabsContent>
                 </Tabs>
             </DialogContent>

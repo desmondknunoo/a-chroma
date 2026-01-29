@@ -1,16 +1,21 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { BookOpen, Lightbulb, PenTool } from "lucide-react";
+import { BookOpen, Lightbulb, PenTool, ArrowLeft } from "lucide-react";
 
 export default function ColorTheoryPage() {
     return (
         <div className="bg-white min-h-screen py-24 px-6">
+            <div className="max-w-4xl mx-auto mb-8">
+                <Link href="/" className="inline-flex items-center text-slate-500 hover:text-slate-900 transition-colors">
+                    <ArrowLeft className="w-4 h-4 mr-2" /> Back to Home
+                </Link>
+            </div>
             <div className="mx-auto max-w-4xl text-center mb-16">
                 <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 mb-6">
-                    Mastering the <span className="text-indigo-600">Science of Color</span>
+                    Mastering the <span className="text-indigo-600">Science of Colour</span>
                 </h1>
                 <p className="text-xl text-slate-600 leading-relaxed max-w-2xl mx-auto">
-                    A-Chroma provides the sophisticated interface necessary to master the complex mathematics of color theory, eliminating the friction between a creative spark and a finalized visual identity.
+                    A-Chroma provides the sophisticated interface necessary to master the complex mathematics of colour theory, eliminating the friction between a creative spark and a finalized visual identity.
                 </p>
             </div>
 
@@ -22,7 +27,7 @@ export default function ColorTheoryPage() {
                     <div>
                         <h2 className="text-2xl font-bold text-slate-900 mb-3">Perceptual Uniformity</h2>
                         <p className="text-lg text-slate-600 leading-relaxed">
-                            Our engine creates high-fidelity palettes based on perceptually uniform OKLCH models. Unlike traditional HEX or RGB spaces, this ensures that changes in values correspond to predictable changes in how the human eye perceives color.
+                            Our engine creates high-fidelity palettes based on perceptually uniform OKLCH models. Unlike traditional HEX or RGB spaces, this ensures that changes in values correspond to predictable changes in how the human eye perceives colour.
                         </p>
                     </div>
                 </section>

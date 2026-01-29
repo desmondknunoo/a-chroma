@@ -2,8 +2,11 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import chroma from "chroma-js";
-import { Copy, RefreshCw, Minus, Plus, RotateCw } from "lucide-react";
+import ColorThief from "colorthief";
+import { Copy, RefreshCw, Minus, Plus, RotateCw, Upload, ImageIcon, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ExportDialog } from "@/components/export-dialog";
+import { getColorName } from "@/lib/naming";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -29,6 +32,66 @@ export function GradientGenerator() {
     const [isRadialGradient, setIsRadialGradient] = useState(false);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const displayCanvasRef = useRef<HTMLCanvasElement>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const [loading, setLoading] = useState(false);
+    const [generatedGradients, setGeneratedGradients] = useState<ColorStop[][]>([]);
+
+    // --- Image Processing ---
+
+    const processImage = (file: File) => {
+        setLoading(true);
+        const objectUrl = URL.createObjectURL(file);
+        const img = new Image();
+        img.crossOrigin = "Anonymous";
+        img.src = objectUrl;
+
+        img.onload = () => {
+            try {
+                const colorThief = new ColorThief();
+                const palette = colorThief.getPalette(img, 10); // Extract more to mix
+
+                if (palette && palette.length >= 2) {
+                    const extractedColors = palette.map((rgb: number[]) => chroma.rgb(rgb[0], rgb[1], rgb[2]).hex());
+                    const newGradients: ColorStop[][] = [];
+
+                    // Generate 5 distinct gradients by mixing extracted colors
+                    for (let i = 0; i < 5; i++) {
+                        // Strategy: Pick 2 or 3 random unique colors from the palette
+                        const numStops = Math.random() > 0.6 ? 3 : 2;
+                        const shuffled = [...extractedColors].sort(() => 0.5 - Math.random());
+                        const selected = shuffled.slice(0, numStops);
+
+                        // Sort by luminance for a smoother natural gradient usually, or just random
+                        // Let's sort by luminance to be safe/pleasing often
+                        selected.sort((a, b) => chroma(b).luminance() - chroma(a).luminance());
+
+                        const stops: ColorStop[] = selected.map((color, idx) => ({
+                            color,
+                            position: idx === 0 ? 0 : idx === selected.length - 1 ? 100 : 50
+                        }));
+                        newGradients.push(stops);
+                    }
+
+                    setGeneratedGradients(newGradients);
+                    setColorStops(newGradients[0]); // Auto-load first one
+                }
+            } catch (e) {
+                console.error("Failed to extract colors", e);
+            } finally {
+                setLoading(false);
+                URL.revokeObjectURL(objectUrl);
+            }
+        };
+
+        img.onerror = () => {
+            setLoading(false);
+            URL.revokeObjectURL(objectUrl);
+        };
+    };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files?.[0]) processImage(e.target.files[0]);
+    };
 
     // --- Visual Editor Logic ---
     const gradientString = colorStops
@@ -195,6 +258,54 @@ export function GradientGenerator() {
 
     return (
         <div className="flex h-full w-full flex-col p-6 space-y-8 bg-slate-50 dark:bg-slate-900 overflow-y-auto">
+            {/* Header / Upload Section */}
+            <div className="mx-auto w-full max-w-5xl flex flex-col md:flex-row gap-6 items-center justify-between p-6 bg-white dark:bg-slate-950 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-800 shadow-sm">
+                <div className="space-y-2 text-center md:text-left">
+                    <h3 className="text-xl font-bold flex items-center gap-2 justify-center md:justify-start text-slate-900 dark:text-white">
+                        <ImageIcon className="w-5 h-5 text-blue-500" /> Generate from Image
+                    </h3>
+                    <p className="text-slate-500 text-sm">
+                        Upload an image to extract a palette and generate 5 unique gradients.
+                    </p>
+                </div>
+
+                <div className="flex gap-4">
+                    <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                    />
+                    <Button size="lg" onClick={() => fileInputRef.current?.click()} disabled={loading}>
+                        {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Upload className="mr-2 h-4 w-4" />}
+                        {loading ? "Extracting..." : "Upload Image"}
+                    </Button>
+                </div>
+            </div>
+
+            {/* Generated Gradients List */}
+            {generatedGradients.length > 0 && (
+                <div className="mx-auto w-full max-w-5xl">
+                    <p className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4 ml-2">Generated Presets</p>
+                    <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                        {generatedGradients.map((stops, i) => {
+                            const bg = `linear-gradient(135deg, ${stops.map(s => `${s.color} ${s.position}%`).join(', ')})`;
+                            return (
+                                <button
+                                    key={i}
+                                    className="aspect-video w-full rounded-xl shadow-sm border-2 border-transparent hover:border-blue-500 transition-all hover:scale-105 active:scale-95 group relative overflow-hidden"
+                                    style={{ background: bg }}
+                                    onClick={() => setColorStops(stops)}
+                                >
+                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
+                                </button>
+                            )
+                        })}
+                    </div>
+                </div>
+            )}
+
             <div className="mx-auto w-full max-w-5xl space-y-2 rounded-2xl border-2 bg-white p-6 shadow-sm">
                 <div className="flex flex-wrap justify-center gap-12">
                     {/* Canvas Preview */}
@@ -342,6 +453,14 @@ export function GradientGenerator() {
                                 >
                                     <Copy className="h-4 w-4" />
                                 </Button>
+                                <ExportDialog
+                                    colors={colorStops.map((s, i) => ({
+                                        hex: s.color,
+                                        name: getColorName(s.color),
+                                        id: `stop-${i}`
+                                    }))}
+                                    paletteName="Gradient Palette"
+                                />
                                 <Button onClick={downloadJPG} className="h-12">
                                     Download JPG
                                 </Button>

@@ -49,11 +49,11 @@ export default function BrandScalePage() {
                     </div>
 
                     <div className="text-center space-y-4 mb-10">
-                        <h1 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight">
+                        <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">
                             Brand Scale Generator
                         </h1>
-                        <p className="text-slate-400 max-w-2xl mx-auto text-lg">
-                            Create consistent color scales for your design system. Upload an image to extract a palette or pick colors manually.
+                        <p className="text-slate-600 max-w-2xl mx-auto text-lg">
+                            Create consistent colour scales for your design system. Upload an image to extract a palette or pick colours manually.
                         </p>
                     </div>
 

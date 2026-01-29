@@ -7,6 +7,7 @@ import { Copy, RefreshCw, Upload, ImageIcon, Loader2, Download } from "lucide-re
 import { ExportDialog } from "@/components/export-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { getColorName } from "@/lib/naming";
 
 interface GradientStep {
     stop: number;
@@ -190,6 +191,9 @@ ${scales.map((s, i) => getScaleConfig(s, i)).join('\n')}
                                         onChange={(e) => updateBaseColor(scale.id, e.target.value)}
                                         className="w-10 h-10 p-1 rounded-lg cursor-pointer"
                                     />
+                                    <div className="text-sm">
+                                        <span className="font-bold text-slate-900 dark:text-slate-100">{getColorName(scale.baseColor)}</span>
+                                    </div>
                                 </div>
                             </div>
 
@@ -207,7 +211,7 @@ ${scales.map((s, i) => getScaleConfig(s, i)).join('\n')}
                                         {step.stop}
                                     </span>
                                     <span className={`text-[10px] uppercase opacity-0 group-hover:opacity-100 transition-opacity absolute bottom-2 ${chroma.contrast(step.hex, 'white') > 4.5 ? 'text-white' : 'text-slate-900'}`}>
-                                        {step.hex}
+                                        {getColorName(step.hex)}
                                     </span>
                                 </div>
                             ))}
@@ -228,7 +232,7 @@ ${scales.map((s, i) => getScaleConfig(s, i)).join('\n')}
                             name: `Scale ${i + 1} (${scale.baseColor})`,
                             colors: scale.steps.map(s => ({
                                 hex: s.hex,
-                                name: `${s.stop}`,
+                                name: `${s.stop} - ${getColorName(s.hex)}`,
                                 value: s.stop.toString(),
                                 id: `${scale.id}-${s.stop}`
                             }))

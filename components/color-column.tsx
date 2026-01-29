@@ -53,7 +53,7 @@ export function ColorColumn({ color, index }: ColorColumnProps) {
                         "rounded-full p-3 transition-colors hover:bg-white/20 active:scale-95",
                         color.locked ? "opacity-100" : "opacity-70 hover:opacity-100"
                     )}
-                    aria-label={color.locked ? "Unlock color" : "Lock color"}
+                    aria-label={color.locked ? "Unlock colour" : "Lock colour"}
                 >
                     {color.locked ? (
                         <Lock className={cn("h-6 w-6", iconColor)} />
@@ -82,7 +82,7 @@ export function ColorColumn({ color, index }: ColorColumnProps) {
 
             {/* Semantic Name (Placeholder for now) */}
             <div className={cn("absolute bottom-12 text-sm font-medium opacity-80 md:bottom-24", textColor)}>
-                {color.name || "Color " + (index + 1)}
+                {color.name || "Colour " + (index + 1)}
             </div>
         </div>
     );

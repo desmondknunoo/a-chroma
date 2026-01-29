@@ -40,10 +40,10 @@ export function Sandbox() {
                             v2.0 Released
                         </Badge>
                         <h1 className="text-4xl font-extrabold tracking-tight sm:text-6xl">
-                            Build Faster with <span style={{ color: highlight.hex }}>Color</span>.
+                            Build Faster with <span style={{ color: highlight.hex }}>Colour</span>.
                         </h1>
                         <p className="mx-auto max-w-2xl text-lg opacity-90">
-                            This is how your primary color looks in a hero section.
+                            This is how your primary colour looks in a hero section.
                             We automatically check contrast to ensure readability.
                         </p>
                         <div className="flex justify-center gap-4 pt-4">

@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "A-Chroma | Next-Gen Color Suite",
-  description: "The ultimate color palette generator. Generate, extract, and visualize colors with AI.",
+  title: "A-Chroma | Next-Gen Colour Suite",
+  description: "The ultimate colour palette generator. Generate, extract, and visualize colours with AI.",
 };
 
 export default function RootLayout({

@@ -107,7 +107,7 @@ export default function Home() {
               {/* 2. Palette Generator & Image Picker */}
               <FeatureCard
                 title="Palette Generator & Image Picker"
-                desc="Create beautiful color schemes in seconds with the worldwide loved palette tool. Just hit the spacebar! Also, extract beautiful colors from your photos and turn them into palettes."
+                desc="Create beautiful colour schemes in seconds with the worldwide loved palette tool. Just hit the spacebar! Also, extract beautiful colours from your photos and turn them into palettes."
                 action="Start the Generator"
                 color="bg-cyan-100/80 hover:bg-cyan-200/80"
                 href="/generator"
@@ -117,7 +117,7 @@ export default function Home() {
               {/* 3. Brand Scale Generator */}
               <FeatureCard
                 title="Brand Scale Generator"
-                desc="Generate consistent 5-step color scales for your design system. Upload an image to extract a full palette instantly."
+                desc="Generate consistent 5-step colour scales for your design system. Upload an image to extract a full palette instantly."
                 action="Create Brand Scales"
                 color="bg-purple-100/80 hover:bg-purple-200/80"
                 href="/brand-scale"

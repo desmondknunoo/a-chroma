@@ -1,16 +1,21 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ArrowRight, Palette, Layers, Zap, Globe, Eye, Layout, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowRight, ArrowLeft, Palette, Layers, Zap, Globe, Eye, Layout, ShieldCheck, Sparkles } from "lucide-react";
 
 export default function AboutPage() {
     return (
         <div className="bg-white min-h-screen">
+            <div className="max-w-4xl mx-auto px-6 md:px-12 pt-8">
+                <Link href="/" className="inline-flex items-center text-slate-500 hover:text-slate-900 transition-colors">
+                    <ArrowLeft className="w-4 h-4 mr-2" /> Back to Home
+                </Link>
+            </div>
             {/* Hero Section */}
             <div className="relative py-24 px-6 md:px-12 bg-slate-50 overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-100/50 via-transparent to-transparent" />
                 <div className="mx-auto max-w-4xl text-center relative z-10">
                     <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 mb-6 italic">
-                        A-Chroma: The New Standard in <span className="text-blue-600">Color Intelligence</span>
+                        A-Chroma: The New Standard in <span className="text-blue-600">Colour Intelligence</span>
                     </h1>
                     <p className="text-xl text-slate-600 leading-relaxed mb-10 max-w-3xl mx-auto">
                         A-Chroma stands as the foundational pillar of the Achendo Suite, engineered specifically for those who demand both lightning speed and surgical precision in their creative workflow.
@@ -45,9 +50,9 @@ export default function AboutPage() {
                         <Layers className="w-32 h-32 text-purple-600 relative z-10" />
                     </div>
                     <div className="order-1 md:order-2 space-y-6">
-                        <h2 className="text-3xl font-bold text-slate-900 tracking-tight">Beyond Static Color</h2>
+                        <h2 className="text-3xl font-bold text-slate-900 tracking-tight">Beyond Static Colour</h2>
                         <p className="text-lg text-slate-600 leading-relaxed">
-                            Beyond static color blocks, A-Chroma empowers you to transcend traditional design with its dedicated gradient engine. It effortlessly transforms flat colors into dynamic linear, radial, and trendy mesh gradients with a single click. These transitions are calculated for maximum smoothness across OLED and high-resolution displays.
+                            Beyond static colour blocks, A-Chroma empowers you to transcend traditional design with its dedicated gradient engine. It effortlessly transforms flat colours into dynamic linear, radial, and trendy mesh gradients with a single click. These transitions are calculated for maximum smoothness across OLED and high-resolution displays.
                         </p>
                         <p className="text-lg text-slate-600 leading-relaxed">
                             The software also bridges the gap between the physical and digital worlds through its intelligent image-to-palette extraction feature. By simply dragging a photograph into the workspace, A-Chroma analyzes the pixel data to isolate dominant and accent hues. This effectively distills the atmosphere of a sunset, a piece of street art, or a landscape into a usable brand kit.
@@ -63,7 +68,7 @@ export default function AboutPage() {
                             For those moments when you need a spark of external inspiration, A-Chroma offers a gateway to explore millions of popular, community-curated palettes. You can dive into a global library of trending schemes used by top-tier agencies and independent professionals alike. This collective intelligence ensures you stay ahead of the curve.
                         </p>
                         <p className="text-lg text-slate-600 leading-relaxed">
-                            Accessibility is a non-negotiable standard within the Achendo ecosystem, and A-Chroma reflects this through its robust WCAG compliance tools. Every palette you generate is automatically audited for contrast ratios and legibility in real-time. This ensures your designs are inclusive and readable for all users, including those with color vision deficiencies.
+                            Accessibility is a non-negotiable standard within the Achendo ecosystem, and A-Chroma reflects this through its robust WCAG compliance tools. Every palette you generate is automatically audited for contrast ratios and legibility in real-time. This ensures your designs are inclusive and readable for all users, including those with colour vision deficiencies.
                         </p>
                     </div>
                     <div className="bg-slate-50 rounded-[2.5rem] p-12 aspect-square flex items-center justify-center relative group">

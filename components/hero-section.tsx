@@ -22,11 +22,11 @@ export function HeroSection01() {
             Actually, the user said "Copy-paste this component". I will adhere to that strictly.
         */}
                 <h2 className="font-extrabold pt-10 text-black mix-blend-overlay tracking-tighter text-6xl md:text-7xl lg:text-8xl leading-none">
-                    Generate a color palette <br /> in seconds!
+                    Generate a colour palette <br /> in seconds!
                 </h2>
                 <div className="space-y-6 z-10 pt-20 flex justify-center items-center flex-col text-center px-6">
                     <p className="text-black w-full  max-w-2xl font-light text-sm md:text-xl">
-                        Design your ideal palette in seconds or spark new ideas from a vast library of stunning color combinations.
+                        Design your ideal palette in seconds or spark new ideas from a vast library of stunning colour combinations.
                     </p>
                     <div className="flex gap-3 mt-6 flex-wrap justify-center">
                         {/* Start Generator - This should link to /generator now */}

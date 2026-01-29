@@ -38,15 +38,15 @@ export default function ColorDetailsPage() {
     const colorInfo = useMemo(() => {
         return colorsData.find(c => c.hex.toLowerCase() === hex.toLowerCase()) || {
             hex: hex,
-            name: "Custom Color",
-            shortDescription: "A custom selected color from the A-Chroma engine.",
-            description: "This color has been generated or selected. It represents a unique point in the color space, offering its own distinct psychological and visual impact.",
+            name: "Custom Colour",
+            shortDescription: "A custom selected colour from the A-Chroma engine.",
+            description: "This colour has been generated or selected. It represents a unique point in the colour space, offering its own distinct psychological and visual impact.",
             psychology: "Psychology varies based on local culture and personal association. Generally, this hue contributes to the overall mood of a design in its own specific way.",
-            meaning: "Meanings are often subjective, but this color can represent a wide range of emotions and concepts depending on its context.",
+            meaning: "Meanings are often subjective, but this colour can represent a wide range of emotions and concepts depending on its context.",
             usage: "Ideal for various design applications where this specific tone is required to balance or accent other elements.",
             applications: "UI design, branding, digital art, and more.",
-            history: "Colors have been used throughout history in various forms, from natural pigments to modern digital displays.",
-            accessibility: "Always check contrast ratios when pairing this color with text to ensure readability and inclusivity."
+            history: "Colours have been used throughout history in various forms, from natural pigments to modern digital displays.",
+            accessibility: "Always check contrast ratios when pairing this colour with text to ensure readability and inclusivity."
         };
     }, [hex]);
 
@@ -110,12 +110,13 @@ export default function ColorDetailsPage() {
                         <div className="flex gap-4">
                             <ExportDialog
                                 groups={[
-                                    { name: "Main Color", colors: [{ hex: `#${hex}`, name: colorInfo.name, value: c.css('oklch'), id: '1' }] },
+                                    { name: "Main Colour", colors: [{ hex: `#${hex}`, name: colorInfo.name, value: c.css('oklch'), id: '1' }] },
                                     { name: "Shades", colors: shades },
                                     { name: "Tints", colors: tints },
                                     { name: "Tones", colors: tones },
                                     { name: "Harmonies", colors: harmonies }
                                 ]}
+                                allowedFileTypes={['pdf']}
                                 paletteName={colorInfo.name}
                                 trigger={
                                     <Button size="lg" className="w-full font-bold shadow-xl" style={{ backgroundColor: `#${hex}`, color: textColor.includes('slate-900') ? 'black' : 'white' }}>
@@ -173,7 +174,7 @@ export default function ColorDetailsPage() {
 
                         <section className="space-y-6">
                             <h3 className="text-3xl font-bold text-slate-900 flex items-center">
-                                <Zap className="w-6 h-6 mr-3 text-orange-500" /> Why use this color
+                                <Zap className="w-6 h-6 mr-3 text-orange-500" /> Why use this colour
                             </h3>
                             <div className="text-lg text-slate-600 leading-relaxed whitespace-pre-line prose prose-slate max-w-none font-medium">
                                 <FormatText text={colorInfo.usage} />
@@ -223,7 +224,7 @@ export default function ColorDetailsPage() {
 
                 {/* Variations */}
                 <section className="mb-24 space-y-12">
-                    <h3 className="text-4xl font-bold text-slate-900 text-center">Color Variations</h3>
+                    <h3 className="text-4xl font-bold text-slate-900 text-center">Colour Variations</h3>
 
                     <div className="space-y-8">
                         <div>
@@ -267,7 +268,7 @@ export default function ColorDetailsPage() {
 
                 {/* Harmonies */}
                 <section className="mb-24 py-20 bg-slate-50 rounded-[3rem] px-12">
-                    <h3 className="text-4xl font-bold text-slate-900 text-center mb-16">Color Harmonies</h3>
+                    <h3 className="text-4xl font-bold text-slate-900 text-center mb-16">Colour Harmonies</h3>
                     <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
                         {harmonies.map((h, i) => (
                             <div key={i} className="space-y-4">
