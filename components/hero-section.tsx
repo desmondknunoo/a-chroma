@@ -25,8 +25,8 @@ export function HeroSection01() {
                     Generate a colour palette <br /> in seconds!
                 </h2>
                 <div className="space-y-6 z-10 pt-20 flex justify-center items-center flex-col text-center px-6">
-                    <p className="text-black w-full  max-w-2xl font-light text-sm md:text-xl">
-                        Design your ideal palette in seconds or spark new ideas from a vast library of stunning colour combinations.
+                    <p className="text-black w-full  max-w-3xl font-light text-sm md:text-xl leading-relaxed">
+                        Instantly craft your perfect palette, or ignite your creativity with our extensive library of professionally curated colour harmonies.
                     </p>
                     <div className="flex gap-3 mt-6 flex-wrap justify-center">
                         {/* Start Generator - This should link to /generator now */}

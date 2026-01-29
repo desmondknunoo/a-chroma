@@ -117,7 +117,7 @@ export function ExportDialog({ colors: overrideColors, groups: overrideGroups, t
 
         // Watermark function
         const addWatermark = () => {
-            const watermarkText = "Generated with A-Chroma on achendo.com";
+            const watermarkText = "Generated with A-Chroma by achendo.com";
             doc.setFontSize(10);
             doc.setTextColor(150);
             doc.textWithLink(watermarkText, 10, 287, { url: "https://achendo.com/" });
@@ -272,7 +272,7 @@ export function ExportDialog({ colors: overrideColors, groups: overrideGroups, t
         ctx.font = '20px sans-serif';
         ctx.fillStyle = '#999999';
         ctx.textAlign = 'center';
-        ctx.fillText("Generated with A-Chroma on achendo.com", width / 2, canvas.height - 30);
+        ctx.fillText("Generated with A-Chroma by achendo.com", width / 2, canvas.height - 30);
 
         const link = document.createElement('a');
         const filename = paletteName ? `A-Chroma - ${paletteName}.${type}` : `A-Chroma - Palette.${type}`;

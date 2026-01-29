@@ -25,10 +25,29 @@ interface FooterLinkGroup {
 
 type StickyFooterProps = React.ComponentProps<'footer'>;
 
+import { getDailyColor } from '@/lib/daily-color';
+
+// ... other imports
+
 export function StickyFooter({ className, ...props }: StickyFooterProps) {
+    const dailyColor = getDailyColor();
+
+    const footerLinkGroups: FooterLinkGroup[] = [
+        {
+            label: 'Features',
+            links: [
+                { title: 'Colour of the Day', href: `/color/${dailyColor.hex}` },
+                { title: 'Palette Generator & Image Picker', href: '/generator' },
+                { title: 'Brand Scale Generator', href: '/brand-scale' },
+                { title: 'Visual Gradient Editor', href: '/gradient' },
+            ],
+        },
+    ];
+
     return (
         <footer
             className={cn('relative h-[720px] w-full', className)}
+            // ... rest of component
             style={{ clipPath: 'polygon(0% 0, 100% 0%, 100% 100%, 0 100%)' }}
             {...props}
         >
@@ -102,35 +121,7 @@ const socialLinks = [
     { title: 'LinkedIn', href: '#', icon: LinkedinIcon },
 ];
 
-const footerLinkGroups: FooterLinkGroup[] = [
-    {
-        label: 'Products',
-        links: [
-            { title: 'Palette Generator', href: '/generator' },
-            { title: 'Brand Scale', href: '/brand-scale' },
-            { title: 'Gradient Studio', href: '/gradient' },
-            { title: 'Contrast Checker', href: '/contrast-checker' },
-        ],
-    },
-    {
-        label: 'Resources',
-        links: [
-            { title: 'Colour Theory', href: '/color-theory' },
-            { title: 'Accessibility', href: '/accessibility' },
-            { title: 'Blog', href: '/blog' },
-            { title: 'Community', href: '/community' },
-        ],
-    },
-    {
-        label: 'Company',
-        links: [
-            { title: 'About Us', href: '/about' },
-            { title: 'Privacy Policy', href: '/privacy' },
-            { title: 'Terms of Service', href: '/terms' },
-            { title: 'Contact Us', href: '/contact' },
-        ],
-    },
-];
+
 
 type AnimatedContainerProps = React.ComponentProps<typeof motion.div> & {
     children?: React.ReactNode;

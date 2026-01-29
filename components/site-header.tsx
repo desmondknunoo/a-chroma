@@ -21,13 +21,9 @@ export function SiteHeader() {
                 </Link>
                 <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
                     <nav className="flex items-center space-x-4">
-                        <div className="hidden text-sm text-muted-foreground md:block">
-                            Press Spacebar to Generate
-                        </div>
+
                         {!isHome && <ExportDialog />}
-                        <Button variant="ghost" size="icon" aria-label="Adjust Palette" title="Adjust (Coming Soon)">
-                            <Sliders className="h-5 w-5" />
-                        </Button>
+
 
 
                     </nav>
