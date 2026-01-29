@@ -39,7 +39,7 @@ export function ImageExtractor({ onComplete }: { onComplete: () => void }) {
                             id: Math.random().toString(36).substring(2, 9) + Date.now().toString(36),
                             hex: hex,
                             value: `oklch(${l.toFixed(3)} ${ch.toFixed(3)} ${h || 0})`,
-                            locked: true,
+                            locked: false,
                             name: getColorName(hex)
                         };
                     });
@@ -55,7 +55,7 @@ export function ImageExtractor({ onComplete }: { onComplete: () => void }) {
                             id: Math.random().toString(36).substring(2, 9) + Date.now().toString(36),
                             hex: hex,
                             value: `oklch(${l.toFixed(3)} ${ch.toFixed(3)} ${h || 0})`,
-                            locked: true,
+                            locked: false,
                             name: getColorName(hex)
                         });
                     }

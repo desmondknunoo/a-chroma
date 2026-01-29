@@ -35,12 +35,14 @@ export function HeroSection01() {
                                 Start Generator
                             </Button>
                         </Link>
-                        <Button
-                            variant={"secondary"}
-                            className="h-12 md:h-14 cursor-pointer rounded-full px-8 md:px-10"
-                        >
-                            Get Started Explore
-                        </Button>
+                        <Link href="/gradient">
+                            <Button
+                                variant={"secondary"}
+                                className="h-12 md:h-14 cursor-pointer rounded-full px-8 md:px-10"
+                            >
+                                Create Gradient
+                            </Button>
+                        </Link>
                     </div>
                 </div>
             </div>

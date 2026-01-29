@@ -77,7 +77,7 @@ export default function ColorDetailsPage() {
         { label: "Analogous 2", color: c.set('hsl.h', (c.get('hsl.h') - 30 + 360) % 360).hex() },
         { label: "Triadic 1", color: c.set('hsl.h', (c.get('hsl.h') + 120) % 360).hex() },
         { label: "Triadic 2", color: c.set('hsl.h', (c.get('hsl.h') + 240) % 360).hex() }
-    ].map(h => ({ ...h, name: getColorName(h.color) }));
+    ].map(h => ({ ...h, hex: h.color, name: getColorName(h.color) }));
 
     return (
         <div className="min-h-screen bg-white">
@@ -109,7 +109,13 @@ export default function ColorDetailsPage() {
 
                         <div className="flex gap-4">
                             <ExportDialog
-                                colors={[{ hex: `#${hex}`, name: colorInfo.name, value: c.css('oklch'), id: '1', locked: false }]}
+                                groups={[
+                                    { name: "Main Color", colors: [{ hex: `#${hex}`, name: colorInfo.name, value: c.css('oklch'), id: '1' }] },
+                                    { name: "Shades", colors: shades },
+                                    { name: "Tints", colors: tints },
+                                    { name: "Tones", colors: tones },
+                                    { name: "Harmonies", colors: harmonies }
+                                ]}
                                 paletteName={colorInfo.name}
                                 trigger={
                                     <Button size="lg" className="w-full font-bold shadow-xl" style={{ backgroundColor: `#${hex}`, color: textColor.includes('slate-900') ? 'black' : 'white' }}>

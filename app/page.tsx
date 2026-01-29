@@ -83,7 +83,7 @@ export default function Home() {
         {/* Feature Grid */}
         <div className="bg-white py-24 px-6 md:px-12 relative z-20">
           <div className="mx-auto max-w-7xl">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
               {/* 1. Daily Color Card */}
               <Link href={`/color/${dailyColor.hex}`} className="block h-full">
@@ -113,11 +113,21 @@ export default function Home() {
                 href="/generator"
               />
 
-              {/* 3. Gradient Generator */}
+
+              {/* 3. Brand Scale Generator */}
               <FeatureCard
-                title="Gradient Generator"
-                desc="Create 5-step custom gradients for your Tailwind projects. Perfect for generating brand scales."
-                action="Start Gradient Maker"
+                title="Brand Scale Generator"
+                desc="Generate consistent 5-step color scales for your design system. Upload an image to extract a full palette instantly."
+                action="Create Brand Scales"
+                color="bg-purple-100/80 hover:bg-purple-200/80"
+                href="/brand-scale"
+              />
+
+              {/* 4. Gradient Visual Editor */}
+              <FeatureCard
+                title="Visual Gradient Editor"
+                desc="Design advanced linear and radial gradients with noise. Export to CSS or Image for your projects."
+                action="Open Visual Editor"
                 color="bg-orange-100/80 hover:bg-orange-200/80"
                 href="/gradient"
               />

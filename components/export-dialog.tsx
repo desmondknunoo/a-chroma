@@ -6,49 +6,89 @@ import { useColorStore } from "@/lib/store";
 import { useState } from "react";
 import jsPDF from "jspdf";
 
+interface ColorItem {
+    hex: string;
+    name?: string;
+    value?: string;
+    id?: string;
+    locked?: boolean;
+}
+
 interface ExportDialogProps {
-    colors?: { hex: string; name?: string; value?: string; id?: string; locked?: boolean }[];
+    colors?: ColorItem[];
+    groups?: { name: string; colors: ColorItem[] }[];
     trigger?: React.ReactNode;
     paletteName?: string;
 }
 
-export function ExportDialog({ colors: overrideColors, trigger, paletteName }: ExportDialogProps = {}) {
+export function ExportDialog({ colors: overrideColors, groups: overrideGroups, trigger, paletteName }: ExportDialogProps = {}) {
     const { colors: storeColors } = useColorStore();
-    const colors = overrideColors || storeColors;
+
+    // Normalize data into groups
+    const groups = overrideGroups || [
+        { name: "Palette", colors: overrideColors || storeColors }
+    ];
+
+    // Flatten for simple counts or legacy access if needed, though we should use groups primarily
+    const allColors = groups.flatMap(g => g.colors);
+
     const [copied, setCopied] = useState<string | null>(null);
 
     // --- Formats ---
 
     const getCSSVars = () => {
-        return `:root {
-${colors.map((c, i) => `  --color-${i + 1}: ${c.hex};`).join('\n')}
-  /* Semantic Names */
-${colors.map((c, i) => `  --${c.name?.toLowerCase().replace(/\s/g, '-') || `color-${i}`}: ${c.hex};`).join('\n')}
-}`;
+        let scss = `:root {\n`;
+        groups.forEach(group => {
+            scss += `  /* ${group.name} */\n`;
+            group.colors.forEach((c, i) => {
+                const safeName = c.name?.toLowerCase().replace(/[^a-z0-9]/g, '-') || `color-${i}`;
+                scss += `  --${safeName}: ${c.hex};\n`;
+            });
+            scss += `\n`;
+        });
+        scss += `}`;
+        return scss;
     };
 
     const getTailwindConfig = () => {
-        return `module.exports = {
-  theme: {
-    extend: {
-      colors: {
-        brand: {
-${colors.map((c, i) => `          ${i + 1}00: '${c.hex}',`).join('\n')}
-        }
-      }
-    }
-  }
-}`;
+        let config = `module.exports = {\n  theme: {\n    extend: {\n      colors: {\n`;
+
+        groups.forEach(group => {
+            const groupSlug = group.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+            config += `        // ${group.name}\n`;
+            config += `        ${groupSlug}: {\n`;
+            group.colors.forEach((c, i) => {
+                const nameKey = (c.name?.toLowerCase().match(/^[a-z0-9]+$/) ? c.name.toLowerCase() : undefined) || (i + 1) * 100;
+                config += `          '${nameKey}': '${c.hex}',\n`;
+            });
+            config += `        },\n`;
+        });
+
+        config += `      }\n    }\n  }\n}`;
+        return config;
     };
 
-    const getJSON = () => JSON.stringify(colors.map(c => ({ name: c.name, hex: c.hex, oklch: c.value })), null, 2);
+    const getJSON = () => {
+        const data = groups.length === 1 && groups[0].name === "Palette"
+            ? groups[0].colors.map(c => ({ name: c.name, hex: c.hex, oklch: c.value }))
+            : groups.map(g => ({
+                group: g.name,
+                colors: g.colors.map(c => ({ name: c.name, hex: c.hex, oklch: c.value }))
+            }));
+        return JSON.stringify(data, null, 2);
+    };
 
     const getSVG = () => {
         const width = 1000;
-        const height = 200;
-        const barWidth = width / colors.length;
+        const totalColors = allColors.length;
+        // Simple SVG just shows all colors in a row for now, or we could stack rows.
+        // For simplicity let's keep it as flat bar but maybe segmented?
+        // Let's stick to flat bar of ALL colors for the simple SVG export.
 
-        const rects = colors.map((c, i) =>
+        const height = 200;
+        const barWidth = width / totalColors;
+
+        const rects = allColors.map((c, i) =>
             `<rect x="${i * barWidth}" y="0" width="${barWidth}" height="${height}" fill="${c.hex}" />`
         ).join('');
 
@@ -65,85 +105,190 @@ ${colors.map((c, i) => `          ${i + 1}00: '${c.hex}',`).join('\n')}
 
     const downloadPDF = () => {
         const doc = new jsPDF();
-        const height = 297;
-        const barHeight = 40;
+        // A4 size: 210mm x 297mm
+        // Let's create a layout that handles groups vertically.
+
+        let y = 20;
 
         doc.setFontSize(24);
-        doc.text(paletteName ? `A-Chroma: ${paletteName}` : "A-Chroma Palette", 10, 20);
+        doc.text(paletteName ? `A-Chroma: ${paletteName}` : "A-Chroma Palette", 10, y);
+        y += 10;
 
-        colors.forEach((c, i) => {
-            const y = 40 + (i * 45);
-            doc.setFillColor(c.hex);
-            doc.rect(10, y, 50, barHeight, 'F');
-
-            doc.setFontSize(14);
-            doc.text(c.name || 'Color', 70, y + 15);
+        // Watermark function
+        const addWatermark = () => {
+            const watermarkText = "Generated with A-Chroma on achendo.com/a-chroma";
             doc.setFontSize(10);
-            doc.setTextColor(100);
-            doc.text(c.hex.toUpperCase(), 70, y + 25);
-            doc.text(c.value || '', 70, y + 32);
-        });
+            doc.setTextColor(150);
+            doc.textWithLink(watermarkText, 10, 287, { url: "https://achendo.com/a-chroma" });
+            doc.setTextColor(0); // Reset
+        };
 
-        // Watermark
-        const watermarkText = "Generated with A-Chroma on achendo.com/a-chroma";
-        doc.setFontSize(12);
-        doc.setTextColor(150);
-        doc.textWithLink(watermarkText, 10, height - 10, { url: "https://achendo.com/a-chroma" });
+        addWatermark();
+
+        groups.forEach((group) => {
+            // Check for page break
+            if (y > 250) {
+                doc.addPage();
+                y = 20;
+                addWatermark();
+            }
+
+            // Group Title
+            if (groups.length > 1) {
+                y += 10;
+                doc.setFontSize(14);
+                doc.setFont("helvetica", 'bold');
+                doc.text(group.name, 10, y);
+                doc.setFont("helvetica", 'normal');
+                y += 10;
+            }
+
+
+
+            // Grid layout for colors? Or list?
+            // Let's do a compact list or 2-column if many colors
+            // Simple list for daily color (which has ~35 colors total with vars) - might trigger many pages.
+            // Let's do 2 columns
+
+            const colWidth = 90;
+
+            group.colors.forEach((c, i) => {
+                if (y > 270) {
+                    doc.addPage();
+                    y = 20;
+                    addWatermark();
+                }
+
+                const col = i % 2;
+                const x = 10 + (col * colWidth);
+
+                // Draw color box
+                doc.setFillColor(c.hex);
+                doc.rect(x, y, 15, 15, 'F');
+
+                // Text details
+                doc.setFontSize(11);
+                doc.text(c.name || 'Color', x + 20, y + 6);
+
+                doc.setFontSize(9);
+                doc.setTextColor(100);
+                doc.text(`${c.hex.toUpperCase()}`, x + 20, y + 13);
+                doc.setTextColor(0);
+
+                if (col === 1) {
+                    y += 20;
+                }
+            });
+            // If ended on left column, move down for next group
+            if (group.colors.length % 2 !== 0) {
+                y += 20;
+            }
+        });
 
         const filename = paletteName ? `A-Chroma - ${paletteName}.pdf` : `A-Chroma - Palette.pdf`;
         doc.save(filename);
     };
 
-    const downloadSVG = () => {
-        const blob = new Blob([getSVG()], { type: 'image/svg+xml' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'palette.svg';
-        a.click();
-        URL.revokeObjectURL(url);
-    };
-
     const downloadImage = (type: 'png' | 'jpeg') => {
         const canvas = document.createElement('canvas');
-        canvas.width = 1000;
-        canvas.height = 350; // Extra space for names and footer
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
+
+        // Calculate needed height
+        // Header: 100px
+        // For each group:
+        //   Title: 60px
+        //   Rows of colors: Math.ceil(colors.length / 5) * 120px (Grid 5 wide)
+        // Footer: 60px
+
+        const width = 1200;
+        const cols = 5;
+        const boxHeight = 140;
+        const boxWidth = width / cols;
+        const headerHeight = 120;
+        const groupTitleHeight = 80;
+        const footerHeight = 80;
+
+        let totalHeight = headerHeight + footerHeight;
+        groups.forEach(g => {
+            if (groups.length > 1) totalHeight += groupTitleHeight;
+            const rows = Math.ceil(g.colors.length / cols);
+            totalHeight += rows * boxHeight;
+        });
+
+        canvas.width = width;
+        canvas.height = totalHeight;
 
         // Background
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        const barWidth = 1000 / colors.length;
+        // Header
+        ctx.fillStyle = '#000000';
+        ctx.font = 'bold 48px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(paletteName || "A-Chroma Palette", 50, 70);
 
-        colors.forEach((c, i) => {
-            // Color Bar
-            ctx.fillStyle = c.hex;
-            ctx.fillRect(i * barWidth, 0, barWidth, 200);
+        let y = headerHeight;
 
-            // Text
-            ctx.fillStyle = '#000000';
-            ctx.font = 'bold 16px sans-serif';
-            ctx.textAlign = 'center';
-            ctx.fillText(c.name || '', i * barWidth + barWidth / 2, 240);
+        groups.forEach(group => {
+            if (groups.length > 1) {
+                // Group Title
+                ctx.fillStyle = '#333333';
+                ctx.font = 'bold 32px sans-serif';
+                ctx.textAlign = 'left';
+                ctx.fillText(group.name, 50, y - 30);
+                y += 0; // consumed by title height mostly added before
+            }
 
-            ctx.font = '14px monospace';
-            ctx.fillStyle = '#666666';
-            ctx.fillText(c.hex.toUpperCase(), i * barWidth + barWidth / 2, 265);
+            group.colors.forEach((c, i) => {
+                const col = i % cols;
+                const row = Math.floor(i / cols);
+                const x = col * boxWidth;
+                const currentY = y + (row * boxHeight);
+
+                // Draw Swatch
+                ctx.fillStyle = c.hex;
+                // Rect with padding
+                ctx.fillRect(x + 10, currentY, boxWidth - 20, 80);
+
+                // Text
+                ctx.fillStyle = '#000000';
+                ctx.font = 'bold 16px sans-serif';
+                ctx.textAlign = 'left';
+                ctx.fillText(c.name || '', x + 10, currentY + 110);
+
+                ctx.font = '14px monospace';
+                ctx.fillStyle = '#666666';
+                ctx.fillText(c.hex.toUpperCase(), x + 10, currentY + 130);
+            });
+
+            const rows = Math.ceil(group.colors.length / cols);
+            y += (rows * boxHeight) + (groups.length > 1 ? groupTitleHeight : 0);
         });
 
         // Watermark
-        ctx.font = '12px sans-serif';
+        ctx.font = '20px sans-serif';
         ctx.fillStyle = '#999999';
         ctx.textAlign = 'center';
-        ctx.fillText("Generated with A-Chroma on achendo.com/a-chroma", canvas.width / 2, 330);
+        ctx.fillText("Generated with A-Chroma on achendo.com/a-chroma", width / 2, canvas.height - 30);
 
         const link = document.createElement('a');
         const filename = paletteName ? `A-Chroma - ${paletteName}.${type}` : `A-Chroma - Palette.${type}`;
         link.download = filename;
-        link.href = canvas.toDataURL(`image/${type}`);
         link.click();
+    };
+
+    const downloadSVG = () => {
+        const svgContent = getSVG();
+        const blob = new Blob([svgContent], { type: 'image/svg+xml' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        const filename = paletteName ? `A-Chroma - ${paletteName}.svg` : `A-Chroma - Palette.svg`;
+        link.download = filename;
+        link.href = url;
+        link.click();
+        URL.revokeObjectURL(url);
     };
 
     return (
@@ -155,21 +300,21 @@ ${colors.map((c, i) => `          ${i + 1}00: '${c.hex}',`).join('\n')}
                     </Button>
                 )}
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[700px]">
+            <DialogContent className="sm:max-w-[700px] h-[80vh] flex flex-col">
                 <DialogHeader>
                     <DialogTitle>Export Palette</DialogTitle>
                     <DialogDescription>
                         Download your palette in various formats or copy code.
                     </DialogDescription>
                 </DialogHeader>
-                <Tabs defaultValue="code" className="w-full">
+                <Tabs defaultValue="code" className="w-full h-full flex flex-col">
                     <TabsList className="grid w-full grid-cols-2">
                         <TabsTrigger value="code">Code (CSS/JSON)</TabsTrigger>
                         <TabsTrigger value="file">Files (Images/PDF)</TabsTrigger>
                     </TabsList>
 
-                    <TabsContent value="code" className="space-y-4 pt-4">
-                        <div className="grid grid-cols-3 gap-2">
+                    <TabsContent value="code" className="space-y-4 pt-4 flex-1 flex flex-col min-h-0">
+                        <div className="grid grid-cols-3 gap-2 flex-none">
                             <Button variant="secondary" onClick={() => handleCopy(getCSSVars(), 'css')} className="justify-start">
                                 {copied === 'css' ? <Check className="mr-2 h-4 w-4 text-green-500" /> : <FileCode className="mr-2 h-4 w-4" />}
                                 {copied === 'css' ? 'Copied!' : 'Copy CSS'}
@@ -184,8 +329,8 @@ ${colors.map((c, i) => `          ${i + 1}00: '${c.hex}',`).join('\n')}
                             </Button>
                         </div>
 
-                        <div className="relative rounded-md bg-slate-950 p-4">
-                            <pre className="h-48 overflow-auto text-xs text-slate-50 font-mono scrollbar-thin">
+                        <div className="relative rounded-md bg-slate-950 p-4 flex-1 overflow-auto">
+                            <pre className="text-xs text-slate-50 font-mono scrollbar-thin whitespace-pre">
                                 {getCSSVars()}
                             </pre>
                         </div>
