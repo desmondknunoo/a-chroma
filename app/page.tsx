@@ -162,10 +162,8 @@ export default function Home() {
                         </div>
                     </section>
 
-                    {/* Section 3: Philosophy/Features - White/Glass bg */}
-                    <section className="bg-white/80 backdrop-blur-md">
-                        <FeaturesCards />
-                    </section>
+                    {/* Section 3: Philosophy/Features */}
+                    <FeaturesCards />
                 </main>
 
                 {/* Footer */}

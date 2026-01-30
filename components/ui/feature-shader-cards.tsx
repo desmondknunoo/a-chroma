@@ -88,17 +88,9 @@ export default function FeaturesCards() {
     }
 
     return (
-        <section className="py-32 px-6 border-y border-slate-100 bg-white">
+        <section className="pb-32 pt-16 px-6 border-y border-slate-100">
             <div className="max-w-7xl mx-auto">
-                <div className="text-center mb-16 space-y-4">
-                    <span className="text-blue-600 font-bold uppercase tracking-widest text-sm mb-4 block">A-Chroma Suite</span>
-                    <h2 className="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tighter mb-6">
-                        Precision Meets Intuition
-                    </h2>
-                    <p className="text-xl md:text-2xl text-slate-600 max-w-3xl mx-auto font-light leading-relaxed">
-                        Eliminating the friction between a creative spark and a finalized visual identity.
-                    </p>
-                </div>
+
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {features.map((feature, index) => {
