@@ -41,12 +41,8 @@ const features: Feature[] = [
 
 export default function FeaturesCards() {
     const getShaderConfig = (index: number) => {
-        // 0: Cyan/Teal (Spacebar Magic)
-        // 1: Purple (Visual Extraction)
-        // 2: Fuchsia/Pink (Brand Scale)
-        // 3: Orange/Yellow (Gradient Synthesis)
-
-        // Using HSL strings as per the library requirement
+        // Brand theme colors: Cyan #4EC7CB, Purple #8365C5, Orange #EFA128
+        // Using hex colors derived from brand palette
         const configs = [
             {
                 proportion: 0.3,
@@ -56,7 +52,7 @@ export default function FeaturesCards() {
                 swirlIterations: 8,
                 shape: "checks" as const,
                 shapeScale: 0.08,
-                colors: ["hsl(180, 100%, 30%)", "hsl(190, 100%, 60%)", "hsl(200, 90%, 40%)", "hsl(170, 100%, 70%)"], // Cyan
+                colors: ["#2A8A8E", "#4EC7CB", "#7DD8DB", "#A8E8EA"], // Cyan theme
             },
             {
                 proportion: 0.4,
@@ -64,9 +60,9 @@ export default function FeaturesCards() {
                 distortion: 0.2,
                 swirl: 0.9,
                 swirlIterations: 12,
-                shape: "dots" as const,
+                shape: "stripes" as const,
                 shapeScale: 0.12,
-                colors: ["hsl(270, 100%, 25%)", "hsl(280, 100%, 65%)", "hsl(260, 90%, 35%)", "hsl(290, 100%, 75%)"], // Purple
+                colors: ["#5A4699", "#8365C5", "#A68AD6", "#C9ADE7"], // Purple theme
             },
             {
                 proportion: 0.35,
@@ -76,7 +72,7 @@ export default function FeaturesCards() {
                 swirlIterations: 10,
                 shape: "checks" as const,
                 shapeScale: 0.1,
-                colors: ["hsl(300, 100%, 25%)", "hsl(315, 100%, 60%)", "hsl(290, 90%, 30%)", "hsl(310, 100%, 70%)"], // Fuchsia/Pink
+                colors: ["#6B3D8A", "#8365C5", "#4EC7CB", "#A68AD6"], // Purple-Cyan mix
             },
             {
                 proportion: 0.45,
@@ -84,9 +80,9 @@ export default function FeaturesCards() {
                 distortion: 0.22,
                 swirl: 0.8,
                 swirlIterations: 15,
-                shape: "dots" as const,
+                shape: "edge" as const,
                 shapeScale: 0.09,
-                colors: ["hsl(30, 100%, 35%)", "hsl(45, 100%, 65%)", "hsl(20, 90%, 40%)", "hsl(40, 100%, 75%)"], // Orange
+                colors: ["#C4841D", "#EFA128", "#F5BC5C", "#FACF8A"], // Orange theme
             },
         ]
         return configs[index % configs.length]

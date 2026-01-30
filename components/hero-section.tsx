@@ -28,18 +28,24 @@ export function HeroSection01() {
                     <p className="text-black w-full  max-w-3xl font-light text-sm md:text-xl leading-relaxed">
                         Instantly craft your perfect palette, or ignite your creativity with our extensive library of professionally curated colour harmonies.
                     </p>
-                    <div className="flex gap-3 mt-6 flex-wrap justify-center">
-                        {/* Start Generator - This should link to /generator now */}
+                    <div className="flex gap-4 mt-8 flex-wrap justify-center">
+                        {/* Start Generator - Primary CTA */}
                         <Link href="/generator">
-                            <Button className="h-12 md:h-14 rounded-full cursor-pointer px-8 md:px-10">
+                            <Button
+                                size="lg"
+                                className="h-14 md:h-16 rounded-full cursor-pointer px-10 md:px-12 text-base md:text-lg font-bold bg-slate-900 hover:bg-slate-800 text-white shadow-2xl shadow-slate-900/30 transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                            >
+                                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                                 Start Generator
                             </Button>
                         </Link>
+                        {/* Create Gradient - Secondary CTA */}
                         <Link href="/gradient">
                             <Button
-                                variant={"secondary"}
-                                className="h-12 md:h-14 cursor-pointer rounded-full px-8 md:px-10"
+                                variant="outline"
+                                className="h-14 md:h-16 cursor-pointer rounded-full px-10 md:px-12 text-base md:text-lg font-bold border-2 border-slate-900/20 bg-white/80 backdrop-blur-sm text-slate-900 hover:bg-slate-900 hover:text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
                             >
+                                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" /></svg>
                                 Create Gradient
                             </Button>
                         </Link>

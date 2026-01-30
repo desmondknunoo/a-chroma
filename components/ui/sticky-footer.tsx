@@ -4,14 +4,6 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 import { motion, useReducedMotion } from 'motion/react';
 import Image from 'next/image';
-import {
-    FacebookIcon,
-    FrameIcon,
-    InstagramIcon,
-    LinkedinIcon,
-    YoutubeIcon,
-} from 'lucide-react';
-import { Button } from './button';
 
 interface FooterLink {
     title: string;
@@ -70,13 +62,7 @@ export function StickyFooter({ className, ...props }: StickyFooterProps) {
                                     Innovative colour tools empowering designers with seamless
                                     palettes, gradients, and extraction worldwide.
                                 </p>
-                                <div className="flex gap-2">
-                                    {socialLinks.map((link) => (
-                                        <Button size="icon" variant="outline" className="size-8 border-slate-200 hover:bg-slate-50" key={link.title}>
-                                            <link.icon className="size-4 text-slate-600" />
-                                        </Button>
-                                    ))}
-                                </div>
+
                             </AnimatedContainer>
                             {footerLinkGroups.map((group, index) => (
                                 <AnimatedContainer
@@ -114,12 +100,7 @@ export function StickyFooter({ className, ...props }: StickyFooterProps) {
     );
 }
 
-const socialLinks = [
-    { title: 'Facebook', href: '#', icon: FacebookIcon },
-    { title: 'Instagram', href: '#', icon: InstagramIcon },
-    { title: 'Youtube', href: '#', icon: YoutubeIcon },
-    { title: 'LinkedIn', href: '#', icon: LinkedinIcon },
-];
+
 
 
 
