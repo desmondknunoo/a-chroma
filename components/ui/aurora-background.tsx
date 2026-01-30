@@ -27,9 +27,9 @@ export const AuroraBackground = ({
                         //   I'm sorry but this is what peak developer performance looks like // trigger warning
                         className={cn(
                             `
-            [--white-gradient:repeating-linear-gradient(100deg,#ffffff_0%,#ffffff_7%,transparent_10%,transparent_12%,#ffffff_16%)]
-            [--dark-gradient:repeating-linear-gradient(100deg,#000000_0%,#000000_7%,transparent_10%,transparent_12%,#000000_16%)]
-            [--aurora:repeating-linear-gradient(100deg,#3b82f6_10%,#a5b4fc_15%,#93c5fd_20%,#ddd6fe_25%,#60a5fa_30%)]
+            [--white-gradient:repeating-linear-gradient(100deg,var(--color-white)_0%,var(--color-white)_7%,transparent_10%,transparent_12%,var(--color-white)_16%)]
+            [--dark-gradient:repeating-linear-gradient(100deg,var(--color-black)_0%,var(--color-black)_7%,transparent_10%,transparent_12%,var(--color-black)_16%)]
+            [--aurora:repeating-linear-gradient(100deg,var(--color-blue-500)_10%,var(--color-indigo-300)_15%,var(--color-blue-300)_20%,var(--color-violet-200)_25%,var(--color-blue-400)_30%)]
             [background-image:var(--white-gradient),var(--aurora)]
             dark:[background-image:var(--dark-gradient),var(--aurora)]
             [background-size:300%,_200%]
@@ -43,7 +43,7 @@ export const AuroraBackground = ({
             absolute -inset-[10px] opacity-50 will-change-transform`,
 
                             showRadialGradient &&
-                            `[mask-image:radial-gradient(ellipse_at_100%_0%,black_10%,var(--transparent)_70%)]`
+                            `[mask-image:radial-gradient(ellipse_at_100%_0%,black_10%,transparent_70%)]`
                         )}
                     ></div>
                 </div>

@@ -12,8 +12,8 @@ export function HeroSection01() {
                 colors={["#ffffff", "#fb7185", '#e879f9', "#a3e635", "#ffffff"]}
                 shadowPower={4}
                 darkenTop={false}
-                noiseFrequency={[0.0001, 0.0002]}
-                deform={{ incline: 0.2, noiseAmp: 100, noiseFlow: 2 }}
+                noiseFrequency={[0.00005, 0.0001]}
+                deform={{ incline: 0.2, noiseAmp: 20, noiseFlow: 2 }}
             />
             <div className="flex flex-col text-center">
                 {/* Using a placeholder or emoji since the user-provided image URL might be broken or external. 

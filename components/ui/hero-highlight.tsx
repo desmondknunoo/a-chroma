@@ -41,7 +41,7 @@ export const HeroHighlight = ({
             onMouseMove={handleMouseMove}
         >
             <div
-                className="absolute inset-0 pointer-events-none opacity-70"
+                className="absolute inset-0 pointer-events-none opacity-10"
                 style={dotPattern('rgb(212 212 212)')} // neutral-300 for light mode
             />
             <div

@@ -87,7 +87,8 @@ export default function Home() {
 
 
     return (
-        <HeroHighlight containerClassName="min-h-screen h-auto">
+    return (
+        <AuroraBackground className="min-h-screen h-auto">
             <div className="relative z-10 w-full">
                 <SiteHeader />
 
@@ -185,6 +186,6 @@ export default function Home() {
                     }}
                 />
             </div>
-        </HeroHighlight>
+        </AuroraBackground>
     );
 }
