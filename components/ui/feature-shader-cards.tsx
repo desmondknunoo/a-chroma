@@ -41,8 +41,7 @@ const features: Feature[] = [
 
 export default function FeaturesCards() {
     const getShaderConfig = (index: number) => {
-        // Brand theme colors: Cyan #4EC7CB, Purple #8365C5, Orange #EFA128
-        // Using hex colors derived from brand palette
+        // Brand theme colors - high saturation for vibrancy under overlay
         const configs = [
             {
                 proportion: 0.3,
@@ -52,7 +51,7 @@ export default function FeaturesCards() {
                 swirlIterations: 8,
                 shape: "checks" as const,
                 shapeScale: 0.08,
-                colors: ["#2A8A8E", "#4EC7CB", "#7DD8DB", "#A8E8EA"], // Cyan theme
+                colors: ["#00B4B8", "#00E5E9", "#40F0F4", "#80F7F9"], // Vibrant Cyan
             },
             {
                 proportion: 0.4,
@@ -62,7 +61,7 @@ export default function FeaturesCards() {
                 swirlIterations: 12,
                 shape: "stripes" as const,
                 shapeScale: 0.12,
-                colors: ["#5A4699", "#8365C5", "#A68AD6", "#C9ADE7"], // Purple theme
+                colors: ["#6B30D8", "#8850F0", "#A070FF", "#B890FF"], // Vibrant Purple
             },
             {
                 proportion: 0.35,
@@ -72,7 +71,7 @@ export default function FeaturesCards() {
                 swirlIterations: 10,
                 shape: "checks" as const,
                 shapeScale: 0.1,
-                colors: ["#6B3D8A", "#8365C5", "#4EC7CB", "#A68AD6"], // Purple-Cyan mix
+                colors: ["#E88C00", "#FFA800", "#FFBE30", "#FFD060"], // Vibrant Orange
             },
             {
                 proportion: 0.45,
@@ -82,14 +81,14 @@ export default function FeaturesCards() {
                 swirlIterations: 15,
                 shape: "edge" as const,
                 shapeScale: 0.09,
-                colors: ["#C4841D", "#EFA128", "#F5BC5C", "#FACF8A"], // Orange theme
+                colors: ["#7B20C0", "#9040E0", "#00D0D4", "#A060F0"], // Vibrant Purple-Cyan
             },
         ]
         return configs[index % configs.length]
     }
 
     return (
-        <section className="py-32 px-6 border-y border-slate-100 bg-slate-50">
+        <section className="py-32 px-6 border-y border-slate-100 bg-white">
             <div className="max-w-7xl mx-auto">
                 <div className="text-center mb-16 space-y-4">
                     <h2 className="text-4xl md:text-5xl font-medium text-slate-900 tracking-tight">
@@ -121,19 +120,19 @@ export default function FeaturesCards() {
                                         speed={0.8}
                                         colors={shaderConfig.colors}
                                     />
-                                    {/* Dark overlay for contrast */}
-                                    <div className="absolute inset-0 bg-black/60 mix-blend-multiply" />
+                                    {/* Subtle grey overlay */}
+                                    <div className="absolute inset-0 bg-black/25" />
                                 </div>
 
-                                <div className="relative z-10 p-8 rounded-[2rem] h-full flex flex-col border border-white/10">
+                                <div className="relative z-10 p-8 rounded-[2rem] h-full flex flex-col bg-white/20 backdrop-blur-sm border border-white/30">
                                     <div className="flex justify-between items-start mb-6">
-                                        <div className="filter drop-shadow-lg p-3 bg-white/10 rounded-2xl backdrop-blur-md">{feature.icon}</div>
-                                        <span className="text-2xl font-bold text-white/20 font-mono">0{feature.number}</span>
+                                        <div className="filter drop-shadow-lg p-3 bg-white/30 rounded-2xl backdrop-blur-md">{feature.icon}</div>
+                                        <span className="text-2xl font-bold text-white/50 font-mono">0{feature.number}</span>
                                     </div>
 
-                                    <h3 className="text-2xl font-bold mb-4 text-white leading-tight">{feature.title}</h3>
+                                    <h3 className="text-2xl font-bold mb-4 text-white leading-tight drop-shadow-md">{feature.title}</h3>
 
-                                    <p className="leading-relaxed flex-grow text-gray-200 font-medium text-sm">{feature.description}</p>
+                                    <p className="leading-relaxed flex-grow text-white font-medium text-sm drop-shadow-sm">{feature.description}</p>
                                 </div>
                             </div>
                         )

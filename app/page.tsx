@@ -88,11 +88,16 @@ export default function Home() {
             <SiteHeader />
 
             <main className="flex-1">
+                {/* Section 1: Hero - White background */}
                 <HeroSection01 />
 
-                {/* Feature Grid */}
-                <div className="bg-white py-24 px-6 md:px-12 relative z-20">
+                {/* Section 2: Feature Grid - Light Grey */}
+                <section className="bg-slate-50 py-24 px-6 md:px-12 relative z-20">
                     <div className="mx-auto max-w-7xl">
+                        <div className="text-center mb-12">
+                            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-4">Our Tools</h2>
+                            <p className="text-slate-600 max-w-2xl mx-auto">Powerful colour tools designed for designers and developers.</p>
+                        </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                             {/* 1. Daily Color Card */}
@@ -144,10 +149,12 @@ export default function Home() {
 
                         </div>
                     </div>
-                </div>
+                </section>
 
-                {/* Philosophy Section */}
-                <FeaturesCards />
+                {/* Section 3: Philosophy/Features - White background */}
+                <section className="bg-white">
+                    <FeaturesCards />
+                </section>
             </main>
 
             {/* Footer */}

@@ -80,7 +80,7 @@ export default function ColorDetailsPage() {
     ].map(h => ({ ...h, hex: h.color, name: getColorName(h.color) }));
 
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-slate-50">
             <SiteHeader />
 
             <main className="max-w-7xl mx-auto px-6 py-12">
@@ -145,77 +145,129 @@ export default function ColorDetailsPage() {
                 </div>
 
                 {/* Narrative Sections */}
-                <div className="grid md:grid-cols-3 gap-16 mb-24">
-                    <div className="md:col-span-2 space-y-16">
-                        <section className="space-y-6">
-                            <h3 className="text-3xl font-bold text-slate-900 flex items-center">
-                                <Info className="w-6 h-6 mr-3 text-blue-500" /> Description
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
+                    {/* Description Card */}
+                    <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100/50 hover:shadow-md transition-shadow">
+                        <section className="space-y-6 h-full flex flex-col">
+                            <h3 className="text-xl font-bold text-slate-900 flex items-center">
+                                <div className="p-2 bg-blue-50 rounded-xl mr-3">
+                                    <Info className="w-5 h-5 text-blue-500" />
+                                </div>
+                                Description
                             </h3>
-                            <div className="text-lg text-slate-600 leading-relaxed whitespace-pre-line prose prose-slate max-w-none">
+                            <div className="text-slate-600 leading-relaxed whitespace-pre-line prose prose-slate max-w-none flex-grow">
                                 <FormatText text={colorInfo.description} />
                             </div>
                         </section>
+                    </div>
 
-                        <section className="space-y-6">
-                            <h3 className="text-3xl font-bold text-slate-900 flex items-center">
-                                <Palette className="w-6 h-6 mr-3 text-purple-500" /> Psychology & Meaning
+                    {/* Psychology Card */}
+                    <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100/50 hover:shadow-md transition-shadow">
+                        <section className="space-y-6 h-full flex flex-col">
+                            <h3 className="text-xl font-bold text-slate-900 flex items-center">
+                                <div className="p-2 bg-purple-50 rounded-xl mr-3">
+                                    <Palette className="w-5 h-5 text-purple-500" />
+                                </div>
+                                Psychology
                             </h3>
-                            <div className="grid sm:grid-cols-2 gap-10">
-                                <div>
-                                    <h4 className="font-bold text-slate-900 mb-2 uppercase text-xs tracking-widest">Psychology</h4>
-                                    <div className="text-slate-600 whitespace-pre-line leading-relaxed"><FormatText text={colorInfo.psychology} /></div>
-                                </div>
-                                <div>
-                                    <h4 className="font-bold text-slate-900 mb-2 uppercase text-xs tracking-widest">Meaning</h4>
-                                    <div className="text-slate-600 whitespace-pre-line leading-relaxed"><FormatText text={colorInfo.meaning} /></div>
-                                </div>
+                            <div className="text-slate-600 whitespace-pre-line leading-relaxed flex-grow">
+                                <FormatText text={colorInfo.psychology} />
                             </div>
                         </section>
+                    </div>
 
-                        <section className="space-y-6">
-                            <h3 className="text-3xl font-bold text-slate-900 flex items-center">
-                                <Zap className="w-6 h-6 mr-3 text-orange-500" /> Why use this colour
+                    {/* Meaning Card */}
+                    <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100/50 hover:shadow-md transition-shadow">
+                        <section className="space-y-6 h-full flex flex-col">
+                            <h3 className="text-xl font-bold text-slate-900 flex items-center">
+                                <div className="p-2 bg-pink-50 rounded-xl mr-3">
+                                    <Zap className="w-5 h-5 text-pink-500" />
+                                </div>
+                                Meaning
                             </h3>
-                            <div className="text-lg text-slate-600 leading-relaxed whitespace-pre-line prose prose-slate max-w-none font-medium">
+                            <div className="text-slate-600 whitespace-pre-line leading-relaxed flex-grow">
+                                <FormatText text={colorInfo.meaning} />
+                            </div>
+                        </section>
+                    </div>
+
+                    {/* Usage Card */}
+                    <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100/50 hover:shadow-md transition-shadow">
+                        <section className="space-y-6 h-full flex flex-col">
+                            <h3 className="text-xl font-bold text-slate-900 flex items-center">
+                                <div className="p-2 bg-orange-50 rounded-xl mr-3">
+                                    <Zap className="w-5 h-5 text-orange-500" />
+                                </div>
+                                Usage
+                            </h3>
+                            <div className="text-slate-600 leading-relaxed whitespace-pre-line prose prose-slate max-w-none font-medium flex-grow">
                                 <FormatText text={colorInfo.usage} />
                             </div>
                         </section>
                     </div>
 
-                    <div className="space-y-12">
-                        <section className="p-8 bg-slate-50 rounded-[2rem] border border-slate-100">
-                            <h3 className="font-bold text-slate-900 mb-6 flex items-center">
-                                <Eye className="w-5 h-5 mr-3 text-emerald-500" /> Applications
+                    {/* Applications Card */}
+                    <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100/50 hover:shadow-md transition-shadow">
+                        <section className="space-y-6 h-full flex flex-col">
+                            <h3 className="text-xl font-bold text-slate-900 flex items-center">
+                                <div className="p-2 bg-emerald-50 rounded-xl mr-3">
+                                    <Eye className="w-5 h-5 text-emerald-500" />
+                                </div>
+                                Applications
                             </h3>
-                            <div className="text-slate-600 leading-relaxed whitespace-pre-line text-sm">
+                            <div className="text-slate-600 leading-relaxed whitespace-pre-line text-sm flex-grow">
                                 <FormatText text={colorInfo.applications} />
                             </div>
                         </section>
+                    </div>
 
-                        <section className="p-8 bg-slate-50 rounded-[2rem] border border-slate-100">
-                            <h3 className="font-bold text-slate-900 mb-6 flex items-center">
-                                <Globe className="w-5 h-5 mr-3 text-cyan-500" /> History
+                    {/* History Card */}
+                    <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100/50 hover:shadow-md transition-shadow">
+                        <section className="space-y-6 h-full flex flex-col">
+                            <h3 className="text-xl font-bold text-slate-900 flex items-center">
+                                <div className="p-2 bg-cyan-50 rounded-xl mr-3">
+                                    <Globe className="w-5 h-5 text-cyan-500" />
+                                </div>
+                                History
                             </h3>
-                            <div className="text-slate-600 leading-relaxed whitespace-pre-line text-sm">
+                            <div className="text-slate-600 leading-relaxed whitespace-pre-line text-sm flex-grow">
                                 <FormatText text={colorInfo.history} />
                             </div>
                         </section>
+                    </div>
 
-                        <section className="p-8 bg-slate-900 rounded-[2rem] text-white">
-                            <h3 className="font-bold mb-6 flex items-center">
-                                <ShieldCheck className="w-5 h-5 mr-3 text-blue-400" /> Accessibility
-                            </h3>
-                            <div className="text-slate-300 text-sm leading-relaxed mb-6">
-                                <FormatText text={colorInfo.accessibility} />
+                    {/* Accessibility Card - Spans full width on mobile/tablet, fits in grid on large */}
+                    <div className="md:col-span-2 lg:col-span-3 bg-slate-900 p-8 rounded-[2rem] shadow-xl text-white">
+                        <section className="grid md:grid-cols-2 gap-8 items-center">
+                            <div>
+                                <h3 className="font-bold text-2xl mb-4 flex items-center">
+                                    <div className="p-2 bg-white/10 rounded-xl mr-3">
+                                        <ShieldCheck className="w-6 h-6 text-blue-400" />
+                                    </div>
+                                    Accessibility
+                                </h3>
+                                <div className="text-slate-300 text-sm leading-relaxed mb-6">
+                                    <FormatText text={colorInfo.accessibility} />
+                                </div>
                             </div>
-                            <div className="space-y-3">
-                                <div className="flex justify-between items-baseline">
+                            <div className="space-y-4 bg-white/5 p-6 rounded-2xl border border-white/10">
+                                <div className="flex justify-between items-baseline border-b border-white/10 pb-2">
                                     <span className="text-xs uppercase font-bold tracking-widest opacity-60">Contrast White</span>
-                                    <span className="font-mono text-xl">{chroma.contrast(`#${hex}`, "white").toFixed(2)}:1</span>
+                                    <div className="flex items-center gap-3">
+                                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${chroma.contrast(`#${hex}`, "white") >= 4.5 ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
+                                            {chroma.contrast(`#${hex}`, "white") >= 4.5 ? 'PASS' : 'FAIL'}
+                                        </span>
+                                        <span className="font-mono text-xl">{chroma.contrast(`#${hex}`, "white").toFixed(2)}:1</span>
+                                    </div>
                                 </div>
                                 <div className="flex justify-between items-baseline">
                                     <span className="text-xs uppercase font-bold tracking-widest opacity-60">Contrast Black</span>
-                                    <span className="font-mono text-xl">{chroma.contrast(`#${hex}`, "black").toFixed(2)}:1</span>
+                                    <div className="flex items-center gap-3">
+                                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${chroma.contrast(`#${hex}`, "black") >= 4.5 ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
+                                            {chroma.contrast(`#${hex}`, "black") >= 4.5 ? 'PASS' : 'FAIL'}
+                                        </span>
+                                        <span className="font-mono text-xl">{chroma.contrast(`#${hex}`, "black").toFixed(2)}:1</span>
+                                    </div>
                                 </div>
                             </div>
                         </section>
