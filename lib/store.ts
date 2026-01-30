@@ -54,7 +54,7 @@ export const useColorStore = create<ColorState>()(
               // Smart Harmony Logic
               // 1. Pick a random hue offset from the anchor (Analagous, Compl, etc included effectively by random 360, 
               // but we can bias checks if we wanted strict harmony).
-              // For "Spacebar Magic", chaos is okay, but let's constrain saturation/lightness to look "Premium".
+              // For "Instant Generation", chaos is okay, but let's constrain saturation/lightness to look "Premium".
 
               // Premium colors usually have saturation > 0.1 and Lightness between 0.2 and 0.9
               const h = (anchor.get('oklch.h') + (Math.random() * 360)) % 360;

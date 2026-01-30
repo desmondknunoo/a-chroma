@@ -27,7 +27,7 @@ export default function GeneratorPage() {
                                 Palette Generator
                             </h1>
                             <p className="text-slate-600 max-w-2xl mx-auto text-lg">
-                                Create beautiful colour schemes instantly. Press spacebar to generate.
+                                Create beautiful colour schemes instantly.
                             </p>
                         </div>
 

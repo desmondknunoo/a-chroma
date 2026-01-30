@@ -27,33 +27,6 @@ export function PaletteGenerator() {
         }
     }, [colors.length, generatePalette]);
 
-    // Spacebar listener
-    const handleKeyDown = useCallback(
-        (e: KeyboardEvent) => {
-            // Don't trigger if user is typing or if extractor is open
-            if (showExtractor) return;
-
-            const target = e.target as HTMLElement;
-            if (
-                target.tagName === "INPUT" ||
-                target.tagName === "TEXTAREA" ||
-                target.isContentEditable
-            ) {
-                return;
-            }
-
-            if (e.code === "Space") {
-                e.preventDefault(); // Prevent scrolling
-                generatePalette();
-            }
-        },
-        [generatePalette, showExtractor]
-    );
-
-    useEffect(() => {
-        window.addEventListener("keydown", handleKeyDown);
-        return () => window.removeEventListener("keydown", handleKeyDown);
-    }, [handleKeyDown]);
 
     if (colors.length === 0) {
         return (

@@ -14,7 +14,7 @@ interface Feature {
 const features: Feature[] = [
     {
         number: "1",
-        title: "Spacebar Magic",
+        title: "Instant Generation",
         description:
             "Generate balanced, high-fidelity palettes based on perceptually uniform OKLCH models. Secure the shades you love while our algorithm hunts for the perfect partners.",
         icon: <Sparkles className="w-12 h-12 text-white" />,
