@@ -8,7 +8,7 @@ import { getDailyColor } from "@/lib/daily-color";
 import chroma from "chroma-js";
 import { useMemo, useState, useEffect } from "react";
 // import FeaturesCards from "@/components/ui/feature-shader-cards";
-import { HeroHighlight } from "@/components/ui/hero-highlight";
+import { AuroraBackground } from "@/components/ui/aurora-background";
 import { Github, Twitter } from "lucide-react";
 
 export default function Home() {
