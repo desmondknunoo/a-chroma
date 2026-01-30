@@ -8,7 +8,7 @@ import { getDailyColor } from "@/lib/daily-color";
 import chroma from "chroma-js";
 import { useMemo, useState, useEffect } from "react";
 // import FeaturesCards from "@/components/ui/feature-shader-cards";
-import { AuroraBackground } from "@/components/ui/aurora-background";
+import { InfiniteGrid } from "@/components/ui/the-infinite-grid";
 import { Github, Twitter } from "lucide-react";
 
 export default function Home() {
@@ -87,8 +87,7 @@ export default function Home() {
 
 
     return (
-    return (
-        <AuroraBackground className="min-h-screen h-auto">
+        <InfiniteGrid className="min-h-screen h-auto">
             <div className="relative z-10 w-full">
                 <SiteHeader />
 
@@ -186,6 +185,6 @@ export default function Home() {
                     }}
                 />
             </div>
-        </AuroraBackground>
+        </InfiniteGrid>
     );
 }

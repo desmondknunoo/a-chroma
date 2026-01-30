@@ -8,7 +8,7 @@ export function HeroSection01() {
     return (
         <div className="h-screen w-full flex items-center justify-center relative">
             {/* GradientWave behind the text */}
-            {/* GradientWave removed to use AuroraBackground */}
+            {/* GradientWave Removed for InfiniteGrid Background */}
             <div className="flex flex-col text-center">
                 {/* Using a placeholder or emoji since the user-provided image URL might be broken or external. 
             The user wants the code *exactly* as provided, but I should probably guard the image or use a local one.
