@@ -38,7 +38,7 @@ export default function ColorDetailsPage() {
     const colorInfo = useMemo(() => {
         return colorsData.find(c => c.hex.toLowerCase() === hex.toLowerCase()) || {
             hex: hex,
-            name: "Custom Colour",
+            name: getColorName(hex),
             shortDescription: "A custom selected colour from the A-Chroma engine.",
             description: "This colour has been generated or selected. It represents a unique point in the colour space, offering its own distinct psychological and visual impact.",
             psychology: "Psychology varies based on local culture and personal association. Generally, this hue contributes to the overall mood of a design in its own specific way.",
