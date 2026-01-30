@@ -12,7 +12,7 @@ import { ArrowLeft, Copy, Check, Info, Palette, Eye, ShieldCheck, Zap, Globe, Do
 import { useState } from "react";
 import { ExportDialog } from "@/components/export-dialog";
 import { Button } from "@/components/ui/button";
-import { AuroraBackground } from "@/components/ui/aurora-background";
+import { HeroHighlight } from "@/components/ui/hero-highlight";
 
 const FormatText = ({ text }: { text: string }) => {
     if (!text) return null;
@@ -81,7 +81,7 @@ export default function ColorDetailsPage() {
     ].map(h => ({ ...h, hex: h.color, name: getColorName(h.color) }));
 
     return (
-        <AuroraBackground className="min-h-screen h-auto">
+        <HeroHighlight containerClassName="min-h-screen h-auto">
             <div className="relative z-10 w-full flex flex-col min-h-screen">
                 <SiteHeader />
 
@@ -366,7 +366,7 @@ export default function ColorDetailsPage() {
                     }}
                 />
             </div>
-        </AuroraBackground>
+        </HeroHighlight>
     );
 }
 

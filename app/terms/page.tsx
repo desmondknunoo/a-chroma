@@ -1,4 +1,4 @@
-import { AuroraBackground } from "@/components/ui/aurora-background";
+import { HeroHighlight } from "@/components/ui/hero-highlight";
 import { SiteHeader } from "@/components/site-header";
 import { Footer } from "@/components/ui/footer";
 import { getDailyColor } from "@/lib/daily-color";
@@ -12,7 +12,7 @@ export default function TermsPage() {
     const dailyColor = getDailyColor();
 
     return (
-        <AuroraBackground className="min-h-screen h-auto">
+        <HeroHighlight containerClassName="min-h-screen h-auto">
             <div className="relative z-10 w-full flex flex-col min-h-screen">
                 <SiteHeader />
                 <main className="flex-1 w-full max-w-4xl mx-auto px-6 py-12">
@@ -84,6 +84,6 @@ export default function TermsPage() {
                     }}
                 />
             </div>
-        </AuroraBackground>
+        </HeroHighlight>
     );
 }

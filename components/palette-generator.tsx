@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect, useCallback } from "react";
 import { useColorStore } from "@/lib/store";
 import { ColorColumn } from "./color-column";

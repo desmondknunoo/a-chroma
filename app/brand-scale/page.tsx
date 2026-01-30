@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 import { getDailyColor } from "@/lib/daily-color";
 import { Footer } from "@/components/ui/footer";
-import { AuroraBackground } from "@/components/ui/aurora-background";
+import { HeroHighlight } from "@/components/ui/hero-highlight";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { BrandScaleGenerator } from "@/components/brand-scale-generator";
@@ -19,7 +19,7 @@ export default function BrandScalePage() {
     const dailyColor = getDailyColor();
 
     return (
-        <AuroraBackground className="min-h-screen h-auto">
+        <HeroHighlight containerClassName="min-h-screen h-auto">
             <div className="relative z-10 w-full flex flex-col min-h-screen">
                 <SiteHeader />
 
@@ -69,6 +69,6 @@ export default function BrandScalePage() {
                     }}
                 />
             </div>
-        </AuroraBackground>
+        </HeroHighlight>
     );
 }

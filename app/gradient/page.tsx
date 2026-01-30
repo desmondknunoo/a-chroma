@@ -6,7 +6,7 @@ import { SiteHeader } from "@/components/site-header";
 
 import { getDailyColor } from "@/lib/daily-color";
 import { Footer } from "@/components/ui/footer";
-import { AuroraBackground } from "@/components/ui/aurora-background";
+import { HeroHighlight } from "@/components/ui/hero-highlight";
 import { ArrowLeft } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -18,7 +18,7 @@ export default function GradientPage() {
     const dailyColor = getDailyColor();
 
     return (
-        <AuroraBackground className="min-h-screen h-auto">
+        <HeroHighlight containerClassName="min-h-screen h-auto">
             <div className="relative z-10 w-full flex flex-col min-h-screen">
                 <SiteHeader />
 
@@ -68,6 +68,6 @@ export default function GradientPage() {
                     }}
                 />
             </div>
-        </AuroraBackground>
+        </HeroHighlight>
     );
 }

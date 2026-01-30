@@ -1,7 +1,7 @@
 import { PaletteGenerator } from "@/components/palette-generator";
 import { SiteHeader } from "@/components/site-header";
 import { Footer } from "@/components/ui/footer";
-import { AuroraBackground } from "@/components/ui/aurora-background";
+import { HeroHighlight } from "@/components/ui/hero-highlight";
 import { getDailyColor } from "@/lib/daily-color";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -10,7 +10,7 @@ export default function GeneratorPage() {
     const dailyColor = getDailyColor();
 
     return (
-        <AuroraBackground className="min-h-screen h-auto">
+        <HeroHighlight containerClassName="min-h-screen h-auto">
             <div className="relative z-10 w-full flex flex-col min-h-screen">
                 <SiteHeader />
                 <main className="flex-1 relative pt-12 pb-32 px-6">
@@ -58,6 +58,6 @@ export default function GeneratorPage() {
                     }}
                 />
             </div>
-        </AuroraBackground>
+        </HeroHighlight>
     );
 }
