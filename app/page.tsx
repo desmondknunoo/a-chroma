@@ -7,7 +7,7 @@ import { Footer } from "@/components/ui/footer"; // Changed from StickyFooter
 import { getDailyColor } from "@/lib/daily-color";
 import chroma from "chroma-js";
 import { useMemo, useState, useEffect } from "react";
-import FeaturesCards from "@/components/ui/feature-shader-cards";
+// import FeaturesCards from "@/components/ui/feature-shader-cards";
 import { HeroHighlight } from "@/components/ui/hero-highlight";
 import { Github, Twitter } from "lucide-react";
 
@@ -163,7 +163,7 @@ export default function Home() {
                     </section>
 
                     {/* Section 3: Philosophy/Features */}
-                    <FeaturesCards />
+                    {/* Section 3: Philosophy/Features (Moved to About page) */}
                 </main>
 
                 {/* Footer */}
