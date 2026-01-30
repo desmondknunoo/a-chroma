@@ -11,7 +11,7 @@ import { usePathname } from "next/navigation";
 export function SiteHeader() {
     const pathname = usePathname();
     const isHome = pathname === "/";
-    const isLegalPage = pathname === "/terms" || pathname === "/privacy";
+    const isLegalPage = pathname === "/terms" || pathname === "/privacy" || pathname === "/about";
 
     return (
         <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">

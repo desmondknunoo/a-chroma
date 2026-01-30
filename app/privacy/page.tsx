@@ -78,6 +78,7 @@ export default function PrivacyPage() {
                         { href: "/generator", label: "Generator" },
                         { href: "/brand-scale", label: "Brand Scale" },
                         { href: "/gradient", label: "Gradient" },
+                        { href: "/about", label: "About" },
                     ]}
                     legalLinks={[
                         { href: "/privacy", label: "Privacy" },
