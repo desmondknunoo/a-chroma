@@ -85,7 +85,7 @@ export default function Home() {
         )
     }
 
-    return (
+
     return (
         <AuroraBackground className="min-h-screen h-auto">
             <div className="relative z-10 w-full">
@@ -100,9 +100,14 @@ export default function Home() {
                     {/* Section 2: Feature Grid - Transparent/Glassmorphic */}
                     <section className="py-24 px-6 md:px-12 relative z-20 bg-white/50 backdrop-blur-sm border-t border-white/20">
                         <div className="mx-auto max-w-7xl">
-                            <div className="text-center mb-12">
-                                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-4">Our Tools</h2>
-                                <p className="text-slate-600 max-w-2xl mx-auto">Powerful colour tools designed for designers and developers.</p>
+                            <div className="text-center mb-20">
+                                <span className="text-blue-600 font-bold uppercase tracking-widest text-sm mb-4 block">A-Chroma Suite</span>
+                                <h2 className="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tighter mb-6">
+                                    Precision Meets Intuition
+                                </h2>
+                                <p className="text-xl md:text-2xl text-slate-600 max-w-3xl mx-auto font-light leading-relaxed">
+                                    Eliminating the friction between a creative spark and a finalized visual identity.
+                                </p>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
@@ -165,12 +170,8 @@ export default function Home() {
 
                 {/* Footer */}
                 <Footer
-                    logo={<div className="h-8 w-8 bg-slate-900 rounded-lg flex items-center justify-center text-white font-bold">A</div>}
                     brandName="A-Chroma"
-                    socialLinks={[
-                        { icon: <Twitter className="h-5 w-5" />, href: "#", label: "Twitter" },
-                        { icon: <Github className="h-5 w-5" />, href: "#", label: "GitHub" },
-                    ]}
+                    dailyColor={dailyColor}
                     mainLinks={[
                         { href: "/generator", label: "Generator" },
                         { href: "/brand-scale", label: "Brand Scale" },

@@ -1,15 +1,14 @@
-"use client" // Added use client as it uses Button which might be a client component or just safe measure
+"use client"
 
 import { Button } from "@/components/ui/button"
+import Image from "next/image"
 
 interface FooterProps {
-    logo: React.ReactNode
     brandName: string
-    socialLinks: Array<{
-        icon: React.ReactNode
-        href: string
-        label: string
-    }>
+    dailyColor?: {
+        name: string
+        hex: string
+    }
     mainLinks: Array<{
         href: string
         label: string
@@ -25,9 +24,8 @@ interface FooterProps {
 }
 
 export function Footer({
-    logo,
     brandName,
-    socialLinks,
+    dailyColor,
     mainLinks,
     legalLinks,
     copyright,
@@ -41,24 +39,21 @@ export function Footer({
                         className="flex items-center gap-x-2"
                         aria-label={brandName}
                     >
-                        {logo}
+                        <div className="relative w-8 h-8 overflow-hidden rounded-lg">
+                            <Image src="/logo.png" alt={brandName} fill className="object-cover" />
+                        </div>
                         <span className="font-bold text-xl">{brandName}</span>
                     </a>
-                    <ul className="flex list-none mt-6 md:mt-0 space-x-3">
-                        {socialLinks.map((link, i) => (
-                            <li key={i}>
-                                <Button
-                                    variant="secondary"
-                                    size="icon"
-                                    className="h-10 w-10 rounded-full"
-                                    asChild
-                                >
-                                    <a href={link.href} target="_blank" aria-label={link.label}>
-                                        {link.icon}
-                                    </a>
-                                </Button>
+                    <ul className="flex list-none mt-6 md:mt-0 space-x-3 items-center">
+                        {dailyColor && (
+                            <li className="flex items-center gap-3 bg-white/50 backdrop-blur-sm px-4 py-2 rounded-full border border-slate-100/50 shadow-sm transition-transform hover:scale-105 cursor-default">
+                                <div className="w-5 h-5 rounded-full border border-black/5 shadow-inner" style={{ backgroundColor: `#${dailyColor.hex}` }} />
+                                <div className="flex flex-col leading-none">
+                                    <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400">Colour of the Day</span>
+                                    <span className="text-sm font-bold text-slate-900">{dailyColor.name}</span>
+                                </div>
                             </li>
-                        ))}
+                        )}
                     </ul>
                 </div>
                 <div className="border-t mt-6 pt-6 md:mt-4 md:pt-8 lg:grid lg:grid-cols-10">
@@ -68,7 +63,7 @@ export function Footer({
                                 <li key={i} className="my-1 mx-2 shrink-0">
                                     <a
                                         href={link.href}
-                                        className="text-sm text-primary underline-offset-4 hover:underline"
+                                        className="text-sm text-slate-700 font-medium underline-offset-4 hover:underline hover:text-slate-900 transition-colors"
                                     >
                                         {link.label}
                                     </a>
@@ -82,7 +77,7 @@ export function Footer({
                                 <li key={i} className="my-1 mx-3 shrink-0">
                                     <a
                                         href={link.href}
-                                        className="text-sm text-muted-foreground underline-offset-4 hover:underline"
+                                        className="text-sm text-slate-500 underline-offset-4 hover:underline hover:text-slate-700 transition-colors"
                                     >
                                         {link.label}
                                     </a>
@@ -90,7 +85,7 @@ export function Footer({
                             ))}
                         </ul>
                     </div>
-                    <div className="mt-6 text-sm leading-6 text-muted-foreground whitespace-nowrap lg:mt-0 lg:row-[1/3] lg:col-[1/4]">
+                    <div className="mt-6 text-sm leading-6 text-slate-500 whitespace-nowrap lg:mt-0 lg:row-[1/3] lg:col-[1/4]">
                         <div>{copyright.text}</div>
                         {copyright.license && <div>{copyright.license}</div>}
                     </div>

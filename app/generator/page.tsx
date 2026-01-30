@@ -1,26 +1,63 @@
-"use client";
-
 import { PaletteGenerator } from "@/components/palette-generator";
 import { SiteHeader } from "@/components/site-header";
-import { Button } from "@/components/ui/button";
+import { Footer } from "@/components/ui/footer";
+import { AuroraBackground } from "@/components/ui/aurora-background";
+import { getDailyColor } from "@/lib/daily-color";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 export default function GeneratorPage() {
+    const dailyColor = getDailyColor();
+
     return (
-        <div className="flex min-h-screen flex-col overflow-hidden bg-background">
-            <SiteHeader />
-            <main className="flex-1 relative">
-                <PaletteGenerator />
-                <Link href="/">
-                    <Button
-                        variant="outline"
-                        className="absolute bottom-6 left-6 z-10 shadow-lg"
-                    >
-                        <ArrowLeft className="mr-2 h-4 w-4" /> Back to Home
-                    </Button>
-                </Link>
-            </main>
-        </div>
+        <AuroraBackground className="min-h-screen h-auto">
+            <div className="relative z-10 w-full flex flex-col min-h-screen">
+                <SiteHeader />
+                <main className="flex-1 relative pt-12 pb-32 px-6">
+                    <div className="mx-auto max-w-[1920px]">
+                        {/* Back Link */}
+                        <div className="mb-8">
+                            <Link href="/" className="inline-flex items-center text-slate-500 hover:text-slate-900 transition-colors bg-white/50 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20">
+                                <ArrowLeft className="w-4 h-4 mr-2" /> Back to Home
+                            </Link>
+                        </div>
+
+                        <div className="text-center space-y-4 mb-10">
+                            <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">
+                                Palette Generator
+                            </h1>
+                            <p className="text-slate-600 max-w-2xl mx-auto text-lg">
+                                Create beautiful colour schemes instantly. Press spacebar to generate.
+                            </p>
+                        </div>
+
+                        {/* Generator Component */}
+                        <div className="bg-white/95 backdrop-blur-sm rounded-[2rem] shadow-2xl border border-white/20 overflow-hidden min-h-[600px]">
+                            <PaletteGenerator />
+                        </div>
+
+                        <p className="mt-8 text-center text-slate-500 font-medium">
+                            All palettes are 100% free to use.
+                        </p>
+                    </div>
+                </main>
+                <Footer
+                    brandName="A-Chroma"
+                    dailyColor={dailyColor}
+                    mainLinks={[
+                        { href: "/generator", label: "Generator" },
+                        { href: "/brand-scale", label: "Brand Scale" },
+                        { href: "/gradient", label: "Gradient" },
+                    ]}
+                    legalLinks={[
+                        { href: "/privacy", label: "Privacy" },
+                        { href: "/terms", label: "Terms" },
+                    ]}
+                    copyright={{
+                        text: `© ${new Date().getFullYear()} A-Chroma. All rights reserved.`,
+                    }}
+                />
+            </div>
+        </AuroraBackground>
     );
 }
