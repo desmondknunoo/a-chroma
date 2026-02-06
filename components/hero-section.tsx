@@ -15,9 +15,9 @@ export function HeroSection01() {
             I will use the exact code but add error handling or just use it as is. 
             Actually, the user said "Copy-paste this component". I will adhere to that strictly.
         */}
-                <h2 className="font-extrabold pt-10 text-black mix-blend-overlay tracking-tighter text-6xl md:text-7xl lg:text-8xl leading-none">
+                <h1 className="font-extrabold pt-10 text-black mix-blend-overlay tracking-tighter text-6xl md:text-7xl lg:text-8xl leading-none">
                     Generate a colour palette <br /> in seconds!
-                </h2>
+                </h1>
                 <div className="space-y-6 z-10 pt-20 flex justify-center items-center flex-col text-center px-6">
                     <p className="text-black w-full  max-w-3xl font-light text-sm md:text-xl leading-relaxed">
                         Instantly craft your perfect palette, or ignite your creativity with our extensive library of professionally curated colour harmonies.
