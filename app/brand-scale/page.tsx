@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     title: "Brand Scale Generator",
 };
 
-import { getDailyColor } from "@/lib/daily-color";
+import { getDailyColour } from "@/lib/daily-colour";
 import { Footer } from "@/components/ui/footer";
 import { HeroHighlight } from "@/components/ui/hero-highlight";
 import Link from "next/link";
@@ -16,7 +16,7 @@ import { BrandScaleGenerator } from "@/components/brand-scale-generator";
 import { SiteHeader } from "@/components/site-header";
 
 export default function BrandScalePage() {
-    const dailyColor = getDailyColor();
+    const dailyColour = getDailyColour();
 
     return (
         <HeroHighlight containerClassName="min-h-screen h-auto">
@@ -54,7 +54,7 @@ export default function BrandScalePage() {
 
                 <Footer
                     brandName="A-Chroma"
-                    dailyColor={dailyColor}
+                    dailyColour={dailyColour}
                     mainLinks={[
                         { href: "/generator", label: "Generator" },
                         { href: "/brand-scale", label: "Brand Scale" },

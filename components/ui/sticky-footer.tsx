@@ -17,18 +17,18 @@ interface FooterLinkGroup {
 
 type StickyFooterProps = React.ComponentProps<'footer'>;
 
-import { getDailyColor } from '@/lib/daily-color';
+import { getDailyColour } from '@/lib/daily-colour';
 
 // ... other imports
 
 export function StickyFooter({ className, ...props }: StickyFooterProps) {
-    const dailyColor = getDailyColor();
+    const dailyColour = getDailyColour();
 
     const footerLinkGroups: FooterLinkGroup[] = [
         {
             label: 'Features',
             links: [
-                { title: 'Colour of the Day', href: `/color/${dailyColor.hex}` },
+                { title: 'Colour of the Day', href: `/colour/${dailyColour.hex}` },
                 { title: 'Palette Generator & Image Picker', href: '/generator' },
                 { title: 'Brand Scale Generator', href: '/brand-scale' },
                 { title: 'Visual Gradient Editor', href: '/gradient' },

@@ -1,8 +1,8 @@
-import { colorsData, ColorData } from './colors-data';
-import { annualColors } from './annual-colors';
-import { getColorName } from './naming';
+import { coloursData, ColourData } from './colours-data';
+import { annualColours } from './annual-colours';
+import { getColourName } from './naming';
 
-export function getDailyColor(): ColorData {
+export function getDailyColour(): ColourData {
     const today = new Date();
     const start = new Date(today.getFullYear(), 0, 0);
     const diff = today.getTime() - start.getTime();
@@ -10,17 +10,17 @@ export function getDailyColor(): ColorData {
     const dayOfYear = Math.floor(diff / oneDay); // 0-365 range
 
     // Ensure we wrap around if dayOfYear > 365 (leap years usually handled by Date, but array bound check is safe)
-    const colorHex = annualColors[(dayOfYear - 1) % annualColors.length];
+    const colorHex = annualColours[(dayOfYear - 1) % annualColours.length];
 
     // Check if we have curated data for this hex
-    const curated = colorsData.find(c => c.hex.toLowerCase() === colorHex.toLowerCase());
+    const curated = coloursData.find(c => c.hex.toLowerCase() === colourHex.toLowerCase());
 
     if (curated) {
         return curated;
     }
 
     // Fallback: Generate generic data
-    const name = getColorName(colorHex);
+    const name = getColourName(colorHex);
 
     return {
         hex: colorHex,

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, Palette, Sliders } from "lucide-react";
+import { Menu, Palette, Sliders, Github } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ExportDialog } from "@/components/export-dialog";
@@ -25,7 +25,15 @@ export function SiteHeader() {
 
                         {!isHome && !isLegalPage && <ExportDialog />}
 
-
+                        <a
+                            href="https://github.com/desmondknunoo/a-chroma"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center justify-center gap-2 rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 transition-colors"
+                        >
+                            <Github className="h-4 w-4" />
+                            <span className="hidden sm:inline">Star</span>
+                        </a>
 
                     </nav>
                 </div>

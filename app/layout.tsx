@@ -22,12 +22,12 @@ export const metadata: Metadata = {
   },
   description: "The ultimate colour palette generator. Generate, extract, and visualize colours with AI. Create beautiful colour schemes in seconds.",
   keywords: [
-    "colour palette generator", "color palette generator", "gradient palette generator", "brand palette generator", "palette generator",
-    "Hex to CSS Gradient Converter", "WCAG Color Contrast Checker", "Tailwind CSS Palette Generator", "UI/UX Color Scheme Tool", "CMYK to Hex for Print",
-    "Minimalist Web Design Palette", "Retro 70s Color Palette", "Material Design Color Tool", "Pastel Aesthetic Hex Codes", "Dark Mode UI Color Schemes",
-    "Professional Brand Identity Colors", "Cohesive Instagram Feed Palette", "Modern SaaS Color Inspiration", "Nature-Inspired Color Combinations",
-    "Download Figma Color Styles", "Copy to Clipboard Color Codes", "Linear and Radial Gradient CSS", "Trending Colors of 2026", "Mobile-First Accessible Palettes",
-    "Hex Codes and RGB Values", "Copy-to-Clipboard CSS", "Export for Figma/Adobe", "Color Harmony Rules",
+    "colour palette generator", "colour palette generator", "gradient palette generator", "brand palette generator", "palette generator",
+    "Hex to CSS Gradient Converter", "WCAG Colour Contrast Checker", "Tailwind CSS Palette Generator", "UI/UX Colour Scheme Tool", "CMYK to Hex for Print",
+    "Minimalist Web Design Palette", "Retro 70s Colour Palette", "Material Design Colour Tool", "Pastel Aesthetic Hex Codes", "Dark Mode UI Colour Schemes",
+    "Professional Brand Identity Colours", "Cohesive Instagram Feed Palette", "Modern SaaS Colour Inspiration", "Nature-Inspired Colour Combinations",
+    "Download Figma Colour Styles", "Copy to Clipboard Colour Codes", "Linear and Radial Gradient CSS", "Trending Colours of 2026", "Mobile-First Accessible Palettes",
+    "Hex Codes and RGB Values", "Copy-to-Clipboard CSS", "Export for Figma/Adobe", "Colour Harmony Rules",
     "Modern Minimalist Palette", "Neon Cyberpunk Palette", "Create a cohesive brand identity"
   ],
   authors: [{ name: "A-Chroma" }],
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
         url: "/og-image.png", // Ensure this image exists in public folder
         width: 1200,
         height: 630,
-        alt: "A-Chroma Color Suite",
+        alt: "A-Chroma Colour Suite",
       },
     ],
     locale: "en_US",

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { GradientGenerator } from "@/components/gradient-generator";
 import { SiteHeader } from "@/components/site-header";
 
-import { getDailyColor } from "@/lib/daily-color";
+import { getDailyColour } from "@/lib/daily-colour";
 import { Footer } from "@/components/ui/footer";
 import { HeroHighlight } from "@/components/ui/hero-highlight";
 import { ArrowLeft } from "lucide-react";
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default function GradientPage() {
-    const dailyColor = getDailyColor();
+    const dailyColour = getDailyColour();
 
     return (
         <HeroHighlight containerClassName="min-h-screen h-auto">
@@ -53,7 +53,7 @@ export default function GradientPage() {
 
                 <Footer
                     brandName="A-Chroma"
-                    dailyColor={dailyColor}
+                    dailyColour={dailyColour}
                     mainLinks={[
                         { href: "/generator", label: "Generator" },
                         { href: "/brand-scale", label: "Brand Scale" },

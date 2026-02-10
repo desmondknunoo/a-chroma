@@ -24,5 +24,5 @@ export const annualColors: string[] = [
 ];
 `;
 
-fs.writeFileSync('../lib/annual-colors.ts', fileContent);
-console.log('Generated lib/annual-colors.ts with 365 colors.');
+fs.writeFileSync('../lib/annual-colours.ts', fileContent);
+console.log('Generated lib/annual-colours.ts with 365 colours.');

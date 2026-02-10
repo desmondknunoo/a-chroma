@@ -1,5 +1,5 @@
 // Auto-generated 365 colours for the year
-export const annualColors: string[] = [
+export const annualColours: string[] = [
     "BA89EB",
     "20C238",
     "C8A045",

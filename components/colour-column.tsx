@@ -1,40 +1,40 @@
 "use client";
 
-import { useColorStore, ColorItem } from "@/lib/store";
+import { useColourStore, ColourItem } from "@/lib/store";
 import { Lock, Unlock, Copy, Check } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import chroma from "chroma-js";
 
-interface ColorColumnProps {
-    color: ColorItem;
+interface ColourColumnProps {
+    colour: ColourItem;
     index: number;
 }
 
-export function ColorColumn({ color, index }: ColorColumnProps) {
-    const { toggleLock, updateColor } = useColorStore();
+export function ColourColumn({ colour, index }: ColourColumnProps) {
+    const { toggleLock, updateColour } = useColourStore();
     const [copied, setCopied] = useState(false);
 
     // Determine text color based on luminance for accessibility
-    const luminance = chroma(color.hex).luminance();
+    const luminance = chroma(colour.hex).luminance();
     const textColor = luminance > 0.5 ? "text-black" : "text-white";
     const iconColor = luminance > 0.5 ? "text-slate-800" : "text-slate-200";
 
     const handleCopy = () => {
-        navigator.clipboard.writeText(color.hex.toUpperCase());
+        navigator.clipboard.writeText(colour.hex.toUpperCase());
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
     };
 
     const handleToggleLock = (e: React.MouseEvent) => {
         e.stopPropagation(); // Prevent triggering other clicks if necessary
-        toggleLock(color.id);
+        toggleLock(colour.id);
     };
 
     return (
         <div
             className="relative flex h-full w-full flex-col items-center justify-center transition-all duration-300 ease-in-out group"
-            style={{ backgroundColor: color.hex }}
+            style={{ backgroundColor: colour.hex }}
         >
             {/* Mobile: Horizontal layout adjustments needed later, assumed flex-row for desktop for now */}
 
@@ -44,18 +44,18 @@ export function ColorColumn({ color, index }: ColorColumnProps) {
                     "absolute flex flex-col items-center gap-4 transition-opacity duration-200",
                     textColor,
                     "opacity-0 group-hover:opacity-100",
-                    color.locked && "opacity-100"
+                    colour.locked && "opacity-100"
                 )}
             >
                 <button
                     onClick={handleToggleLock}
                     className={cn(
-                        "rounded-full p-3 transition-colors hover:bg-white/20 active:scale-95",
-                        color.locked ? "opacity-100" : "opacity-70 hover:opacity-100"
+                        "rounded-full p-3 transition-colours hover:bg-white/20 active:scale-95",
+                        colour.locked ? "opacity-100" : "opacity-70 hover:opacity-100"
                     )}
-                    aria-label={color.locked ? "Unlock colour" : "Lock colour"}
+                    aria-label={colour.locked ? "Unlock colour" : "Lock colour"}
                 >
-                    {color.locked ? (
+                    {colour.locked ? (
                         <Lock className={cn("h-6 w-6", iconColor)} />
                     ) : (
                         <Unlock className={cn("h-6 w-6", iconColor)} />
@@ -77,12 +77,12 @@ export function ColorColumn({ color, index }: ColorColumnProps) {
 
             {/* Hex Code Display */}
             <div className={cn("absolute bottom-20 text-2xl font-bold uppercase tracking-wider md:bottom-32", textColor)}>
-                {color.hex.replace("#", "")}
+                {colour.hex.replace("#", "")}
             </div>
 
             {/* Semantic Name (Placeholder for now) */}
             <div className={cn("absolute bottom-12 text-sm font-medium opacity-80 md:bottom-24", textColor)}>
-                {color.name || "Colour " + (index + 1)}
+                {colour.name || "Colour " + (index + 1)}
             </div>
         </div>
     );

@@ -3,16 +3,16 @@
 import { useState, useRef } from "react";
 import { Upload, ImageIcon, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useColorStore } from "@/lib/store";
+import { useColourStore } from "@/lib/store";
 import ColorThief from "colorthief";
 import chroma from "chroma-js";
-import { getColorName } from "@/lib/naming";
+import { getColourName } from "@/lib/naming";
 
 export function ImageExtractor({ onComplete }: { onComplete: () => void }) {
     const [isDragging, setIsDragging] = useState(false);
     const [loading, setLoading] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const { setColors } = useColorStore();
+    const { setColours } = useColourStore();
 
     const processImage = (file: File) => {
         setLoading(true);
@@ -40,7 +40,7 @@ export function ImageExtractor({ onComplete }: { onComplete: () => void }) {
                             hex: hex,
                             value: `oklch(${l.toFixed(3)} ${ch.toFixed(3)} ${h || 0})`,
                             locked: false,
-                            name: getColorName(hex)
+                            name: getColourName(hex)
                         };
                     });
 
@@ -56,11 +56,11 @@ export function ImageExtractor({ onComplete }: { onComplete: () => void }) {
                             hex: hex,
                             value: `oklch(${l.toFixed(3)} ${ch.toFixed(3)} ${h || 0})`,
                             locked: false,
-                            name: getColorName(hex)
+                            name: getColourName(hex)
                         });
                     }
 
-                    setColors(colorItems.slice(0, 5));
+                    setColours(colourItems.slice(0, 5));
                     onComplete();
                 }
             } catch (e) {

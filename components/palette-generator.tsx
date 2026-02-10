@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useColorStore } from "@/lib/store";
-import { ColorColumn } from "./color-column";
+import { useColourStore } from "@/lib/store";
+import { ColourColumn } from "./colour-column";
 import { Loader2, Image as ImageIcon, X } from "lucide-react";
 import { ImageExtractor } from "./image-extractor";
 import { Button } from "./ui/button";
@@ -17,18 +17,18 @@ import {
 
 
 export function PaletteGenerator() {
-    const { colors, generatePalette } = useColorStore();
+    const { colours, generatePalette } = useColourStore();
     const [showExtractor, setShowExtractor] = useState(false);
 
     // Initial generation on mount
     useEffect(() => {
-        if (colors.length === 0) {
+        if (colours.length === 0) {
             generatePalette();
         }
-    }, [colors.length, generatePalette]);
+    }, [colours.length, generatePalette]);
 
 
-    if (colors.length === 0) {
+    if (colours.length === 0) {
         return (
             <div className="flex h-screen items-center justify-center bg-neutral-900 text-white">
                 <Loader2 className="h-10 w-10 animate-spin text-primary" />
@@ -77,8 +77,8 @@ export function PaletteGenerator() {
             </div>
 
             <div className="flex h-full w-full flex-col md:flex-row">
-                {colors.map((color, index) => (
-                    <ColorColumn key={color.id} color={color} index={index} />
+                {colours.map((colour, index) => (
+                    <ColourColumn key={colour.id} colour={colour} index={index} />
                 ))}
             </div>
         </div>

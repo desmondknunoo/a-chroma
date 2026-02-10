@@ -2,11 +2,11 @@ import { Download, FileJson, FileCode, FileImage, FileType, Check } from "lucide
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useColorStore } from "@/lib/store";
+import { useColourStore } from "@/lib/store";
 import { useState } from "react";
 import jsPDF from "jspdf";
 
-interface ColorItem {
+interface ColourItem {
     hex: string;
     name?: string;
     value?: string;
@@ -15,23 +15,23 @@ interface ColorItem {
 }
 
 interface ExportDialogProps {
-    colors?: ColorItem[];
-    groups?: { name: string; colors: ColorItem[] }[];
+    colours?: ColourItem[];
+    groups?: { name: string; colours: ColourItem[] }[];
     trigger?: React.ReactNode;
     paletteName?: string;
     allowedFileTypes?: ('png' | 'jpeg' | 'pdf' | 'svg')[];
 }
 
-export function ExportDialog({ colors: overrideColors, groups: overrideGroups, trigger, paletteName, allowedFileTypes }: ExportDialogProps = {}) {
-    const { colors: storeColors } = useColorStore();
+export function ExportDialog({ colours: overrideColours, groups: overrideGroups, trigger, paletteName, allowedFileTypes }: ExportDialogProps = {}) {
+    const { colours: storeColours } = useColourStore();
 
     // Normalize data into groups
     const groups = overrideGroups || [
-        { name: "Palette", colors: overrideColors || storeColors }
+        { name: "Palette", colours: overrideColours || storeColours }
     ];
 
     // Flatten for simple counts or legacy access if needed, though we should use groups primarily
-    const allColors = groups.flatMap(g => g.colors);
+    const allColours = groups.flatMap(g => g.colours);
 
     const [copied, setCopied] = useState<string | null>(null);
 
@@ -41,7 +41,7 @@ export function ExportDialog({ colors: overrideColors, groups: overrideGroups, t
         let scss = `:root {\n`;
         groups.forEach(group => {
             scss += `  /* ${group.name} */\n`;
-            group.colors.forEach((c, i) => {
+            group.colours.forEach((c, i) => {
                 const safeName = c.name?.toLowerCase().replace(/[^a-z0-9]/g, '-') || `color-${i}`;
                 scss += `  --${safeName}: ${c.hex};\n`;
             });
@@ -52,13 +52,13 @@ export function ExportDialog({ colors: overrideColors, groups: overrideGroups, t
     };
 
     const getTailwindConfig = () => {
-        let config = `module.exports = {\n  theme: {\n    extend: {\n      colors: {\n`;
+        let config = `module.exports = {\n  theme: {\n    extend: {\n      colours: {\n`;
 
         groups.forEach(group => {
             const groupSlug = group.name.toLowerCase().replace(/[^a-z0-9]/g, '');
             config += `        // ${group.name}\n`;
             config += `        ${groupSlug}: {\n`;
-            group.colors.forEach((c, i) => {
+            group.colours.forEach((c, i) => {
                 const nameKey = (c.name?.toLowerCase().match(/^[a-z0-9]+$/) ? c.name.toLowerCase() : undefined) || (i + 1) * 100;
                 config += `          '${nameKey}': '${c.hex}',\n`;
             });
@@ -71,10 +71,10 @@ export function ExportDialog({ colors: overrideColors, groups: overrideGroups, t
 
     const getJSON = () => {
         const data = groups.length === 1 && groups[0].name === "Palette"
-            ? groups[0].colors.map(c => ({ name: c.name, hex: c.hex, oklch: c.value }))
+            ? groups[0].colours.map(c => ({ name: c.name, hex: c.hex, oklch: c.value }))
             : groups.map(g => ({
                 group: g.name,
-                colors: g.colors.map(c => ({ name: c.name, hex: c.hex, oklch: c.value }))
+                colours: g.colours.map(c => ({ name: c.name, hex: c.hex, oklch: c.value }))
             }));
         return JSON.stringify(data, null, 2);
     };
@@ -82,9 +82,9 @@ export function ExportDialog({ colors: overrideColors, groups: overrideGroups, t
     const getSVG = () => {
         const width = 1000;
         const totalColors = allColors.length;
-        // Simple SVG just shows all colors in a row for now, or we could stack rows.
+        // Simple SVG just shows all colours in a row for now, or we could stack rows.
         // For simplicity let's keep it as flat bar but maybe segmented?
-        // Let's stick to flat bar of ALL colors for the simple SVG export.
+        // Let's stick to flat bar of ALL colours for the simple SVG export.
 
         const height = 200;
         const barWidth = width / totalColors;
@@ -146,14 +146,14 @@ export function ExportDialog({ colors: overrideColors, groups: overrideGroups, t
 
 
 
-            // Grid layout for colors? Or list?
-            // Let's do a compact list or 2-column if many colors
-            // Simple list for daily color (which has ~35 colors total with vars) - might trigger many pages.
+            // Grid layout for colours? Or list?
+            // Let's do a compact list or 2-column if many colours
+            // Simple list for daily color (which has ~35 colours total with vars) - might trigger many pages.
             // Let's do 2 columns
 
             const colWidth = 90;
 
-            group.colors.forEach((c, i) => {
+            group.colours.forEach((c, i) => {
                 if (y > 270) {
                     doc.addPage();
                     y = 20;
@@ -181,7 +181,7 @@ export function ExportDialog({ colors: overrideColors, groups: overrideGroups, t
                 }
             });
             // If ended on left column, move down for next group
-            if (group.colors.length % 2 !== 0) {
+            if (group.colours.length % 2 !== 0) {
                 y += 20;
             }
         });
@@ -199,7 +199,7 @@ export function ExportDialog({ colors: overrideColors, groups: overrideGroups, t
         // Header: 100px
         // For each group:
         //   Title: 60px
-        //   Rows of colors: Math.ceil(colors.length / 5) * 120px (Grid 5 wide)
+        //   Rows of colours: Math.ceil(colours.length / 5) * 120px (Grid 5 wide)
         // Footer: 60px
 
         const width = 1200;
@@ -213,7 +213,7 @@ export function ExportDialog({ colors: overrideColors, groups: overrideGroups, t
         let totalHeight = headerHeight + footerHeight;
         groups.forEach(g => {
             if (groups.length > 1) totalHeight += groupTitleHeight;
-            const rows = Math.ceil(g.colors.length / cols);
+            const rows = Math.ceil(g.colours.length / cols);
             totalHeight += rows * boxHeight;
         });
 
@@ -242,7 +242,7 @@ export function ExportDialog({ colors: overrideColors, groups: overrideGroups, t
                 y += 0;
             }
 
-            group.colors.forEach((c, i) => {
+            group.colours.forEach((c, i) => {
                 const col = i % cols;
                 const row = Math.floor(i / cols);
                 const x = col * boxWidth;
@@ -264,7 +264,7 @@ export function ExportDialog({ colors: overrideColors, groups: overrideGroups, t
                 ctx.fillText(c.hex.toUpperCase(), x + 20, currentY + 190);
             });
 
-            const rows = Math.ceil(group.colors.length / cols);
+            const rows = Math.ceil(group.colours.length / cols);
             y += (rows * boxHeight) + (groups.length > 1 ? groupTitleHeight : 0);
         });
 

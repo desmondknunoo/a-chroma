@@ -1,6 +1,6 @@
 import namer from 'color-namer';
 
-export function getColorName(hex: string): string {
+export function getColourName(hex: string): string {
     try {
         const names = namer(hex);
         // Prefer 'ntc' (Name That Color) as primary source

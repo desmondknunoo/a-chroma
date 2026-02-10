@@ -1,7 +1,7 @@
 import type { Metadata, ResolvingMetadata } from "next";
-import ColorDetailsPage from "./client-page";
-import { colorsData } from "@/lib/colors-data";
-import { getColorName } from "@/lib/naming";
+import ColourDetailsPage from "./client-page";
+import { coloursData } from "@/lib/colours-data";
+import { getColourName } from "@/lib/naming";
 import chroma from "chroma-js";
 
 type Props = {
@@ -9,11 +9,11 @@ type Props = {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
-function getSEOContext(hex: string, colorName: string) {
-    // Simple logic to determine style keywords based on color properties
-    const color = chroma(`#${hex}`);
-    const luminance = color.luminance();
-    const saturation = color.get('hsl.s');
+function getSEOContext(hex: string, colourName: string) {
+    // Simple logic to determine style keywords based on colour properties
+    const colour = chroma(`#${hex}`);
+    const luminance = colour.luminance();
+    const saturation = colour.get('hsl.s');
 
     let styleKeyword = "Modern";
     let industry = "Digital";
@@ -37,7 +37,7 @@ function getSEOContext(hex: string, colorName: string) {
 
     // Keywords to rotate or include
     const extraKeywords = [
-        `Colors that go with ${colorName}`,
+        `Colours that go with ${colourName}`,
         "Cohesive Instagram Feed Palette",
         "Mobile-First Accessible Palettes"
     ].join(". ");
@@ -54,29 +54,29 @@ export async function generateMetadata(
 
     if (!chroma.valid(hex)) {
         return {
-            title: "Invalid Color | A-Chroma",
-            description: "The provided color code is invalid."
+            title: "Invalid Colour | A-Chroma",
+            description: "The provided colour code is invalid."
         };
     }
 
-    const colorName = getColorName(hex);
-    const { styleKeyword, industry, extraKeywords } = getSEOContext(hex, colorName);
+    const colourName = getColourName(hex);
+    const { styleKeyword, industry, extraKeywords } = getSEOContext(hex, colourName);
 
-    const title = `${colorName} (#${hex.toUpperCase()}) - ${styleKeyword} Palette | A-Chroma`;
-    const description = `Generate a ${styleKeyword} brand color palette featuring ${colorName} (#${hex.toUpperCase()}). Perfect for ${industry} web design and accessible UI. ${extraKeywords}`;
+    const title = `${colourName} (#${hex.toUpperCase()}) - ${styleKeyword} Palette | A-Chroma`;
+    const description = `Generate a ${styleKeyword} brand colour palette featuring ${colourName} (#${hex.toUpperCase()}). Perfect for ${industry} web design and accessible UI. ${extraKeywords}`;
 
-    const ogImage = `https://a-chroma.app/api/og?hex=${hex}&name=${encodeURIComponent(colorName)}`; // Hypothetical OG image generator
+    const ogImage = `https://a-chroma.app/api/og?hex=${hex}&name=${encodeURIComponent(colourName)}`; // Hypothetical OG image generator
 
     return {
         title,
         description,
         keywords: [
-            colorName,
+            colourName,
             `#${hex}`,
-            "color palette",
-            `${styleKeyword} Color Scheme`,
-            "Professional Brand Identity Colors",
-            "WCAG Color Contrast Checker"
+            "colour palette",
+            `${styleKeyword} Colour Scheme`,
+            "Professional Brand Identity Colours",
+            "WCAG Colour Contrast Checker"
         ],
         openGraph: {
             title,
@@ -95,5 +95,5 @@ export async function generateMetadata(
 
 export default async function Page({ params }: Props) {
     const { hex } = await params;
-    return <ColorDetailsPage params={{ hex }} />;
+    return <ColourDetailsPage params={{ hex }} />;
 }

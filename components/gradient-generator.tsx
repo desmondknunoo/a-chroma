@@ -6,7 +6,7 @@ import ColorThief from "colorthief";
 import { Copy, RefreshCw, Minus, Plus, RotateCw, Upload, ImageIcon, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ExportDialog } from "@/components/export-dialog";
-import { getColorName } from "@/lib/naming";
+import { getColourName } from "@/lib/naming";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,18 +14,18 @@ import { Switch } from "@/components/ui/switch";
 
 // --- Types for Visual Editor ---
 type ColorStop = {
-    color: string;
+    colour: string;
     position: number;
 };
 
 const defaultColorStops: ColorStop[] = [
-    { color: "#00e1ff", position: 0 },
-    { color: "#0000ff", position: 100 },
+    { colour: "#00e1ff", position: 0 },
+    { colour: "#0000ff", position: 100 },
 ];
 
 export function GradientGenerator() {
     // --- Visual Editor State ---
-    const [colorStops, setColorStops] = useState<ColorStop[]>(defaultColorStops);
+    const [colourStops, setColorStops] = useState<ColorStop[]>(defaultColorStops);
     const [angle, setAngle] = useState(90);
     const [noiseAmount, setNoiseAmount] = useState(0);
     const [applyNoise, setApplyNoise] = useState(false);
@@ -47,16 +47,16 @@ export function GradientGenerator() {
 
         img.onload = () => {
             try {
-                const colorThief = new ColorThief();
-                const palette = colorThief.getPalette(img, 10); // Extract more to mix
+                const colourThief = new ColorThief();
+                const palette = colourThief.getPalette(img, 10); // Extract more to mix
 
                 if (palette && palette.length >= 2) {
                     const extractedColors = palette.map((rgb: number[]) => chroma.rgb(rgb[0], rgb[1], rgb[2]).hex());
                     const newGradients: ColorStop[][] = [];
 
-                    // Generate 5 distinct gradients by mixing extracted colors
+                    // Generate 5 distinct gradients by mixing extracted colours
                     for (let i = 0; i < 5; i++) {
-                        // Strategy: Pick 2 or 3 random unique colors from the palette
+                        // Strategy: Pick 2 or 3 random unique colours from the palette
                         const numStops = Math.random() > 0.6 ? 3 : 2;
                         const shuffled = [...extractedColors].sort(() => 0.5 - Math.random());
                         const selected = shuffled.slice(0, numStops);
@@ -65,8 +65,8 @@ export function GradientGenerator() {
                         // Let's sort by luminance to be safe/pleasing often
                         selected.sort((a, b) => chroma(b).luminance() - chroma(a).luminance());
 
-                        const stops: ColorStop[] = selected.map((color, idx) => ({
-                            color,
+                        const stops: ColorStop[] = selected.map((colour, idx) => ({
+                            colour,
                             position: idx === 0 ? 0 : idx === selected.length - 1 ? 100 : 50
                         }));
                         newGradients.push(stops);
@@ -76,7 +76,7 @@ export function GradientGenerator() {
                     setColorStops(newGradients[0]); // Auto-load first one
                 }
             } catch (e) {
-                console.error("Failed to extract colors", e);
+                console.error("Failed to extract colours", e);
             } finally {
                 setLoading(false);
                 URL.revokeObjectURL(objectUrl);
@@ -94,8 +94,8 @@ export function GradientGenerator() {
     };
 
     // --- Visual Editor Logic ---
-    const gradientString = colorStops
-        .map((stop) => `${stop.color} ${stop.position}%`)
+    const gradientString = colourStops
+        .map((stop) => `${stop.colour} ${stop.position}%`)
         .join(", ");
 
     const gradientStyle = {
@@ -138,10 +138,10 @@ export function GradientGenerator() {
                     );
                 }
 
-                colorStops.forEach((stop) => {
+                colourStops.forEach((stop) => {
                     // Guard against invalid positions
                     const pos = Math.max(0, Math.min(1, stop.position / 100));
-                    gradient.addColorStop(pos, stop.color);
+                    gradient.addColorStop(pos, stop.colour);
                 });
 
                 ctx.fillStyle = gradient;
@@ -168,11 +168,11 @@ export function GradientGenerator() {
                 );
             }
         }
-    }, [colorStops, angle, noiseAmount, applyNoise, isRadialGradient]);
+    }, [colourStops, angle, noiseAmount, applyNoise, isRadialGradient]);
 
     useEffect(() => {
         updateCanvas();
-    }, [colorStops, angle, noiseAmount, applyNoise, isRadialGradient]);
+    }, [colourStops, angle, noiseAmount, applyNoise, isRadialGradient]);
 
     const downloadJPG = () => {
         const canvas = canvasRef.current;
@@ -198,8 +198,8 @@ export function GradientGenerator() {
                 ctx.fillText("Generated with A-Chroma on achendo.com/a-chroma", exportCanvas.width / 2, exportCanvas.height - 20);
 
                 // Generate Filename
-                const colorsName = colorStops.map(s => s.color.replace('#', '')).join('-');
-                const filename = `A-Chroma Gradient - ${colorsName}.jpg`;
+                const coloursName = colourStops.map(s => s.colour.replace('#', '')).join('-');
+                const filename = `A-Chroma Gradient - ${coloursName}.jpg`;
 
                 const dataURL = exportCanvas.toDataURL("image/jpeg");
                 const link = document.createElement("a");
@@ -211,24 +211,24 @@ export function GradientGenerator() {
     };
 
     const addColorStop = () => {
-        if (colorStops.length < 5) {
+        if (colourStops.length < 5) {
             const newPosition = 50;
             setColorStops([
-                ...colorStops,
-                { color: "#ffffff", position: newPosition },
+                ...colourStops,
+                { colour: "#ffffff", position: newPosition },
             ].sort((a, b) => a.position - b.position));
         }
     };
 
     const removeColorStop = (index: number) => {
-        if (colorStops.length > 2) {
-            setColorStops(colorStops.filter((_, i) => i !== index));
+        if (colourStops.length > 2) {
+            setColorStops(colourStops.filter((_, i) => i !== index));
         }
     };
 
-    const updateColorStop = (index: number, color: string, position: number) => {
-        const newColorStops = [...colorStops];
-        newColorStops[index] = { color, position };
+    const updateColorStop = (index: number, colour: string, position: number) => {
+        const newColorStops = [...colourStops];
+        newColorStops[index] = { colour, position };
         setColorStops(newColorStops.sort((a, b) => a.position - b.position));
     };
 
@@ -240,7 +240,7 @@ export function GradientGenerator() {
         for (let i = 0; i < numStops; i++) {
             const pos = i === 0 ? 0 : i === numStops - 1 ? 100 : 50;
             newStops.push({
-                color: chroma.random().hex(),
+                colour: chroma.random().hex(),
                 position: pos,
             });
         }
@@ -290,7 +290,7 @@ export function GradientGenerator() {
                     <p className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4 ml-2">Generated Presets</p>
                     <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                         {generatedGradients.map((stops, i) => {
-                            const bg = `linear-gradient(135deg, ${stops.map(s => `${s.color} ${s.position}%`).join(', ')})`;
+                            const bg = `linear-gradient(135deg, ${stops.map(s => `${s.colour} ${s.position}%`).join(', ')})`;
                             return (
                                 <button
                                     key={i}
@@ -298,7 +298,7 @@ export function GradientGenerator() {
                                     style={{ background: bg }}
                                     onClick={() => setColorStops(stops)}
                                 >
-                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
+                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colours" />
                                 </button>
                             )
                         })}
@@ -326,23 +326,23 @@ export function GradientGenerator() {
                     <div className="grid w-full flex-1 gap-6">
                         {/* Color Stops */}
                         <div className="flex flex-wrap items-center gap-4">
-                            {colorStops.map((stop, index) => (
+                            {colourStops.map((stop, index) => (
                                 <div key={index} className="flex items-center gap-2 bg-slate-100 p-2 rounded-lg">
                                     <div className="relative flex w-full max-w-[40px] items-center gap-3">
                                         <label
-                                            htmlFor={`color-${index}`}
+                                            htmlFor={`colour-${index}`}
                                             className="text-lg font-bold"
                                         >
                                             <div
                                                 className="size-10 cursor-pointer rounded-full border-2 border-white shadow-sm"
-                                                style={{ backgroundColor: stop.color }}
+                                                style={{ backgroundColor: stop.colour }}
                                             />
                                         </label>
                                         <Input
                                             className="absolute left-0 top-3 opacity-0 cursor-pointer"
-                                            type="color"
-                                            id={`color-${index}`}
-                                            value={stop.color}
+                                            type="colour"
+                                            id={`colour-${index}`}
+                                            value={stop.colour}
                                             onChange={(e) =>
                                                 updateColorStop(index, e.target.value, stop.position)
                                             }
@@ -354,11 +354,11 @@ export function GradientGenerator() {
                                         max={100}
                                         value={stop.position}
                                         onChange={(e) =>
-                                            updateColorStop(index, stop.color, Number(e.target.value))
+                                            updateColorStop(index, stop.colour, Number(e.target.value))
                                         }
                                         className="w-16 text-center"
                                     />
-                                    {colorStops.length > 2 && (
+                                    {colourStops.length > 2 && (
                                         <Button
                                             variant="ghost"
                                             size="icon"
@@ -370,7 +370,7 @@ export function GradientGenerator() {
                                     )}
                                 </div>
                             ))}
-                            {colorStops.length < 5 && (
+                            {colourStops.length < 5 && (
                                 <Button variant="outline" size="icon" onClick={addColorStop} className="h-14 w-14 rounded-full border-dashed">
                                     <Plus className="h-4 w-4" />
                                 </Button>
@@ -454,9 +454,9 @@ export function GradientGenerator() {
                                     <Copy className="h-4 w-4" />
                                 </Button>
                                 <ExportDialog
-                                    colors={colorStops.map((s, i) => ({
-                                        hex: s.color,
-                                        name: getColorName(s.color),
+                                    colours={colourStops.map((s, i) => ({
+                                        hex: s.colour,
+                                        name: getColourName(s.colour),
                                         id: `stop-${i}`
                                     }))}
                                     paletteName="Gradient Palette"

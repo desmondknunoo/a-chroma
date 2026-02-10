@@ -1,7 +1,7 @@
 import { HeroHighlight } from "@/components/ui/hero-highlight";
 import { SiteHeader } from "@/components/site-header";
 import { Footer } from "@/components/ui/footer";
-import { getDailyColor } from "@/lib/daily-color";
+import { getDailyColour } from "@/lib/daily-colour";
 
 export const metadata = {
     title: "Privacy Policy | A-Chroma",
@@ -9,7 +9,7 @@ export const metadata = {
 };
 
 export default function PrivacyPage() {
-    const dailyColor = getDailyColor();
+    const dailyColour = getDailyColour();
 
     return (
         <HeroHighlight containerClassName="min-h-screen h-auto">
@@ -65,7 +65,19 @@ export default function PrivacyPage() {
                             </section>
 
                             <section>
-                                <h3 className="text-2xl font-bold text-slate-900 mb-4">7. Contact Us</h3>
+                                <h3 className="text-2xl font-bold text-slate-900 mb-4">7. Your Generated Assets</h3>
+                                <p>You retain full ownership of any palettes, gradients, brand kits, or other content you create using A-Chroma. <strong>All generated assets are free for both personal and commercial use.</strong> We do not claim ownership of what you create.</p>
+                                <p className="mt-4">If you choose to save or export your creations, that data is stored locally on your device or in your browser. We do not sell or share your generated content with third parties.</p>
+                            </section>
+
+                            <section>
+                                <h3 className="text-2xl font-bold text-slate-900 mb-4">8. Open Source & Community</h3>
+                                <p>A-Chroma is an open source project developed and maintained by Achendo Agency. The source code is available on GitHub for viewing, forking, and contributing.</p>
+                                <p className="mt-4">When you contribute to the project or use the open source code, we may collect basic GitHub username information for attribution purposes.</p>
+                            </section>
+
+                            <section>
+                                <h3 className="text-2xl font-bold text-slate-900 mb-4">9. Contact Us</h3>
                                 <p>If you have any questions about this Privacy Policy, please contact us at <a href="mailto:hi@achendo.com" className="text-blue-600 hover:underline">hi@achendo.com</a>.</p>
                             </section>
                         </div>
@@ -73,7 +85,7 @@ export default function PrivacyPage() {
                 </main>
                 <Footer
                     brandName="A-Chroma"
-                    dailyColor={dailyColor}
+                    dailyColour={dailyColour}
                     mainLinks={[
                         { href: "/generator", label: "Generator" },
                         { href: "/brand-scale", label: "Brand Scale" },

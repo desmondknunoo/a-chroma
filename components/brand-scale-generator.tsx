@@ -7,7 +7,7 @@ import { Copy, RefreshCw, Upload, ImageIcon, Loader2, Download } from "lucide-re
 import { ExportDialog } from "@/components/export-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { getColorName } from "@/lib/naming";
+import { getColourName } from "@/lib/naming";
 
 interface GradientStep {
     stop: number;
@@ -39,8 +39,8 @@ export function BrandScaleGenerator() {
         ];
     };
 
-    const createSingleScale = (color?: string) => {
-        const baseColor = color || chroma.random().hex();
+    const createSingleScale = (colour?: string) => {
+        const baseColor = colour || chroma.random().hex();
         return {
             id: Math.random().toString(36).substr(2, 9),
             baseColor,
@@ -64,8 +64,8 @@ export function BrandScaleGenerator() {
 
         img.onload = () => {
             try {
-                const colorThief = new ColorThief();
-                const palette = colorThief.getPalette(img, 5); // Extract 5 colors
+                const colourThief = new ColorThief();
+                const palette = colourThief.getPalette(img, 5); // Extract 5 colours
 
                 if (palette) {
                     const newScales = palette.map((rgb: number[]) => {
@@ -83,7 +83,7 @@ export function BrandScaleGenerator() {
                     setScales(newScales);
                 }
             } catch (e) {
-                console.error("Failed to extract colors", e);
+                console.error("Failed to extract colours", e);
             } finally {
                 setLoading(false);
                 URL.revokeObjectURL(objectUrl);
@@ -125,7 +125,7 @@ export function BrandScaleGenerator() {
         return `module.exports = {
   theme: {
     extend: {
-      colors: {
+      colours: {
 ${scales.map((s, i) => getScaleConfig(s, i)).join('\n')}
       }
     }
@@ -148,7 +148,7 @@ ${scales.map((s, i) => getScaleConfig(s, i)).join('\n')}
                         <ImageIcon className="w-6 h-6" /> Generated from Image
                     </h3>
                     <p className="text-muted-foreground text-sm">
-                        Upload an image to extract 5 dominant colors and generate their brand scales.
+                        Upload an image to extract 5 dominant colours and generate their brand scales.
                     </p>
                 </div>
 
@@ -186,18 +186,18 @@ ${scales.map((s, i) => getScaleConfig(s, i)).join('\n')}
                                         className="w-24 font-mono uppercase"
                                     />
                                     <Input
-                                        type="color"
+                                        type="colour"
                                         value={scale.baseColor}
                                         onChange={(e) => updateBaseColor(scale.id, e.target.value)}
                                         className="w-10 h-10 p-1 rounded-lg cursor-pointer"
                                     />
                                     <div className="text-sm">
-                                        <span className="font-bold text-slate-900 dark:text-slate-100">{getColorName(scale.baseColor)}</span>
+                                        <span className="font-bold text-slate-900 dark:text-slate-100">{getColourName(scale.baseColor)}</span>
                                     </div>
                                 </div>
                             </div>
 
-                            <Button variant="ghost" size="sm" onClick={() => handleCopy(`module.exports = {\n  theme: {\n    extend: {\n      colors: {\n${getScaleConfig(scale, index)}\n      }\n    }\n  }\n}`, scale.id)}>
+                            <Button variant="ghost" size="sm" onClick={() => handleCopy(`module.exports = {\n  theme: {\n    extend: {\n      colours: {\n${getScaleConfig(scale, index)}\n      }\n    }\n  }\n}`, scale.id)}>
                                 <Copy className="w-4 h-4 mr-2" />
                                 {scaleCopied === scale.id ? "Copied!" : "Copy"}
                             </Button>
@@ -211,7 +211,7 @@ ${scales.map((s, i) => getScaleConfig(s, i)).join('\n')}
                                         {step.stop}
                                     </span>
                                     <span className={`text-[10px] uppercase opacity-0 group-hover:opacity-100 transition-opacity absolute bottom-2 ${chroma.contrast(step.hex, 'white') > 4.5 ? 'text-white' : 'text-slate-900'}`}>
-                                        {getColorName(step.hex)}
+                                        {getColourName(step.hex)}
                                     </span>
                                 </div>
                             ))}
@@ -230,9 +230,9 @@ ${scales.map((s, i) => getScaleConfig(s, i)).join('\n')}
                     <ExportDialog
                         groups={scales.map((scale, i) => ({
                             name: `Scale ${i + 1} (${scale.baseColor})`,
-                            colors: scale.steps.map(s => ({
+                            colours: scale.steps.map(s => ({
                                 hex: s.hex,
-                                name: `${s.stop} - ${getColorName(s.hex)}`,
+                                name: `${s.stop} - ${getColourName(s.hex)}`,
                                 value: s.stop.toString(),
                                 id: `${scale.id}-${s.stop}`
                             }))

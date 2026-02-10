@@ -11,7 +11,7 @@ Let users see how their palette looks under different "screens" (e.g., a phone w
 ## 3. Collaborative "Party" Rooms
 A real-time cursor environment where a team can hit the spacebar together, vote on colors, and chat while building a brand kit.
 
-## 4. Color Gradient & Mesh Generator
+## 4. Colour Gradient & Mesh Generator
 Since solid colors are rarely used alone, allow users to turn their palette into a CSS Linear Gradient or a trendy "Mesh Gradient" with one click.
 
 ## 5. Global Trend Heatmap

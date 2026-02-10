@@ -1,8 +1,8 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { colorsData } from "@/lib/colors-data";
-import { getColorName } from "@/lib/naming";
+import { coloursData } from "@/lib/colours-data";
+import { getColourName } from "@/lib/naming";
 import { SiteHeader } from "@/components/site-header";
 import { Footer } from "@/components/ui/footer";
 import chroma from "chroma-js";
@@ -29,7 +29,7 @@ const FormatText = ({ text }: { text: string }) => {
     );
 };
 
-export default function ColorDetailsPage({ params }: { params?: { hex: string } }) {
+export default function ColourDetailsPage({ params }: { params?: { hex: string } }) {
     // Fallback to useParams if params prop is not provided (though it should be from server component)
     const paramsHook = useParams();
     const hexParam = params?.hex || (paramsHook?.hex as string);
@@ -40,10 +40,10 @@ export default function ColorDetailsPage({ params }: { params?: { hex: string } 
 
     const [copied, setCopied] = useState<string | null>(null);
 
-    const colorInfo = useMemo(() => {
-        return colorsData.find(c => c.hex.toLowerCase() === hex.toLowerCase()) || {
+    const colourInfo = useMemo(() => {
+        return coloursData.find(c => c.hex.toLowerCase() === hex.toLowerCase()) || {
             hex: hex,
-            name: getColorName(hex),
+            name: getColourName(hex),
             shortDescription: "A custom selected colour from the A-Chroma engine.",
             description: "This colour has been generated or selected. It represents a unique point in the colour space, offering its own distinct psychological and visual impact.",
             psychology: "Psychology varies based on local culture and personal association. Generally, this hue contributes to the overall mood of a design in its own specific way.",
@@ -81,9 +81,9 @@ export default function ColorDetailsPage({ params }: { params?: { hex: string } 
         { label: "LAB", value: c.lab().map(v => Math.round(v)).join(", ") },
     ];
 
-    const shades = chroma.scale([`#${hex}`, "black"]).colors(10).map(hex => ({ hex, name: getColorName(hex) }));
-    const tints = chroma.scale([`#${hex}`, "white"]).colors(10).map(hex => ({ hex, name: getColorName(hex) }));
-    const tones = chroma.scale([`#${hex}`, "gray"]).colors(10).map(hex => ({ hex, name: getColorName(hex) }));
+    const shades = chroma.scale([`#${hex}`, "black"]).colors(10).map(hex => ({ hex, name: getColourName(hex) }));
+    const tints = chroma.scale([`#${hex}`, "white"]).colors(10).map(hex => ({ hex, name: getColourName(hex) }));
+    const tones = chroma.scale([`#${hex}`, "gray"]).colors(10).map(hex => ({ hex, name: getColourName(hex) }));
 
     const harmonies = [
         { label: "Complementary", color: c.set('hsl.h', (c.get('hsl.h') + 180) % 360).hex() },
@@ -91,7 +91,7 @@ export default function ColorDetailsPage({ params }: { params?: { hex: string } 
         { label: "Analogous 2", color: c.set('hsl.h', (c.get('hsl.h') - 30 + 360) % 360).hex() },
         { label: "Triadic 1", color: c.set('hsl.h', (c.get('hsl.h') + 120) % 360).hex() },
         { label: "Triadic 2", color: c.set('hsl.h', (c.get('hsl.h') + 240) % 360).hex() }
-    ].map(h => ({ ...h, hex: h.color, name: getColorName(h.color) }));
+    ].map(h => ({ ...h, hex: h.color, name: getColourName(h.color) }));
 
     return (
         <HeroHighlight containerClassName="min-h-screen h-auto">
@@ -109,30 +109,30 @@ export default function ColorDetailsPage({ params }: { params?: { hex: string } 
                             style={{ backgroundColor: `#${hex}` }}
                             className={`aspect-video lg:aspect-square rounded-[2.5rem] shadow-2xl flex flex-col items-center justify-center p-12 ${textColor}`}
                         >
-                            <h1 className="text-5xl md:text-7xl font-extrabold mb-4 text-center">{colorInfo.name}</h1>
+                            <h1 className="text-5xl md:text-7xl font-extrabold mb-4 text-center">{colourInfo.name}</h1>
                             <p className="text-2xl font-mono opacity-80 uppercase tracking-widest">#{hex}</p>
                         </div>
 
                         <div className="flex flex-col justify-center space-y-8 bg-white/60 backdrop-blur-md p-8 rounded-[2.5rem] border border-white/40 shadow-sm">
                             <div>
                                 <span className="text-blue-600 font-bold uppercase tracking-widest text-sm">Colour of the Day</span>
-                                <h2 className="text-4xl font-bold text-slate-900 mt-2">{colorInfo.name}</h2>
+                                <h2 className="text-4xl font-bold text-slate-900 mt-2">{colourInfo.name}</h2>
                                 <div className="text-xl text-slate-600 leading-relaxed mt-4 italic">
-                                    <FormatText text={colorInfo.shortDescription} />
+                                    <FormatText text={colourInfo.shortDescription} />
                                 </div>
                             </div>
 
                             <div className="flex gap-4">
                                 <ExportDialog
                                     groups={[
-                                        { name: "Main Colour", colors: [{ hex: `#${hex}`, name: colorInfo.name, value: c.css('oklch'), id: '1' }] },
-                                        { name: "Shades", colors: shades },
-                                        { name: "Tints", colors: tints },
-                                        { name: "Tones", colors: tones },
-                                        { name: "Harmonies", colors: harmonies }
+                                        { name: "Main Colour", colours: [{ hex: `#${hex}`, name: colourInfo.name, value: c.css('oklch'), id: '1' }] },
+                                        { name: "Shades", colours: shades },
+                                        { name: "Tints", colours: tints },
+                                        { name: "Tones", colours: tones },
+                                        { name: "Harmonies", colours: harmonies }
                                     ]}
                                     allowedFileTypes={['pdf']}
-                                    paletteName={colorInfo.name}
+                                    paletteName={colourInfo.name}
                                     trigger={
                                         <Button size="lg" className="w-full font-bold shadow-xl" style={{ backgroundColor: `#${hex}`, color: textColor.includes('slate-900') ? 'black' : 'white' }}>
                                             <Download className="mr-2 h-5 w-5" /> Download Palette
@@ -171,7 +171,7 @@ export default function ColorDetailsPage({ params }: { params?: { hex: string } 
                                     Description
                                 </h3>
                                 <div className="text-slate-600 leading-relaxed whitespace-pre-line prose prose-slate max-w-none flex-grow">
-                                    <FormatText text={colorInfo.description} />
+                                    <FormatText text={colourInfo.description} />
                                 </div>
                             </section>
                         </div>
@@ -186,7 +186,7 @@ export default function ColorDetailsPage({ params }: { params?: { hex: string } 
                                     Psychology
                                 </h3>
                                 <div className="text-slate-600 whitespace-pre-line leading-relaxed flex-grow">
-                                    <FormatText text={colorInfo.psychology} />
+                                    <FormatText text={colourInfo.psychology} />
                                 </div>
                             </section>
                         </div>
@@ -201,7 +201,7 @@ export default function ColorDetailsPage({ params }: { params?: { hex: string } 
                                     Meaning
                                 </h3>
                                 <div className="text-slate-600 whitespace-pre-line leading-relaxed flex-grow">
-                                    <FormatText text={colorInfo.meaning} />
+                                    <FormatText text={colourInfo.meaning} />
                                 </div>
                             </section>
                         </div>
@@ -216,7 +216,7 @@ export default function ColorDetailsPage({ params }: { params?: { hex: string } 
                                     Usage
                                 </h3>
                                 <div className="text-slate-600 leading-relaxed whitespace-pre-line prose prose-slate max-w-none font-medium flex-grow">
-                                    <FormatText text={colorInfo.usage} />
+                                    <FormatText text={colourInfo.usage} />
                                 </div>
                             </section>
                         </div>
@@ -231,7 +231,7 @@ export default function ColorDetailsPage({ params }: { params?: { hex: string } 
                                     Applications
                                 </h3>
                                 <div className="text-slate-600 leading-relaxed whitespace-pre-line text-sm flex-grow">
-                                    <FormatText text={colorInfo.applications} />
+                                    <FormatText text={colourInfo.applications} />
                                 </div>
                             </section>
                         </div>
@@ -246,7 +246,7 @@ export default function ColorDetailsPage({ params }: { params?: { hex: string } 
                                     History
                                 </h3>
                                 <div className="text-slate-600 leading-relaxed whitespace-pre-line text-sm flex-grow">
-                                    <FormatText text={colorInfo.history} />
+                                    <FormatText text={colourInfo.history} />
                                 </div>
                             </section>
                         </div>
@@ -262,7 +262,7 @@ export default function ColorDetailsPage({ params }: { params?: { hex: string } 
                                         Accessibility
                                     </h3>
                                     <div className="text-slate-300 text-sm leading-relaxed mb-6">
-                                        <FormatText text={colorInfo.accessibility} />
+                                        <FormatText text={colourInfo.accessibility} />
                                     </div>
                                 </div>
                                 <div className="space-y-4 bg-white/5 p-6 rounded-2xl border border-white/10">

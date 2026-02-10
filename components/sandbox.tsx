@@ -1,23 +1,23 @@
 "use client";
 
-import { useColorStore } from "@/lib/store";
+import { useColourStore } from "@/lib/store";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import chroma from "chroma-js";
 
 export function Sandbox() {
-    const { colors } = useColorStore();
+    const { colours } = useColourStore();
 
-    if (colors.length < 5) return null;
+    if (colours.length < 5) return null;
 
     // Assign roles based on index (simple strategy for now)
-    // We can eventually use color math to find best background/foreground
-    const primary = colors[0];
-    const secondary = colors[1];
-    const accent = colors[2];
-    const surface = colors[3];
-    const highlight = colors[4];
+    // We can eventually use colour math to find best background/foreground
+    const primary = colours[0];
+    const secondary = colours[1];
+    const accent = colours[2];
+    const surface = colours[3];
+    const highlight = colours[4];
 
     // Helper to ensure accessible text color
     const getTextColor = (bgHex: string) =>
@@ -100,7 +100,7 @@ export function Sandbox() {
                             Your palette doesn't just look good in isolation. See how it handles complex interfaces, text hierarchies, and interactive elements.
                         </p>
                         <div className="flex gap-2">
-                            {colors.map(c => (
+                            {colours.map(c => (
                                 <div key={c.id} className="h-8 w-8 rounded-full shadow-sm" style={{ backgroundColor: c.hex }} title={c.name} />
                             ))}
                         </div>
@@ -110,15 +110,15 @@ export function Sandbox() {
                         style={{ backgroundColor: primary.hex }}
                     >
                         <div className="absolute top-0 left-0 w-full h-full opacity-60 mix-blend-multiply filter blur-3xl"
-                            style={{ background: `radial-gradient(circle at top left, ${colors[0].hex}, transparent 50%)` }} />
+                            style={{ background: `radial-gradient(circle at top left, ${colours[0].hex}, transparent 50%)` }} />
                         <div className="absolute top-0 right-0 w-full h-full opacity-60 mix-blend-multiply filter blur-3xl"
-                            style={{ background: `radial-gradient(circle at top right, ${colors[1].hex}, transparent 50%)` }} />
+                            style={{ background: `radial-gradient(circle at top right, ${colours[1].hex}, transparent 50%)` }} />
                         <div className="absolute bottom-0 left-0 w-full h-full opacity-60 mix-blend-multiply filter blur-3xl"
-                            style={{ background: `radial-gradient(circle at bottom left, ${colors[2].hex}, transparent 50%)` }} />
+                            style={{ background: `radial-gradient(circle at bottom left, ${colours[2].hex}, transparent 50%)` }} />
                         <div className="absolute bottom-0 right-0 w-full h-full opacity-60 mix-blend-multiply filter blur-3xl"
-                            style={{ background: `radial-gradient(circle at bottom right, ${colors[3].hex}, transparent 50%)` }} />
+                            style={{ background: `radial-gradient(circle at bottom right, ${colours[3].hex}, transparent 50%)` }} />
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full opacity-60 mix-blend-overlay filter blur-3xl"
-                            style={{ background: `radial-gradient(circle, ${colors[4].hex}, transparent 50%)` }} />
+                            style={{ background: `radial-gradient(circle, ${colours[4].hex}, transparent 50%)` }} />
 
                         <span className="relative z-10 text-white drop-shadow-md">Mesh Gradient</span>
                     </div>
@@ -134,7 +134,7 @@ export function Sandbox() {
                             <thead>
                                 <tr>
                                     <th className="p-4 font-medium text-muted-foreground"></th>
-                                    {colors.map((c, i) => (
+                                    {colours.map((c, i) => (
                                         <th key={c.id} className="p-4 font-medium" style={{ color: c.hex }}>
                                             {c.name || `Color ${i + 1}`}
                                         </th>
@@ -142,12 +142,12 @@ export function Sandbox() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {colors.map((rowColor, rIndex) => (
+                                {colours.map((rowColor, rIndex) => (
                                     <tr key={rowColor.id} className="border-t">
                                         <td className="p-4 font-medium text-left" style={{ color: rowColor.hex }}>
                                             {rowColor.name || `Color ${rIndex + 1}`}
                                         </td>
-                                        {colors.map((colColor, cIndex) => {
+                                        {colours.map((colColor, cIndex) => {
                                             if (rIndex === cIndex) return <td key={cIndex} className="bg-muted/50 p-4 font-mono text-xs opacity-50">-</td>;
 
                                             const ratio = chroma.contrast(rowColor.hex, colColor.hex);
