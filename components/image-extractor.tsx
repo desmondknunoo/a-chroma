@@ -60,7 +60,7 @@ export function ImageExtractor({ onComplete }: { onComplete: () => void }) {
                         });
                     }
 
-                    setColours(colourItems.slice(0, 5));
+                    setColours(colorItems.slice(0, 5));
                     onComplete();
                 }
             } catch (e) {
