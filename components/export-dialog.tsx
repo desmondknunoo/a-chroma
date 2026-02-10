@@ -81,7 +81,7 @@ export function ExportDialog({ colours: overrideColours, groups: overrideGroups,
 
     const getSVG = () => {
         const width = 1000;
-        const totalColors = allColors.length;
+        const totalColors = allColours.length;
         // Simple SVG just shows all colours in a row for now, or we could stack rows.
         // For simplicity let's keep it as flat bar but maybe segmented?
         // Let's stick to flat bar of ALL colours for the simple SVG export.
@@ -89,7 +89,7 @@ export function ExportDialog({ colours: overrideColours, groups: overrideGroups,
         const height = 200;
         const barWidth = width / totalColors;
 
-        const rects = allColors.map((c, i) =>
+        const rects = allColours.map((c, i) =>
             `<rect x="${i * barWidth}" y="0" width="${barWidth}" height="${height}" fill="${c.hex}" />`
         ).join('');
 
