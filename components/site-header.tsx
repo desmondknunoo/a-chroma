@@ -25,15 +25,17 @@ export function SiteHeader() {
 
                         {!isHome && !isLegalPage && <ExportDialog />}
 
-                        <a
-                            href="https://github.com/desmondknunoo/a-chroma"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center justify-center gap-2 rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 transition-colors"
-                        >
-                            <Github className="h-4 w-4" />
-                            <span className="hidden sm:inline">Star</span>
-                        </a>
+                        <Button asChild variant="default" size="sm">
+                            <Link
+                                href="https://github.com/desmondknunoo/a-chroma"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <Github className="mr-2 h-4 w-4" />
+                                <span className="hidden sm:inline">Star on GitHub</span>
+                                <span className="inline sm:hidden">Star</span>
+                            </Link>
+                        </Button>
 
                     </nav>
                 </div>

@@ -13,7 +13,7 @@ export function getDailyColour(): ColourData {
     const colorHex = annualColours[(dayOfYear - 1) % annualColours.length];
 
     // Check if we have curated data for this hex
-    const curated = coloursData.find(c => c.hex.toLowerCase() === colourHex.toLowerCase());
+    const curated = coloursData.find(c => c.hex.toLowerCase() === colorHex.toLowerCase());
 
     if (curated) {
         return curated;

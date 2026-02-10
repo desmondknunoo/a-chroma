@@ -27,7 +27,7 @@ Built with **Next.js** and **Tailwind CSS**, A-Chroma emphasizes perceptual unif
 -   **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 -   **Icons**: [Lucide React](https://lucide.dev/)
 -   **Micro-interactions**: [Motion](https://motion.dev/) (Framer Motion)
--   **Colour Engine**:
+- **Colour Engine**:
     -   [Chroma.js](https://gka.github.io/chroma.js/) for manipulation.
     -   [ColorThief](https://lokeshdhakar.com/projects/color-thief/) for image extraction.
     -   [Color-Namer](https://github.com/zeke/color-namer) for semantic naming.
@@ -59,9 +59,9 @@ Built with **Next.js** and **Tailwind CSS**, A-Chroma emphasizes perceptual unif
 -   `app/`: Application routes and pages (Home, Generator, Gradient, etc.).
 -   `components/`: Reusable UI components (ExportDialog, PaletteGenerator, etc.).
 -   `lib/`: Utility functions and static data.
-    -   `annual-colors.ts`: The 365-day colour registry.
-    -   `colors-data.ts`: Curated colour descriptions and psychology.
-    -   `daily-color.ts`: Logic for determining the daily colour.
+    -   `annual-colours.ts`: The 365-day colour registry.
+    -   `colours-data.ts`: Curated colour descriptions and psychology.
+    -   `daily-colour.ts`: Logic for determining the daily colour.
 -   `public/`: Static assets (Logo, icons).
 
 ## 🤝 Contributing to A-Chroma
